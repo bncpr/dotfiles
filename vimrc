@@ -31,6 +31,7 @@ Plug 'mhinz/vim-startify'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tell-k/vim-autopep8'
 Plug 'honza/vim-snippets'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
 call plug#end()
 " }}}
@@ -53,13 +54,13 @@ inoremap <c-u> <esc>viwUea
 nnoremap <leader>a; mmA;<esc>`m
 nnoremap <leader>a, mmA,<esc>`m
 nnoremap <leader>a: mmA:<esc>`m
-nnoremap <leader>re $x
-nnoremap <leader>gf <leader>r;o{<cr>
+nnoremap <leader>re mm$x`m
 nnoremap <leader>ev :vs $MYVIMRC<cr>
 nnoremap <leader>sv :so $MYVIMRC<cr>
 inoremap jk <esc>
 noremap \ ,
-nnoremap nh :nohlsearch<cr>
+nnoremap <leader>N :nohlsearch<cr>
+nmap <leader>ob o{<cr>
 
 autocmd! BufWrite vimrc source % | echom "reloaded $MYVIMRC"
 
