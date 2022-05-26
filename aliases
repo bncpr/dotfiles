@@ -1,12 +1,14 @@
 export MYVIMRC="$HOME/.vim/vimrc"
 export VISUAL=nvim
 
-alias sshvm="ssh dn@bcooper-dev"
+alias connect2vm="ssh dn@bcooper-dev"
 
 # Send files (modified files in git) from this host to a server
 server-sync () {
         git ls-files --modified | xargs -I{} scp -P $2 {} dn@"$1":/home/dn/cheetah/{}
 }
+
+alias super-clean='clear_containers; sudo git clean -xdf; git reset --hard; git fetch -p; delete_gone_branches; git gc --prune=now; git remote prune origin; docker system prune -a; '
 
 alias gd="gcc -ansi -pedantic-errors -Wall -Wextra -g"
 alias gc="gcc -ansi -pedantic-errors -Wall -Wextra -DNDEBUG -O3"
