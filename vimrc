@@ -31,7 +31,12 @@ Plug 'mhinz/vim-startify'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tell-k/vim-autopep8'
 Plug 'honza/vim-snippets'
+
+if has('nvim')
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+endif
 
 call plug#end()
 " }}}
@@ -322,4 +327,13 @@ let g:NERDSpaceDelims = 1
 map <leader>co o<plug>NERDCommenterInsert
 map <leader>cO O<plug>NERDCommenterInsert
 imap <C-c> <plug>NERDCommenterInsert
+" }}}
+
+" Telescope Settings {{{
+if has('nvim')
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+endif
 " }}}
