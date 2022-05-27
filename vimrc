@@ -82,13 +82,6 @@ augroup filetype_vim
 augroup END
 " }}}
 
-" cpp file settings ------------------------------------------------------- {{{
-augroup filetype_cpp
-  autocmd!
-  " autocmd FileType cpp,hpp :inoremap <buffer> std: std::
-augroup END
-" }}}
-
 " Navigation settings ----------------------------------------------------- {{{
 nnoremap <M-h> <C-w>h
 nnoremap <M-j> <C-w>j
@@ -105,47 +98,6 @@ if has('nvim')
   tnoremap <M-k> <C-\><C-n><C-w>k
   tnoremap <M-l> <C-\><C-n><C-w>l
 endif
-" }}}
-
-" ClangFormat settings ---------------------------------------------------- {{{
-" let g:clang_format#style_options = {
-" \ "AccessModifierOffset": -4,
-" \ "AlignAfterOpenBracket": "AlwaysBreak",
-" \ "AlignOperands": "AlignAfterOperator",
-" \ "AllowShortBlocksOnASingleLine": "Empty",
-" \ "AllowShortFunctionsOnASingleLine": "Inline",
-" \ "AllowShortIfStatementsOnASingleLine": "Never",
-" \ "AllowShortLoopsOnASingleLine": "false",
-" \ "AlwaysBreakTemplateDeclarations": "Yes",
-" \ "BinPackArguments": "false",
-" \ "BinPackParameters": "false",
-" \ "BreakBeforeBraces": "Allman",
-" \ "BreakBeforeTernaryOperators": "true",
-" \ "BreakStringLiterals": "true",
-" \ "ColumnLimit": 80,
-" \ "FixNamespaceComments": "true",
-" \ "IndentCaseLabels": "false",
-" \ "IndentWidth": 4,
-" \ "KeepEmptyLinesAtTheStartOfBlocks": "false",
-" \ "NamespaceIndentation": "None",
-" \ "PointerAlignment": "Left",
-" \ "SortIncludes": "false",
-" \ "UseTab": "Never",
-" \ "BreakConstructorInitializers": "AfterColon",
-" \ "AllowAllConstructorInitializersOnNextLine": "true",
-" \ "ConstructorInitializerAllOnOneLineOrOnePerLine": "true",
-" \ "ReflowComments": "true",
-" \ "AlignConsecutiveMacros": "AcrossEmptyLines",
-" \ "Standard" : "C++11"}
-
-" map to <Leader>cf in C++ code
-" autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
-" autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
-" " if you install vim-operator-user
-" autocmd FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
-" " Toggle auto formatting:
-" nmap <Leader>C :ClangFormatAutoToggle<CR>
-" let g:clang_format#command = "clang-format-12"
 " }}}
 
 " Theme settings {{{
