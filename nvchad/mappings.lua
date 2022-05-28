@@ -9,7 +9,7 @@ M.disabled = {
     ["<leader>h"] = "",
     ["<leader>v"] = "",
     ["<C-s>"] = "",
-    ["<leader>tt"] = ""
+    ["<leader>tt"] = "",
   }
 }
 
@@ -59,6 +59,17 @@ M.nvterm = {
         require("nvterm.terminal").toggle "horizontal"
       end,
       "   toggle horizontal term",
+    }
+  }
+}
+
+M.lspconfig = {
+  v = {
+    ["<leader>fm"] = {
+      function()
+        vim.lsp.buf.range_formatting()
+      end,
+      "   lsp range formatting",
     }
   }
 }
