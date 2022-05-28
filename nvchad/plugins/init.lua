@@ -1,4 +1,9 @@
 return {
+  options = {
+    lspconfig = {
+      setup_lspconf = "custom.plugins.lspconfig"
+    }
+  },
   user = {
     ["goolord/alpha-nvim"] = {
       disable = false,
