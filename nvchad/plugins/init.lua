@@ -1,4 +1,4 @@
-return {
+local M = {
   options = {
     lspconfig = {
       setup_lspconf = "custom.plugins.lspconfig"
@@ -24,7 +24,15 @@ return {
     ["luukvbaal/stabilize.nvim"] = {
       config = function()
         require("stabilize").setup()
-      end
+      end,
+    },
+    ["jose-elias-alvarez/null-ls.nvim"] = {
+      after = "nvim-lspconfig",
+      config = function()
+        require("custom.plugins.null-ls").setup()
+      end,
     },
   },
 }
+
+return M
