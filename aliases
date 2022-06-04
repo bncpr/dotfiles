@@ -1,5 +1,4 @@
 export MYVIMRC="$HOME/.vim/vimrc"
-export VISUAL=nvim
 
 alias dvm="ssh dn@bcooper-dev"
 
@@ -45,7 +44,6 @@ alias cgdb="cgdb -ex 'set style enabled off'"
 
 alias gotocpp="cd ~/git/cpp/src"
 alias gotobooks="cd ~/Documents/Books"
-alias vim="nvim"
 
 gacp() {
 	gaa
