@@ -1,7 +1,7 @@
 export MYVIMRC="$HOME/.vim/vimrc"
 export VISUAL=nvim
 
-alias connect2vm="ssh dn@bcooper-dev"
+alias dvm="ssh dn@bcooper-dev"
 
 # Send files (modified files in git) from this host to a server
 server-sync () {
