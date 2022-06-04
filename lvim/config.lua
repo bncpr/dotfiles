@@ -56,6 +56,14 @@ lvim.builtin.which_key.mappings["t"] = {
   t = { "<cmd>TroubleToggle<cr>", "Toggle" },
 }
 
+lvim.builtin.which_key.mappings["h"] = {
+  name = "+Hop",
+  l = { "<cmd>HopLineStart<cr>", "Line" },
+  L = { "<cmd>HopLineStartMW<cr>", "Line in Multiple Windows" },
+  f = { "<cmd>:HopWordCurrentLineAC<cr>", "Word in Line Forward" },
+  F = { "<cmd>:HopWordCurrentLineBC<cr>", "Word in Line Backward" },
+}
+
 -- lvim.builtin.telescope.on_config_done = function(telescope)
 --   -- any other extensions loading
 -- end
