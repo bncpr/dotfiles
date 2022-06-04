@@ -65,6 +65,13 @@ lvim.builtin.which_key.mappings["h"] = {
   F = { "<cmd>:HopWordCurrentLineBC<cr>", "Word in Line Backward" },
 }
 
+lvim.builtin.which_key.mappings["S"] = {
+  name = "+Session",
+  c = { "<cmd>lua require('persistence').load()<cr>", "Restore last session for current dir" },
+  l = { "<cmd>lua require('persistence').load({ last = true })<cr>", "Restore last session" },
+  Q = { "<cmd>lua require('persistence').stop()<cr>", "Quit without saving session" },
+}
+
 -- lvim.builtin.telescope.on_config_done = function(telescope)
 --   -- any other extensions loading
 -- end
@@ -156,7 +163,13 @@ lvim.lsp.automatic_servers_installation = false
 -- Additional Plugins
 lvim.plugins = {
   { "tpope/vim-unimpaired" },
-  { "tpope/vim-surround" },
+  { "tpope/vim-surround",
+    keys = { "c", "d", "y" },
+    -- make sure to change the value of `timeoutlen` if it's not triggering correctly, see https://github.com/tpope/vim-surround/issues/117
+    setup = function()
+     vim.o.timeoutlen = 500
+    end
+  },
   { "tpope/vim-repeat" },
   { "folke/tokyonight.nvim" },
   {
@@ -168,9 +181,13 @@ lvim.plugins = {
     event = "BufRead",
     config = function()
       require("hop").setup()
-      vim.api.nvim_set_keymap("n", "s", ":HopChar2<cr>", { silent = true })
-      vim.api.nvim_set_keymap("n", "S", ":HopWord<cr>", { silent = true })
+      -- vim.api.nvim_set_keymap("n", "s", ":HopChar2<cr>", { silent = true })
+      -- vim.api.nvim_set_keymap("n", "S", ":HopWord<cr>", { silent = true })
     end,
+  },
+  {
+    "ggandor/lightspeed.nvim",
+    event = "BufRead",
   },
   {
     "karb94/neoscroll.nvim",
@@ -200,6 +217,54 @@ lvim.plugins = {
         show_cursorline = true, -- Enable 'cursorline' for the window while peeking
       }
     end,
+  },
+  {
+    "ray-x/lsp_signature.nvim",
+    event = "BufRead",
+    config = function()
+      require "lsp_signature".setup()
+    end
+  },
+  {
+    "simrat39/symbols-outline.nvim",
+    cmd = "SymbolsOutline",
+  },
+  {
+    "folke/todo-comments.nvim",
+    event = "BufRead",
+    config = function()
+      require("todo-comments").setup()
+    end,
+  },
+  {
+    "ethanholz/nvim-lastplace",
+    event = "BufRead",
+    config = function()
+      require("nvim-lastplace").setup({
+        lastplace_ignore_buftype = { "quickfix", "nofile", "help" },
+        lastplace_ignore_filetype = {
+          "gitcommit", "gitrebase", "svn", "hgcommit",
+        },
+        lastplace_open_folds = true,
+      })
+    end,
+  },
+  {
+    "folke/persistence.nvim",
+    event = "BufReadPre", -- this will only start session saving when an actual file was opened
+    module = "persistence",
+    config = function()
+      require("persistence").setup {
+        dir = vim.fn.expand(vim.fn.stdpath "config" .. "/session/"),
+        options = { "buffers", "curdir", "tabpages", "winsize" },
+      }
+    end,
+  },
+  {
+    "tzachar/cmp-tabnine",
+    run = "./install.sh",
+    requires = "hrsh7th/nvim-cmp",
+    event = "InsertEnter",
   },
 }
 
