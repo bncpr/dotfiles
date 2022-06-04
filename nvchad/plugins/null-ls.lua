@@ -8,6 +8,7 @@ local sources = {
 
    -- Python
    b.formatting.autopep8,
+   b.diagnostics.pylint,
 
    -- C/C++
    b.formatting.clang_format,
