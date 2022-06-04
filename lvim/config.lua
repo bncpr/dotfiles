@@ -56,10 +56,9 @@ lvim.builtin.which_key.mappings["t"] = {
   t = { "<cmd>TroubleToggle<cr>", "Toggle" },
 }
 
-lvim.builtin.telescope.on_config_done = function(telescope)
-  pcall(telescope.load_extension, "fzf")
-  -- any other extensions loading
-end
+-- lvim.builtin.telescope.on_config_done = function(telescope)
+--   -- any other extensions loading
+-- end
 
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
@@ -193,11 +192,6 @@ lvim.plugins = {
       }
     end,
   },
-  {
-    "nvim-telescope/telescope-fzf-native.nvim",
-    event = "BufRead",
-    run = "make"
-  }
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
