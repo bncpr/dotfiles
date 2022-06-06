@@ -57,14 +57,6 @@ lvim.builtin.which_key.mappings["t"] = {
   t = { "<cmd>TroubleToggle<cr>", "Toggle" },
 }
 
-lvim.builtin.which_key.mappings["h"] = {
-  name = "+Hop",
-  l = { "<cmd>HopLineStart<cr>", "Line" },
-  L = { "<cmd>HopLineStartMW<cr>", "Line in Multiple Windows" },
-  f = { "<cmd>:HopWordCurrentLineAC<cr>", "Word in Line Forward" },
-  F = { "<cmd>:HopWordCurrentLineBC<cr>", "Word in Line Backward" },
-}
-
 lvim.builtin.which_key.mappings["S"] = {
   name = "+Session",
   c = { "<cmd>lua require('persistence').load()<cr>", "Restore last session for current dir" },
@@ -175,15 +167,6 @@ lvim.plugins = {
   {
     "folke/trouble.nvim",
     cmd = "TroubleToggle",
-  },
-  {
-    "phaazon/hop.nvim",
-    event = "BufRead",
-    config = function()
-      require("hop").setup()
-      -- vim.api.nvim_set_keymap("n", "s", ":HopChar2<cr>", { silent = true })
-      -- vim.api.nvim_set_keymap("n", "S", ":HopWord<cr>", { silent = true })
-    end,
   },
   {
     "ggandor/lightspeed.nvim",
