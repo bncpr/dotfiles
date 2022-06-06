@@ -105,7 +105,7 @@ local opts = {
     python = {
       analysis = {
         extraPaths = {
-          "Users/bcooper/cheetah/src/py_packages/*",
+          "~/cheetah/src/py_packages/*",
         }
       }
     }
