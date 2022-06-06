@@ -98,9 +98,21 @@ lvim.lsp.automatic_servers_installation = false
 
 -- ---configure a server manually. !!Requires `:LvimCacheReset` to take effect!!
 -- ---see the full default list `:lua print(vim.inspect(lvim.lsp.automatic_configuration.skipped_servers))`
--- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
--- local opts = {} -- check the lspconfig documentation for a list of all possible options
--- require("lvim.lsp.manager").setup("pyright", opts)
+vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
+
+local opts = {
+  settings = {
+    python = {
+      analysis = {
+        extraPaths = {
+          "Users/bcooper/cheetah/src/py_packages/*",
+        }
+      }
+    }
+  }
+} -- check the lspconfig documentation for a list of all possible options
+
+require("lvim.lsp.manager").setup("pyright", opts)
 
 -- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. !!Requires `:LvimCacheReset` to take effect!!
 -- ---`:LvimInfo` lists which server(s) are skiipped for the current filetype
@@ -159,7 +171,7 @@ lvim.plugins = {
     keys = { "c", "d", "y" },
     -- make sure to change the value of `timeoutlen` if it's not triggering correctly, see https://github.com/tpope/vim-surround/issues/117
     setup = function()
-     vim.o.timeoutlen = 500
+      vim.o.timeoutlen = 500
     end
   },
   { "tpope/vim-repeat" },
