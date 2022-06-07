@@ -100,19 +100,21 @@ lvim.lsp.automatic_servers_installation = false
 -- ---see the full default list `:lua print(vim.inspect(lvim.lsp.automatic_configuration.skipped_servers))`
 vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
 
-local opts = {
-  settings = {
-    python = {
-      analysis = {
-        extraPaths = {
-          "~/cheetah/src/py_packages/3rdparty",
-        }
-      }
-    }
-  }
-} -- check the lspconfig documentation for a list of all possible options
+-- local opts = {
+--   settings = {
+--     python = {
+--       analysis = {
+--         extraPaths = {
+--           "/home/dn/cheetah/src/py_packages/3rdparty",
+--         }
+--       }
+--     }
+--   }
+-- } -- check the lspconfig documentation for a list of all possible options
 
-require("lvim.lsp.manager").setup("pyright", opts)
+local opts = {}
+
+require("lvim.lsp.manager").setup("pylsp", opts)
 
 -- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. !!Requires `:LvimCacheReset` to take effect!!
 -- ---`:LvimInfo` lists which server(s) are skiipped for the current filetype
@@ -276,3 +278,7 @@ lvim.plugins = {
 --     require("nvim-treesitter.highlight").attach(0, "bash")
 --   end,
 -- })
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = { "*.c", "*.cpp", "*.h", "*.hpp" },
+  command = "setlocal ts=8 sw=8 noexpandtab"
+})
