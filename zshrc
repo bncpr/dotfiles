@@ -102,4 +102,5 @@ export VISUAL=lvim
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+source ~/.profile
 source ~/.aliases
