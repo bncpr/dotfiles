@@ -79,7 +79,7 @@ lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
-lvim.builtin.nvimtree.show_icons.git = 1
+-- lvim.builtin.nvimtree.show_icons.git = 1
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.active = false
@@ -99,6 +99,7 @@ lvim.builtin.treesitter.active = false
 
 ---@usage disable automatic installation of servers
 lvim.lsp.automatic_servers_installation = true
+lvim.lsp.null_ls.setup = { debug = true }
 
 -- ---configure a server manually. !!Requires `:LvimCacheReset` to take effect!!
 -- ---see the full default list `:lua print(vim.inspect(lvim.lsp.automatic_configuration.skipped_servers))`
@@ -149,7 +150,7 @@ require("lvim.lsp.manager").setup("jedi_language_server", opts)
 -- -- set a formatter, this will override the language server formatting capabilities (if it exists)
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
-    { command = "black", filetypes = { "python" } },
+  { command = "black", filetypes = { "python" } },
   --   {
   --     -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
   --     command = "prettier",
@@ -166,18 +167,18 @@ local linters = require "lvim.lsp.null-ls.linters"
 linters.setup {
   { command = "flake8", filetypes = { "python" } },
   { command = "protolint" },
-  -- {
-  --   -- each linter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
-  --   command = "shellcheck",
-  --   ---@usage arguments to pass to the formatter
-  --   -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
-  --   extra_args = { "--severity", "warning" },
-  -- },
-  -- {
-  -- command = "codespell",
-  ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
-  -- filetypes = { "javascript", "python" },
-  -- },
+  {
+    -- each linter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
+    command = "shellcheck",
+    ---@usage arguments to pass to the formatter
+    -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
+    extra_args = { "--severity", "warning" },
+  },
+  {
+    command = "codespell",
+    ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
+    -- filetypes = { "javascript", "python" },
+  },
 }
 
 -- Additional Plugins
