@@ -278,9 +278,13 @@ lvim.plugins = {
     requires = "hrsh7th/nvim-cmp",
     event = "InsertEnter",
   },
+  {
+    "felipec/vim-sanegx",
+    even = "BufRead"
+  }
 }
 
--- Autocommands (https://neovim.io/doc/user/autocmd.html)
+-- Autocommands (https://eovim.io/doc/user/autocmd.html)
 -- vim.api.nvim_create_autocmd("BufEnter", {
 --   pattern = { "*.json", "*.jsonc" },
 --   -- enable wrap mode for json files only
@@ -293,6 +297,7 @@ lvim.plugins = {
 --     require("nvim-treesitter.highlight").attach(0, "bash")
 --   end,
 -- })
+
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = { "*.c", "*.cpp", "*.h", "*.hpp" },
   command = "setlocal ts=8 sw=8 noexpandtab"
