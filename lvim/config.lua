@@ -103,7 +103,31 @@ lvim.lsp.null_ls.setup = { debug = true }
 
 -- ---configure a server manually. !!Requires `:LvimCacheReset` to take effect!!
 -- ---see the full default list `:lua print(vim.inspect(lvim.lsp.automatic_configuration.skipped_servers))`
-vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "jedi_language_server", "pyright" })
+vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "jedi_language_server", "pyright", "clangd" })
+
+local clangd_flags = {
+  "--fallback-style=google",
+  "--background-index",
+  "-j=12",
+  "--all-scopes-completion",
+  "--pch-storage=disk",
+  "--clang-tidy",
+  "--log=error",
+  "--completion-style=detailed",
+  "--header-insertion=iwyu",
+  "--header-insertion-decorators",
+  "--enable-config",
+  "--offset-encoding=utf-16",
+  "--ranking-model=heuristics",
+  "--folding-ranges",
+}
+
+local clangd_bin = "clangd"
+
+local clangd_opts = {
+  cmd = { clangd_bin, unpack(clangd_flags) },
+}
+require("lvim.lsp.manager").setup("clangd", clangd_opts)
 
 local opts = {}
 
