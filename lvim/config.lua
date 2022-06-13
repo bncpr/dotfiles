@@ -17,12 +17,17 @@ lvim.colorscheme = "onedarker"
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
+vim.g.maplocalleader = ","
+
 -- add your own keymapping
 -- lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 -- unmap a default keymapping
 -- vim.keymap.del("n", "<C-Up>")
 -- override a default keymapping
 -- lvim.keys.normal_mode["<C-q>"] = ":q<cr>" -- or vim.keymap.set("n", "<C-q>", ":q<cr>" )
+lvim.keys.normal_mode["<leader>;"] = "mmA;<esc>`m"
+
+-- disable middle-mouse
 vim.cmd("noremap <MiddleMouse> <Nop>")
 vim.cmd("noremap <2-MiddleMouse> <Nop>")
 vim.cmd("noremap <3-MiddleMouse> <Nop>")
@@ -106,26 +111,33 @@ lvim.lsp.null_ls.setup = { debug = true }
 vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "jedi_language_server", "pyright", "clangd" })
 
 local clangd_flags = {
-  "--fallback-style=google",
-  "--background-index",
-  "-j=12",
+  "--offset-encoding=utf-16", -- for 'multiple client offset encoding' error
   "--all-scopes-completion",
+  "--suggest-missing-includes",
+  "--background-index",
   "--pch-storage=disk",
-  "--clang-tidy",
-  "--log=error",
+  "--cross-file-rename",
+  "--log=info",
   "--completion-style=detailed",
-  "--header-insertion=iwyu",
-  "--header-insertion-decorators",
-  "--enable-config",
-  "--offset-encoding=utf-16",
-  "--ranking-model=heuristics",
-  "--folding-ranges",
+  "--enable-config", -- clangd 11+ supports reading from .clangd configuration file
+  "--clang-tidy",
+  -- "--clang-tidy-checks=-*,llvm-*,clang-analyzer-*,modernize-*,-modernize-use-trailing-return-type",
+  -- "--fallback-style=Google",
+  -- "--header-insertion=never",
+  -- "--query-driver=<list-of-white-listed-complers>"
 }
 
 local clangd_bin = "clangd"
 
+local custom_clangd_on_attach = function(client, bufnr)
+  require("lvim.lsp").common_on_attach(client, bufnr)
+  local opts = { noremap = true, silent = true }
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lh", "<Cmd>ClangdSwitchSourceHeader<CR>", opts)
+end
+
 local clangd_opts = {
   cmd = { clangd_bin, unpack(clangd_flags) },
+  on_attach = custom_clangd_on_attach,
 }
 require("lvim.lsp.manager").setup("clangd", clangd_opts)
 
@@ -228,6 +240,7 @@ lvim.plugins = {
   {
     "ggandor/lightspeed.nvim",
     event = "BufRead",
+    keys = { "s", "S" }
   },
   {
     "karb94/neoscroll.nvim",
@@ -325,8 +338,3 @@ lvim.plugins = {
 --     require("nvim-treesitter.highlight").attach(0, "bash")
 --   end,
 -- })
-
-vim.api.nvim_create_autocmd("BufEnter", {
-  pattern = { "*.c", "*.cpp", "*.h", "*.hpp" },
-  command = "setlocal ts=8 sw=8 noexpandtab"
-})
