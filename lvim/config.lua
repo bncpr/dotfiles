@@ -104,7 +104,7 @@ lvim.builtin.treesitter.active = false
 
 ---@usage disable automatic installation of servers
 lvim.lsp.automatic_servers_installation = true
-lvim.lsp.null_ls.setup = { debug = true }
+lvim.lsp.null_ls.setup = { debug = true, log = { level = "trace" } }
 
 -- ---configure a server manually. !!Requires `:LvimCacheReset` to take effect!!
 -- ---see the full default list `:lua print(vim.inspect(lvim.lsp.automatic_configuration.skipped_servers))`
