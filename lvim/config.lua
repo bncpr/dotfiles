@@ -121,8 +121,9 @@ local clangd_flags = {
   "--completion-style=detailed",
   "--enable-config", -- clangd 11+ supports reading from .clangd configuration file
   "--clang-tidy",
+  "--fallback-style=Google",
+  -- "--compile-commands-dir=<string>",
   -- "--clang-tidy-checks=-*,llvm-*,clang-analyzer-*,modernize-*,-modernize-use-trailing-return-type",
-  -- "--fallback-style=Google",
   -- "--header-insertion=never",
   -- "--query-driver=<list-of-white-listed-complers>"
 }
