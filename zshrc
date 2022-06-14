@@ -89,7 +89,7 @@ else
   export EDITOR='lvim'
 fi
 
-[[ -n $LUNARVIM_RUNTIME_DIR ]] && export VISUAL=lvim
+[[ -a ~/.local/bin/lvim ]] && export VISUAL=lvim
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"

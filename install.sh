@@ -1,4 +1,4 @@
 #!/bin/bash
 
-ln -sf zshrc ~/.zshrc
-ln -sf aliases ~/.aliases
+ln -srf zshrc ~/.zshrc
+ln -srf aliases ~/.aliases
