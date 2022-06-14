@@ -9,6 +9,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="eastwood"
+[[ $USER = "dn" ]] && ZSH_THEME="alanpeabody"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -41,7 +42,7 @@ ZSH_THEME="eastwood"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # You can also set it to another string to have that shown instead of the default red dots.
@@ -88,7 +89,7 @@ else
   export EDITOR='lvim'
 fi
 
-export VISUAL=lvim
+[[ -n $LUNARVIM_RUNTIME_DIR ]] && export VISUAL=lvim
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -101,6 +102,13 @@ export VISUAL=lvim
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+if [[ $USER = "dn" ]]; then
+  ps=$PS1
+  cd /home/dn/cheetah/env/linux/
+  source defenv wbox
+  export PS1="$PROD $ps"
+fi
 
 source ~/.profile
 source ~/.aliases
