@@ -122,7 +122,7 @@ local clangd_flags = {
   "--enable-config", -- clangd 11+ supports reading from .clangd configuration file
   "--clang-tidy",
   "--fallback-style=Google",
-  -- "--compile-commands-dir=<string>",
+  -- "--compile-commands-dir=/home/dn/cheetah",
   -- "--clang-tidy-checks=-*,llvm-*,clang-analyzer-*,modernize-*,-modernize-use-trailing-return-type",
   -- "--header-insertion=never",
   -- "--query-driver=<list-of-white-listed-complers>"
@@ -134,6 +134,7 @@ local custom_clangd_on_attach = function(client, bufnr)
   require("lvim.lsp").common_on_attach(client, bufnr)
   local opts = { noremap = true, silent = true }
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lh", "<Cmd>ClangdSwitchSourceHeader<CR>", opts)
+  vim.cmd("set path=.,/usr/include,/home/dn/cheetah/packages/dpdk/lib/,")
 end
 
 local clangd_opts = {
