@@ -1,6 +1,7 @@
 export MYVIMRC="$HOME/.vim/vimrc"
 
 alias dvm="ssh dn@bcooper-dev"
+alias tdvm="ssh -t dn@bcooper-dev '/home/linuxbrew/.linuxbrew/bin/tmux -CC new -A -s main'"
 
 # Send files (modified files in git) from this host to a server
 server-sync () {
@@ -34,6 +35,7 @@ alias gaa="git add -A"
 alias gst="git status"
 alias gchkig="git check-ignore"
 alias gcm="git commit -m"
+alias gcam="git commit -am"
 
 alias gdruna="gd *.c && runa"
 alias mkruna="make && runa"
