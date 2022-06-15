@@ -107,6 +107,7 @@ if [[ $USER = "dn" ]]; then
   ps=$PS1
   cd /home/dn/cheetah/env/linux/
   source defenv wbox
+  source ~/cheetah/env/linux/defenv.zsh
   export PS1="$PROD $ps"
 fi
 
