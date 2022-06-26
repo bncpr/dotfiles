@@ -3,4 +3,5 @@ vim.cmd([[
   set colorcolumn=88
   highlight ColorColumn ctermbg=darkgray
   noremap <buffer> <localleader>; mmA;<esc>`m
+  imap <buffer> ,j <esc>o{<enter>
 ]])
