@@ -134,7 +134,6 @@ local custom_clangd_on_attach = function(client, bufnr)
   require("lvim.lsp").common_on_attach(client, bufnr)
   local opts = { noremap = true, silent = true }
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lh", "<Cmd>ClangdSwitchSourceHeader<CR>", opts)
-  vim.cmd("set path=.,/usr/include,/home/dn/cheetah/packages/**,")
 end
 
 local clangd_opts = {
