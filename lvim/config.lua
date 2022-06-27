@@ -114,19 +114,17 @@ vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "jedi_langua
 local clangd_flags = {
   "--offset-encoding=utf-16", -- for 'multiple client offset encoding' error
   "--all-scopes-completion",
-  "--suggest-missing-includes",
   "--background-index",
   "--pch-storage=disk",
-  "--cross-file-rename",
-  "--log=info",
+  "--log=verbose",
   "--completion-style=detailed",
   "--enable-config", -- clangd 11+ supports reading from .clangd configuration file
   "--clang-tidy",
   "--fallback-style=Google",
+  "--query-driver=/usr/bin/gcc",
   -- "--compile-commands-dir=build",
   -- "--clang-tidy-checks=-*,llvm-*,clang-analyzer-*,modernize-*,-modernize-use-trailing-return-type",
   -- "--header-insertion=never",
-  -- "--query-driver=<list-of-white-listed-complers>"
 }
 
 local clangd_bin = "clangd"
