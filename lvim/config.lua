@@ -88,18 +88,18 @@ lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.comment.mappings.extra = true
 
 -- if you don't want all the parsers change this to a table of the ones you want
-lvim.builtin.treesitter.active = false
--- lvim.builtin.treesitter.ensure_installed = {
---   "bash",
---   "c",
---   "cpp",
---   "json",
---   "lua",
---   "python",
--- }
+lvim.builtin.treesitter.active = true
+lvim.builtin.treesitter.ensure_installed = {
+  "bash",
+  "c",
+  "cpp",
+  "json",
+  "lua",
+  "python",
+}
 
 -- lvim.builtin.treesitter.ignore_install = { "haskell" }
--- lvim.builtin.treesitter.highlight.enabled = true
+lvim.builtin.treesitter.highlight.enabled = true
 
 -- generic LSP settings
 
@@ -121,7 +121,7 @@ local clangd_flags = {
   "--enable-config", -- clangd 11+ supports reading from .clangd configuration file
   "--clang-tidy",
   "--fallback-style=Google",
-  "--query-driver=/usr/bin/gcc",
+  -- "--query-driver=/usr/bin/gcc",
   -- "--compile-commands-dir=build",
   -- "--clang-tidy-checks=-*,llvm-*,clang-analyzer-*,modernize-*,-modernize-use-trailing-return-type",
   -- "--header-insertion=never",
