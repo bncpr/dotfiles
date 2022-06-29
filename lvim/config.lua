@@ -122,7 +122,7 @@ lvim.lsp.null_ls.setup = { debug = true, log = { level = "trace" } }
 
 -- ---configure a server manually. !!Requires `:LvimCacheReset` to take effect!!
 -- ---see the full default list `:lua print(vim.inspect(lvim.lsp.automatic_configuration.skipped_servers))`
-vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "jedi_language_server", "pyright", "clangd" })
+vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pylsp", "pyright", "clangd" })
 
 local clangd_flags = {
   "--offset-encoding=utf-16", -- for 'multiple client offset encoding' error
@@ -154,31 +154,25 @@ local clangd_opts = {
 }
 require("lvim.lsp.manager").setup("clangd", clangd_opts)
 
-local opts = {}
+local pyls_opts = {
+  settings = {
+    pylsp = {
+      plugins = {
+        jedi = {
+          extra_paths = { "/home/dn/cheetah/src/py_packages/dn_common/" }
+        },
+        pycodestyle = {
+          ignore = { "E501" }
+        },
+        pydocstyle = {
+          enabled = true
+        },
+      }
+    }
+  }
+}
 
--- local opts = {
---   settings = {
---     python = {
---       analysis = {
---         extraPaths = {
---           "/home/dn/cheetah/src/py_packages/3rdparty",
---         }
---       }
---     }
---   }
--- } -- check the lspconfig documentation for a list of all possible options
-
--- local opts = {
---   configurationSource = { "pylint" },
---   plugins = {
---     pylint = { enabled = true },
---     flake8 = { enabled = false }, -- default
---     pycodestyle = { enabled = false },
---     pyflakes = { enabled = false },
---   }
--- }
-
-require("lvim.lsp.manager").setup("jedi_language_server", opts)
+require("lvim.lsp.manager").setup("pylsp", pyls_opts)
 
 -- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. !!Requires `:LvimCacheReset` to take effect!!
 -- ---`:LvimInfo` lists which server(s) are skiipped for the current filetype
@@ -199,7 +193,7 @@ require("lvim.lsp.manager").setup("jedi_language_server", opts)
 -- -- set a formatter, this will override the language server formatting capabilities (if it exists)
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
-  { command = "black", filetypes = { "python" } },
+  -- { command = "black", filetypes = { "python" } },
   --   {
   --     -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
   --     command = "prettier",
@@ -214,11 +208,11 @@ formatters.setup {
 -- set additional linters
 local linters = require "lvim.lsp.null-ls.linters"
 linters.setup {
-  {
-    command = "flake8",
-    filetypes = { "python" },
-    extra_args = { "--ignore", "E203,E503" }
-  },
+  -- {
+  --   command = "flake8",
+  --   filetypes = { "python" },
+  --   extra_args = { "--ignore", "E203,E503" }
+  -- },
   { command = "protolint" },
   {
     -- each linter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
@@ -343,10 +337,6 @@ lvim.plugins = {
     event = "BufRead",
   },
   {
-    "JoosepAlviste/nvim-ts-context-commentstring",
-    event = "BufRead",
-  },
-  {
     "p00f/nvim-ts-rainbow",
   },
   {
@@ -382,6 +372,10 @@ lvim.plugins = {
       vim.g.indent_blankline_show_first_indent_level = false
     end
   },
+  {
+    "wellle/targets.vim",
+    event = "BufRead"
+  }
 }
 
 -- Autocommands (https://eovim.io/doc/user/autocmd.html)
