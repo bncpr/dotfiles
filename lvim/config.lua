@@ -26,6 +26,11 @@ vim.g.maplocalleader = ","
 -- override a default keymapping
 -- lvim.keys.normal_mode["<C-q>"] = ":q<cr>" -- or vim.keymap.set("n", "<C-q>", ":q<cr>" )
 -- lvim.keys.normal_mode["<leader>;"] = "mmA;<esc>`m"
+lvim.keys.normal_mode["<c-w>,"] = "<c-w><"
+lvim.keys.normal_mode["<c-w>."] = "<c-w>>"
+vim.cmd([[
+  vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
+]])
 
 -- disable middle-mouse
 vim.cmd("noremap <MiddleMouse> <Nop>")
@@ -77,6 +82,7 @@ lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Project
 lvim.builtin.which_key.mappings["s,"] = { "<cmd>Telescope resume<cr>", "Resume" }
 lvim.builtin.which_key.mappings["sp"] = { "<cmd>Telescope pickers<cr>", "Pickers" }
 lvim.builtin.which_key.mappings["sb"] = { "<cmd>Telescope buffers<cr>", "Buffers" }
+lvim.builtin.which_key.mappings["<leader>"] = { "<cmd>Telescope frecency<cr>", "Frecency" }
 
 lvim.builtin.telescope.on_config_done = function(telescope)
   pcall(telescope.load_extension, "frecency")
@@ -320,8 +326,16 @@ lvim.plugins = {
     config = function()
       require "telescope".load_extension("frecency")
     end,
-    event = "BufRead",
     requires = { "tami5/sqlite.lua" }
+  },
+  {
+    "ojroques/vim-oscyank",
+    event = "BufRead",
+    config = function()
+      vim.cmd([[
+        autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankReg "' | endif
+      ]])
+    end
   }
 }
 
