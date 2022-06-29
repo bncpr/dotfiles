@@ -11,73 +11,11 @@ server-sync () {
 
 alias super-clean='clear_containers; sudo git clean -xdf; git reset --hard; git fetch -p; delete_gone_branches; git gc --prune=now; git remote prune origin; docker system prune -a; '
 
-alias gd="gcc -ansi -pedantic-errors -Wall -Wextra -g"
-alias gc="gcc -ansi -pedantic-errors -Wall -Wextra -DNDEBUG -O3"
-
-alias gdpp="g++ -ansi -pedantic-errors -Wall -Wextra -g"
-alias gcpp="g++ -ansi -pedantic-errors -Wall -Wextra -DNDEBUG -O3"
-
-alias gd9="gcc -std=c99 -pedantic-errors -Wall -Wextra -g"
-alias gc9="gcc -std=c99 -pedantic-errors -Wall -Wextra -DNDEBUG -O3"
-
-alias gdpp11="g++ -std=c++11 -pedantic-errors -Wall -Wextra -g"
-alias gcpp11="g++ -std=c++11 -pedantic-errors -Wall -Wextra -DNDEBUG -O3"
-
-alias vlg="valgrind --leak-check=yes --track-origins=yes"
-
-alias vlga="vlg ./a.out"
-alias runa="./a.out"
 alias rm="rm -i"
-alias vimsess="vim -S Session.vim"
 alias kila=killall
 
-alias gpsh="git push -u origin master"
-alias gaa="git add -A"
-alias gst="git status"
-alias gchkig="git check-ignore"
-alias gcm="git commit -m"
+alias udf="git -C ~/dotfiles pull"
 alias gcam="git commit -am"
-
-alias gdruna="gd *.c && runa"
-alias mkruna="make && runa"
-alias mka=mkruna
-alias build="make rebuild"
+alias gcv="git commit -v"
 
 alias cgdb="cgdb -ex 'set style enabled off'"
-
-alias gotocpp="cd ~/git/cpp/src"
-alias gotobooks="cd ~/Documents/Books"
-
-gacp() {
-	gaa
-	gcm $1
-	gpsh
-}
-
-mkdircd() {
-	mkdir $1
-	cd $1
-}
-
-newcproj() {
-	mkdir $1
-	cd $1
-	c_header.sh $1 RD1123_
-	c_file.sh $1 "Ben Cooper"
-	c_main.sh $1
-	c_makefile.sh $1
-}
-
-newcppproj() {
-	local path="/git/cpp/src/"
-	cd ~/${path}
-	mkdir $1
-	cd $1
-	cpp_makefile.sh $1
-	cpp_header.sh $1 RD1123
-	cpp_file.sh $1 "Ben Cooper"
-	cpp_main.sh $1
-	ln -sr $1.hpp ../../include
-	ln -sr $1.cpp ../../include
-	ln -sr $1_test.cpp ../../test
-}
