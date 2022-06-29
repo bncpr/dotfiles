@@ -112,6 +112,7 @@ lvim.builtin.treesitter.ensure_installed = {
 
 -- lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
+lvim.builtin.treesitter.rainbow.enable = true
 
 -- generic LSP settings
 
@@ -336,7 +337,51 @@ lvim.plugins = {
         autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankReg "' | endif
       ]])
     end
-  }
+  },
+  {
+    "kana/vim-operator-user",
+    event = "BufRead",
+  },
+  {
+    "JoosepAlviste/nvim-ts-context-commentstring",
+    event = "BufRead",
+  },
+  {
+    "p00f/nvim-ts-rainbow",
+  },
+  {
+    "romgrk/nvim-treesitter-context",
+    config = function()
+      require("treesitter-context").setup {
+        enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+        throttle = true, -- Throttles plugin updates (may improve performance)
+        max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
+        patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
+          -- For all filetypes
+          -- Note that setting an entry here replaces all other patterns for this entry.
+          -- By setting the 'default' entry below, you can control which nodes you want to
+          -- appear in the context window.
+          default = {
+            'class',
+            'function',
+            'method',
+          },
+        },
+      }
+    end
+  },
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    event = "BufRead",
+    setup = function()
+      vim.g.indentLine_enabled = 1
+      vim.g.indent_blankline_char = "▏"
+      vim.g.indent_blankline_filetype_exclude = { "help", "terminal", "dashboard" }
+      vim.g.indent_blankline_buftype_exclude = { "terminal" }
+      vim.g.indent_blankline_show_trailing_blankline_indent = false
+      vim.g.indent_blankline_show_first_indent_level = false
+    end
+  },
 }
 
 -- Autocommands (https://eovim.io/doc/user/autocmd.html)
