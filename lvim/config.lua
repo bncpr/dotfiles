@@ -78,9 +78,10 @@ lvim.builtin.which_key.mappings["s,"] = { "<cmd>Telescope resume<cr>", "Resume" 
 lvim.builtin.which_key.mappings["sp"] = { "<cmd>Telescope pickers<cr>", "Pickers" }
 lvim.builtin.which_key.mappings["sb"] = { "<cmd>Telescope buffers<cr>", "Buffers" }
 
--- lvim.builtin.telescope.on_config_done = function(telescope)
---   -- any other extensions loading
--- end
+lvim.builtin.telescope.on_config_done = function(telescope)
+  pcall(telescope.load_extension, "frecency")
+  -- any other extensions loading
+end
 
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
@@ -315,8 +316,12 @@ lvim.plugins = {
     event = "InsertEnter",
   },
   {
-    "felipec/vim-sanegx",
-    even = "BufRead"
+    "nvim-telescope/telescope-frecency.nvim",
+    config = function()
+      require "telescope".load_extension("frecency")
+    end,
+    event = "BufRead",
+    requires = { "tami5/sqlite.lua" }
   }
 }
 
