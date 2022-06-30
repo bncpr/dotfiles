@@ -163,11 +163,18 @@ local pyls_opts = {
           extra_paths = { "/home/dn/cheetah/src/py_packages/dn_common/" }
         },
         pycodestyle = {
-          ignore = { "E501" }
+          ignore = { "E501", "W503" }
         },
         pydocstyle = {
-          enabled = true
+          enabled = true,
+          addIgnore = { "D102" }
         },
+        yapf = {
+          enabled = false
+        },
+        -- pylint = {
+        --   enabled = true
+        -- }
       }
     }
   }
@@ -233,7 +240,7 @@ linters.setup {
 lvim.plugins = {
   { "tpope/vim-unimpaired" },
   { "tpope/vim-surround",
-    keys = { "c", "d", "y" },
+    keys = { "c", "d", "y", "v" },
     -- make sure to change the value of `timeoutlen` if it's not triggering correctly, see https://github.com/tpope/vim-surround/issues/117
     setup = function()
       vim.o.timeoutlen = 500
@@ -334,10 +341,6 @@ lvim.plugins = {
     end
   },
   {
-    "kana/vim-operator-user",
-    event = "BufRead",
-  },
-  {
     "p00f/nvim-ts-rainbow",
   },
   {
@@ -376,6 +379,11 @@ lvim.plugins = {
   {
     "wellle/targets.vim",
     event = "BufRead"
+  },
+  {
+    "heavenshell/vim-pydocstring",
+    run = "make install",
+    ft = "python"
   }
 }
 
