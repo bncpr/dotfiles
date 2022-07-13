@@ -396,6 +396,12 @@ vim.api.nvim_create_autocmd("BufEnter", {
   command = "setlocal wrap",
 })
 
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = ".aliases",
+  -- enable wrap mode for json files only
+  command = "setlocal filetype=zsh",
+})
+
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "zsh",
   callback = function()
