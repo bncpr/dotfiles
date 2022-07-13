@@ -104,7 +104,7 @@ fi
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 if [[ $USER = "dn" ]]; then
-  ps=$PS1
+  export ps1=$PS1
   cd /home/dn/cheetah/env/linux/
   source defenv wbox
   source ~/cheetah/env/linux/defenv.zsh

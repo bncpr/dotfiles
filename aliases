@@ -11,6 +11,8 @@ server-sync () {
 
 alias super-clean='clear_containers; sudo git clean -xdf; git reset --hard; git fetch -p; delete_gone_branches; git gc --prune=now; git remote prune origin; docker system prune -a; '
 
+alias fps='PS1="${PROD} ${ps1}"'
+
 alias rm="rm -i"
 alias kila=killall
 
