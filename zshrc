@@ -9,7 +9,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="eastwood"
-[[ $USER = "dn" ]] && ZSH_THEME="alanpeabody"
+[[ $USER = "dn" ]] && ZSH_THEME="robbyrussell"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -108,7 +108,7 @@ if [[ $USER = "dn" ]]; then
   cd /home/dn/cheetah/env/linux/
   source defenv wbox
   source ~/cheetah/env/linux/defenv.zsh
-  export PS1="$PROD $ps"
+  export PS1="%F{magenta}$PROD ${ps1}"
 fi
 
 source ~/.profile
