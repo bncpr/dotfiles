@@ -48,6 +48,9 @@ lvim.builtin.telescope.defaults.mappings = {
     ["<C-k>"] = actions.move_selection_previous,
     ["<C-n>"] = actions.cycle_history_next,
     ["<C-p>"] = actions.cycle_history_prev,
+    ["<C-e>"] = function(prompt_bufnr, _mode)
+      require("trouble.providers.telescope").open_with_trouble(prompt_bufnr, _mode)
+    end,
   },
   -- for normal mode
   n = {
@@ -68,7 +71,6 @@ lvim.builtin.which_key.mappings["t"] = {
   q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
   l = { "<cmd>Trouble loclist<cr>", "LocationList" },
   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Wordspace Diagnostics" },
-  t = { "<cmd>TroubleToggle<cr>", "Toggle" },
 }
 
 lvim.builtin.which_key.mappings["S"] = {
@@ -252,7 +254,6 @@ lvim.plugins = {
   { "folke/tokyonight.nvim" },
   {
     "folke/trouble.nvim",
-    cmd = "TroubleToggle",
   },
   {
     "ggandor/lightspeed.nvim",
