@@ -3,4 +3,6 @@ vim.cmd([[
   noremap <buffer> <localleader>; mmA;<esc>`m
   imap <buffer> <localleader>j <esc>o{<enter>
   let @t="dwea_t"
+  noremap <buffer> <localleader>d] V][d
+  command! RemoveRC :%s/int rc = \(.*\);\n\s*if (rc)/if (\1)/e
 ]])

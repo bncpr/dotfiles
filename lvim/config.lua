@@ -136,7 +136,7 @@ local clangd_flags = {
   "--enable-config", -- clangd 11+ supports reading from .clangd configuration file
   "--clang-tidy",
   "--fallback-style=Google",
-  -- "--query-driver=/usr/bin/gcc",
+  "--query-driver=/usr/bin/gcc",
   -- "--compile-commands-dir=build",
   -- "--clang-tidy-checks=-*,llvm-*,clang-analyzer-*,modernize-*,-modernize-use-trailing-return-type",
   -- "--header-insertion=never",
@@ -161,7 +161,13 @@ local pyls_opts = {
     pylsp = {
       plugins = {
         jedi = {
-          extra_paths = { "/home/dn/cheetah/src/py_packages/dn_common/", "/home/dn/cheetah/src/py_packages/upgrade_mode" }
+          extra_paths = {
+            "/home/dn/cheetah/src/py_packages/dn_common/",
+            "/home/dn/cheetah/src/py_packages/upgrade_mode",
+            "/home/dn/cheetah/src/py_packages/transaction_api",
+            "/home/dn/cheetah/src/py_packages/fe_agent",
+            "/home/dn/cheetah/src/py_packages/dn_jag_api",
+          }
         },
         pycodestyle = {
           ignore = { "E501", "W503" }
@@ -176,6 +182,9 @@ local pyls_opts = {
         mypy = {
           enable = true
         },
+        black = {
+          enabled = true
+        }
         -- pylint = {
         --   enabled = true
         -- }
@@ -413,5 +422,8 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "python",
-  command = "command! Darker :!darker %"
+  callback = function()
+    vim.cmd("command! Darker :!darker %")
+    vim.cmd("command! Black :!black %")
+  end,
 })
