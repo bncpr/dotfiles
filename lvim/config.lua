@@ -84,12 +84,9 @@ lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Project
 lvim.builtin.which_key.mappings["s,"] = { "<cmd>Telescope resume<cr>", "Resume" }
 lvim.builtin.which_key.mappings["sp"] = { "<cmd>Telescope pickers<cr>", "Pickers" }
 lvim.builtin.which_key.mappings["sb"] = { "<cmd>Telescope buffers<cr>", "Buffers" }
-lvim.builtin.which_key.mappings["<leader>"] = { "<cmd>Telescope frecency<cr>", "Frecency" }
-
-lvim.builtin.telescope.on_config_done = function(telescope)
-  pcall(telescope.load_extension, "frecency")
-  -- any other extensions loading
-end
+-- Now the '+' register will copy to system clipboard using OSC52
+lvim.builtin.which_key.mappings["y"] = { '"+y', "OSC52 Yank" }
+lvim.builtin.which_key.mappings["yy"] = { '"+yy', "OSC52 Yank line" }
 
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
@@ -115,6 +112,7 @@ lvim.builtin.treesitter.ensure_installed = {
 -- lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
 lvim.builtin.treesitter.rainbow.enable = true
+lvim.builtin.treesitter.matchup.enable = true
 
 -- generic LSP settings
 
@@ -265,9 +263,12 @@ lvim.plugins = {
     "folke/trouble.nvim",
   },
   {
-    "ggandor/lightspeed.nvim",
+    "ggandor/leap.nvim",
     event = "BufRead",
-    keys = { "s", "S" }
+    keys = { "s", "S" },
+    config = function()
+      require('leap').set_default_keymaps()
+    end
   },
   -- {
   --   "karb94/neoscroll.nvim",
@@ -336,22 +337,15 @@ lvim.plugins = {
     requires = "hrsh7th/nvim-cmp",
     event = "InsertEnter",
   },
-  {
-    "nvim-telescope/telescope-frecency.nvim",
-    config = function()
-      require "telescope".load_extension("frecency")
-    end,
-    requires = { "tami5/sqlite.lua" }
-  },
-  {
-    "ojroques/vim-oscyank",
-    event = "BufRead",
-    config = function()
-      vim.cmd([[
-        autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankReg "' | endif
-      ]])
-    end
-  },
+  -- {
+  --   "ojroques/vim-oscyank",
+  --   event = "BufRead",
+  --   config = function()
+  --     vim.cmd([[
+  --       autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankReg "' | endif
+  --     ]])
+  --   end
+  -- },
   {
     "p00f/nvim-ts-rainbow",
   },
@@ -397,6 +391,33 @@ lvim.plugins = {
   --   run = "make install",
   --   ft = "python"
   -- }
+  {
+    "andymass/vim-matchup",
+    event = "CursorMoved",
+    config = function()
+      vim.g.loaded_matchit = 1
+      vim.g.matchup_matchparen_offscreen = { method = "popup" }
+    end,
+  },
+  {
+    'ojroques/nvim-osc52',
+    config = function()
+      -- OSC52
+      local function copy(lines, _)
+        require('osc52').copy(table.concat(lines, '\n'))
+      end
+
+      local function paste()
+        return { vim.fn.split(vim.fn.getreg(''), '\n'), vim.fn.getregtype('') }
+      end
+
+      vim.g.clipboard = {
+        name = 'osc52',
+        copy = { ['+'] = copy, ['*'] = copy },
+        paste = { ['+'] = paste, ['*'] = paste },
+      }
+    end
+  },
 }
 
 -- Autocommands (https://eovim.io/doc/user/autocmd.html)
