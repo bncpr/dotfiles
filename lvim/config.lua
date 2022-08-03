@@ -134,7 +134,7 @@ local clangd_flags = {
   "--enable-config", -- clangd 11+ supports reading from .clangd configuration file
   "--clang-tidy",
   "--fallback-style=Google",
-  "--query-driver=/usr/bin/gcc",
+  "--query-driver=/home/linuxbrew/.linuxbrew/Cellar/gcc/11.3.0_2",
   -- "--compile-commands-dir=build",
   -- "--clang-tidy-checks=-*,llvm-*,clang-analyzer-*,modernize-*,-modernize-use-trailing-return-type",
   -- "--header-insertion=never",
@@ -212,6 +212,7 @@ require("lvim.lsp.manager").setup("pylsp", pyls_opts)
 -- -- set a formatter, this will override the language server formatting capabilities (if it exists)
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
+  { command = "clang-format", filetypes = { "proto" }, extra_args = { "--style=Google" } }
   -- { command = "black", filetypes = { "python" } },
   --   {
   --     -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
