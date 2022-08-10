@@ -84,9 +84,6 @@ lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Project
 lvim.builtin.which_key.mappings["s,"] = { "<cmd>Telescope resume<cr>", "Resume" }
 lvim.builtin.which_key.mappings["sp"] = { "<cmd>Telescope pickers<cr>", "Pickers" }
 lvim.builtin.which_key.mappings["sb"] = { "<cmd>Telescope buffers<cr>", "Buffers" }
--- Now the '+' register will copy to system clipboard using OSC52
-lvim.builtin.which_key.mappings["y"] = { '"+y', "OSC52 Yank" }
-lvim.builtin.which_key.mappings["yy"] = { '"+yy', "OSC52 Yank line" }
 
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
@@ -133,7 +130,7 @@ local clangd_flags = {
   "--completion-style=detailed",
   "--enable-config", -- clangd 11+ supports reading from .clangd configuration file
   "--clang-tidy",
-  "--fallback-style=Google",
+  -- "--fallback-style=Google",
   "--query-driver=/home/linuxbrew/.linuxbrew/Cellar/gcc/11.3.0_2",
   -- "--compile-commands-dir=build",
   -- "--clang-tidy-checks=-*,llvm-*,clang-analyzer-*,modernize-*,-modernize-use-trailing-return-type",
@@ -160,11 +157,11 @@ local pyls_opts = {
       plugins = {
         jedi = {
           extra_paths = {
-            "/home/dn/cheetah/src/py_packages/dn_common/",
-            "/home/dn/cheetah/src/py_packages/upgrade_mode",
-            "/home/dn/cheetah/src/py_packages/transaction_api",
-            "/home/dn/cheetah/src/py_packages/fe_agent",
-            "/home/dn/cheetah/src/py_packages/dn_jag_api",
+            -- "/home/dn/cheetah/src/py_packages/dn_common/",
+            -- "/home/dn/cheetah/src/py_packages/upgrade_mode",
+            -- "/home/dn/cheetah/src/py_packages/transaction_api",
+            -- "/home/dn/cheetah/src/py_packages/fe_agent",
+            -- "/home/dn/cheetah/src/py_packages/dn_jag_api",
           }
         },
         pycodestyle = {
@@ -178,7 +175,7 @@ local pyls_opts = {
           enabled = false
         },
         mypy = {
-          enable = true
+          enable = false
         },
         black = {
           enabled = true
@@ -412,11 +409,26 @@ lvim.plugins = {
         return { vim.fn.split(vim.fn.getreg(''), '\n'), vim.fn.getregtype('') }
       end
 
+      -- Now the '+' register will copy to system clipboard using OSC52
       vim.g.clipboard = {
         name = 'osc52',
         copy = { ['+'] = copy, ['*'] = copy },
         paste = { ['+'] = paste, ['*'] = paste },
       }
+    end
+  },
+  {
+    "metakirby5/codi.vim",
+    cmd = { "Codi", "CodiNew" },
+    config = function()
+      vim.cmd([[
+       let g:codi#interpreters = {
+             \ 'python': {
+                 \ 'bin': 'python3',
+                 \ 'prompt': '^\(>>>\|\.\.\.\) ',
+                 \ },
+             \ }
+      ]])
     end
   },
 }
@@ -446,6 +458,6 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = "python",
   callback = function()
     vim.cmd("command! Darker :!darker %")
-    vim.cmd("command! Black :!black %")
+    vim.cmd("command! Black :!black % --preview")
   end,
 })
