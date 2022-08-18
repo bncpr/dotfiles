@@ -3,6 +3,7 @@ export MYVIMRC="$HOME/.vim/vimrc"
 alias dvm="ssh dn@bcooper-dev"
 alias tdvm="ssh -t dn@bcooper-dev '/home/linuxbrew/.linuxbrew/bin/tmux -CC new -A -s main'"
 alias rcc="fd -I compile_commands.json -X rm -rf"
+alias orivm='sshpass -pdrive1234! ssh -o StrictHostKeyChecking=no dn@10.10.75.153'
 
 # Send files (modified files in git) from this host to a server
 server-sync () {
