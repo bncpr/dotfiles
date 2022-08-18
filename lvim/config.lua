@@ -51,6 +51,8 @@ lvim.builtin.telescope.defaults.mappings = {
     ["<C-e>"] = function(prompt_bufnr, _mode)
       require("trouble.providers.telescope").open_with_trouble(prompt_bufnr, _mode)
     end,
+    -- ["<esc>"] = actions.close,
+    ["<c-u>"] = false
   },
   -- for normal mode
   n = {
