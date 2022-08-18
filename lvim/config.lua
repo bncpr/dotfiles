@@ -87,6 +87,23 @@ lvim.builtin.which_key.mappings["s,"] = { "<cmd>Telescope resume<cr>", "Resume" 
 lvim.builtin.which_key.mappings["sp"] = { "<cmd>Telescope pickers<cr>", "Pickers" }
 lvim.builtin.which_key.mappings["sb"] = { "<cmd>Telescope buffers<cr>", "Buffers" }
 
+lvim.builtin.which_key.vmappings["r"] = {
+  name = "+Refactoring",
+  r = { "<Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>", "Refactor" },
+  p = { ":lua require('refactoring').debug.print_var({})<CR>", "printf" }
+}
+
+lvim.builtin.which_key.mappings["r"] = {
+  name = "+Refactoring",
+  p = { ":lua require('refactoring').debug.printf({below = true})<CR>", "printf" },
+  v = { ":lua require('refactoring').debug.print_var({normal = true})<CR>", "print variable" },
+  c = { ":lua require('refactoring').debug.cleanup({})<CR>", "cleanup" },
+}
+
+lvim.builtin.telescope.on_config_done = function(telescope)
+  pcall(telescope.load_extension, "refactoring")
+end
+
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = true
@@ -433,6 +450,10 @@ lvim.plugins = {
       ]])
     end
   },
+  {
+    "ThePrimeagen/refactoring.nvim",
+    event = "BufRead"
+  }
 }
 
 -- Autocommands (https://eovim.io/doc/user/autocmd.html)
