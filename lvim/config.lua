@@ -26,11 +26,10 @@ vim.g.maplocalleader = ","
 -- override a default keymapping
 -- lvim.keys.normal_mode["<C-q>"] = ":q<cr>" -- or vim.keymap.set("n", "<C-q>", ":q<cr>" )
 -- lvim.keys.normal_mode["<leader>;"] = "mmA;<esc>`m"
-lvim.keys.normal_mode["<c-w>,"] = "<c-w><"
-lvim.keys.normal_mode["<c-w>."] = "<c-w>>"
 vim.cmd([[
   vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 ]])
+vim.keymap.set("i", "<c-u>", "<esc>mmgUiw`ma")
 
 -- disable middle-mouse
 vim.cmd("noremap <MiddleMouse> <Nop>")
@@ -263,6 +262,8 @@ linters.setup {
     -- filetypes = { "javascript", "python" },
   },
 }
+
+require("luasnip.loaders.from_lua").load({ paths = "~/snippets" })
 
 -- Additional Plugins
 lvim.plugins = {
