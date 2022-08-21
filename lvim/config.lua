@@ -122,11 +122,12 @@ end
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = true
-lvim.builtin.alpha.mode = "dashboard"
+lvim.builtin.alpha.mode = "startify"
 lvim.builtin.notify.active = true
-lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.width = 40
 lvim.builtin.comment.mappings.extra = true
+lvim.builtin.terminal.active = true
+lvim.builtin.terminal.direction = "horizontal"
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.active = true
@@ -502,4 +503,17 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.cmd("command! Darker :!darker %")
     vim.cmd("command! Black :!black % --preview")
   end,
+})
+
+vim.api.nvim_create_autocmd("TermOpen", {
+  pattern = "term://*",
+  callback = function()
+    local opts = { noremap = true }
+    vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)
+    vim.api.nvim_buf_set_keymap(0, 't', 'jk', [[<C-\><C-n>]], opts)
+    vim.api.nvim_buf_set_keymap(0, 't', '<C-h>', [[<C-\><C-n><C-W>h]], opts)
+    vim.api.nvim_buf_set_keymap(0, 't', '<C-j>', [[<C-\><C-n><C-W>j]], opts)
+    vim.api.nvim_buf_set_keymap(0, 't', '<C-k>', [[<C-\><C-n><C-W>k]], opts)
+    vim.api.nvim_buf_set_keymap(0, 't', '<C-l>', [[<C-\><C-n><C-W>l]], opts)
+  end
 })
