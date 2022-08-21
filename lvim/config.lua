@@ -61,17 +61,26 @@ lvim.builtin.telescope.defaults.mappings = {
 }
 
 -- Use which-key to add extra bindings with the leader-key prefix
-lvim.builtin.which_key.vmappings["f"] = { "<cmd>lua vim.lsp.buf.range_formatting()<cr>", "Range Format" }
+lvim.builtin.which_key.mappings["d"] = { "yyp", "Double Line" }
 lvim.builtin.which_key.mappings["x"] = { ":x<cr>", "Save an Quite" }
+lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 lvim.builtin.which_key.mappings["Q"] = { ":qa!<cr>", "Quit All" }
+lvim.builtin.which_key.mappings["E"] = { "<cmd>NvimTreeFocus<cr>", "NvimTreeFocus" }
+
+lvim.builtin.which_key.mappings["s,"] = { "<cmd>Telescope resume<cr>", "Resume" }
+lvim.builtin.which_key.mappings["sp"] = { "<cmd>Telescope pickers<cr>", "Pickers" }
+lvim.builtin.which_key.mappings["sb"] = { "<cmd>Telescope buffers<cr>", "Buffers" }
+
 lvim.builtin.which_key.mappings["t"] = {
   name = "+Trouble",
+  t = { "<cmd>Trouble<cr>", "Open" },
   r = { "<cmd>Trouble lsp_references<cr>", "References" },
   f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
   d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnostics" },
   q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
   l = { "<cmd>Trouble loclist<cr>", "LocationList" },
   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Wordspace Diagnostics" },
+  g = { "<cmd>Gitsign setqflist<cr>", "Gitsign Hunks" },
 }
 
 lvim.builtin.which_key.mappings["S"] = {
@@ -81,15 +90,13 @@ lvim.builtin.which_key.mappings["S"] = {
   Q = { "<cmd>lua require('persistence').stop()<cr>", "Quit without saving session" },
 }
 
-lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
-lvim.builtin.which_key.mappings["s,"] = { "<cmd>Telescope resume<cr>", "Resume" }
-lvim.builtin.which_key.mappings["sp"] = { "<cmd>Telescope pickers<cr>", "Pickers" }
-lvim.builtin.which_key.mappings["sb"] = { "<cmd>Telescope buffers<cr>", "Buffers" }
-
-lvim.builtin.which_key.vmappings["r"] = {
-  name = "+Refactoring",
-  r = { "<Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>", "Refactor" },
-  p = { ":lua require('refactoring').debug.print_var({})<CR>", "printf" }
+lvim.builtin.which_key.mappings["H"] = {
+  name = "+Harpoon",
+  H = { ":lua require('harpoon.ui').toggle_quick_menu()<cr>", "Open" },
+  f = { ":Telescope harpoon marks<cr>", "Telescope marks" },
+  m = { ":lua require('harpoon.mark').add_file()<cr>", "Add File" },
+  n = { ":lua require('harpoon.ui').nav_next()<cr>", "Next File" },
+  p = { ":lua require('harpoon.ui').nav_prev()<cr>", "Previous File" },
 }
 
 lvim.builtin.which_key.mappings["r"] = {
@@ -99,8 +106,18 @@ lvim.builtin.which_key.mappings["r"] = {
   c = { ":lua require('refactoring').debug.cleanup({})<CR>", "cleanup" },
 }
 
+lvim.builtin.which_key.vmappings["s"] = { ":!sort<cr>", "Sort" }
+lvim.builtin.which_key.vmappings["f"] = { "<cmd>lua vim.lsp.buf.range_formatting()<cr>", "Range Format" }
+lvim.builtin.which_key.vmappings["r"] = {
+  name = "+Refactoring",
+  r = { "<Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>", "Refactor" },
+  p = { ":lua require('refactoring').debug.print_var({})<CR>", "printf" }
+}
+
+-- Telescope extensions register
 lvim.builtin.telescope.on_config_done = function(telescope)
   pcall(telescope.load_extension, "refactoring")
+  pcall(telescope.load_extension, "harpoon")
 end
 
 -- TODO: User Config for predefined plugins
@@ -109,8 +126,7 @@ lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
-lvim.builtin.nvimtree.setup.view.side = "left"
--- lvim.builtin.nvimtree.show_icons.git = 1
+lvim.builtin.nvimtree.setup.view.width = 40
 lvim.builtin.comment.mappings.extra = true
 
 -- if you don't want all the parsers change this to a table of the ones you want
@@ -288,25 +304,25 @@ lvim.plugins = {
       require('leap').set_default_keymaps()
     end
   },
-  -- {
-  --   "karb94/neoscroll.nvim",
-  --   event = "WinScrolled",
-  --   config = function()
-  --     require('neoscroll').setup({
-  --       -- All these keys will be mapped to their corresponding default scrolling animation
-  --       mappings = { '<C-u>', '<C-d>', '<C-b>', '<C-f>',
-  --         '<C-y>', '<C-e>', 'zt', 'zz', 'zb' },
-  --       hide_cursor = true, -- Hide cursor while scrolling
-  --       stop_eof = true, -- Stop at <EOF> when scrolling downwards
-  --       use_local_scrolloff = false, -- Use the local scope of scrolloff instead of the global scope
-  --       respect_scrolloff = false, -- Stop scrolling when the cursor reaches the scrolloff margin of the file
-  --       cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
-  --       easing_function = nil, -- Default easing function
-  --       pre_hook = nil, -- Function to run before the scrolling animation starts
-  --       post_hook = nil, -- Function to run after the scrolling animation ends
-  --     })
-  --   end
-  -- },
+  {
+    "karb94/neoscroll.nvim",
+    event = "WinScrolled",
+    config = function()
+      require('neoscroll').setup({
+        -- All these keys will be mapped to their corresponding default scrolling animation
+        mappings = { '<C-u>', '<C-d>', '<C-b>', '<C-f>',
+          '<C-y>', '<C-e>', 'zt', 'zz', 'zb' },
+        hide_cursor = true, -- Hide cursor while scrolling
+        stop_eof = true, -- Stop at <EOF> when scrolling downwards
+        use_local_scrolloff = false, -- Use the local scope of scrolloff instead of the global scope
+        respect_scrolloff = false, -- Stop scrolling when the cursor reaches the scrolloff margin of the file
+        cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
+        easing_function = nil, -- Default easing function
+        pre_hook = nil, -- Function to run before the scrolling animation starts
+        post_hook = nil, -- Function to run after the scrolling animation ends
+      })
+    end
+  },
   {
     "ray-x/lsp_signature.nvim",
     event = "BufRead",
@@ -454,6 +470,9 @@ lvim.plugins = {
   {
     "ThePrimeagen/refactoring.nvim",
     event = "BufRead"
+  },
+  {
+    "ThePrimeagen/harpoon"
   }
 }
 
