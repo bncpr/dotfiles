@@ -29,7 +29,6 @@ vim.g.maplocalleader = ","
 vim.cmd([[
   vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 ]])
-vim.keymap.set("i", "<c-u>", "<esc>mmgUiw`ma")
 
 -- disable middle-mouse
 vim.cmd("noremap <MiddleMouse> <Nop>")
