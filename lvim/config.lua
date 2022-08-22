@@ -60,6 +60,8 @@ lvim.builtin.telescope.defaults.mappings = {
 }
 
 -- Use which-key to add extra bindings with the leader-key prefix
+lvim.builtin.which_key.mappings[";"] = nil
+lvim.builtin.which_key.mappings["c"] = nil
 lvim.builtin.which_key.mappings["d"] = { "yyp", "Double Line" }
 lvim.builtin.which_key.mappings["x"] = { ":x<cr>", "Save an Quite" }
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
@@ -67,8 +69,11 @@ lvim.builtin.which_key.mappings["Q"] = { ":qa!<cr>", "Quit All" }
 lvim.builtin.which_key.mappings["E"] = { "<cmd>NvimTreeFocus<cr>", "NvimTreeFocus" }
 
 lvim.builtin.which_key.mappings["s,"] = { "<cmd>Telescope resume<cr>", "Resume" }
-lvim.builtin.which_key.mappings["sp"] = { "<cmd>Telescope pickers<cr>", "Pickers" }
-lvim.builtin.which_key.mappings["sb"] = { "<cmd>Telescope buffers<cr>", "Buffers" }
+lvim.builtin.which_key.mappings.s.p = { "<cmd>Telescope pickers<cr>", "Pickers" }
+lvim.builtin.which_key.mappings.s.b = { "<cmd>Telescope buffers<cr>", "Buffers" }
+
+lvim.builtin.which_key.mappings["bp"] = { "<cmd>BufferLineTogglePin<cr>", "Pin" }
+lvim.builtin.which_key.mappings["bc"] = { "<cmd>BufferKill<cr>", "Close" }
 
 lvim.builtin.which_key.mappings["gf"] = { "<cmd>Gitsign setqflist<cr>", "Gitsign Hunks" }
 
@@ -509,7 +514,7 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("TermOpen", {
   pattern = "term://*",
   callback = function()
-    if not string.match(vim.api.nvim_buf_get_name(0), "lazygit") then
+    if not vim.api.nvim_buf_get_name(0):match("lazygit") then
       local opts = { noremap = true }
       vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)
       vim.api.nvim_buf_set_keymap(0, 't', '<C-h>', [[<C-\><C-n><C-W>h]], opts)
