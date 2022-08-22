@@ -26,9 +26,9 @@ vim.g.maplocalleader = ","
 -- override a default keymapping
 -- lvim.keys.normal_mode["<C-q>"] = ":q<cr>" -- or vim.keymap.set("n", "<C-q>", ":q<cr>" )
 -- lvim.keys.normal_mode["<leader>;"] = "mmA;<esc>`m"
-vim.cmd([[
-  vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
-]])
+lvim.keys.normal_mode["]g"] = "<cmd>Gitsign next_hunk<cr>"
+lvim.keys.normal_mode["[g"] = "<cmd>Gitsign prev_hunk<cr>"
+lvim.keys.visual_mode["//"] = [[y/\V<C-R>=escape(@",'/\')<CR><CR>]]
 
 -- disable middle-mouse
 vim.cmd("noremap <MiddleMouse> <Nop>")
@@ -70,6 +70,8 @@ lvim.builtin.which_key.mappings["s,"] = { "<cmd>Telescope resume<cr>", "Resume" 
 lvim.builtin.which_key.mappings["sp"] = { "<cmd>Telescope pickers<cr>", "Pickers" }
 lvim.builtin.which_key.mappings["sb"] = { "<cmd>Telescope buffers<cr>", "Buffers" }
 
+lvim.builtin.which_key.mappings["gf"] = { "<cmd>Gitsign setqflist<cr>", "Gitsign Hunks" }
+
 lvim.builtin.which_key.mappings["t"] = {
   name = "+Trouble",
   t = { "<cmd>Trouble<cr>", "Open" },
@@ -79,7 +81,6 @@ lvim.builtin.which_key.mappings["t"] = {
   q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
   l = { "<cmd>Trouble loclist<cr>", "LocationList" },
   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Wordspace Diagnostics" },
-  g = { "<cmd>Gitsign setqflist<cr>", "Gitsign Hunks" },
 }
 
 lvim.builtin.which_key.mappings["S"] = {
@@ -126,8 +127,10 @@ lvim.builtin.alpha.mode = "startify"
 lvim.builtin.notify.active = true
 lvim.builtin.nvimtree.setup.view.width = 40
 lvim.builtin.comment.mappings.extra = true
+
 lvim.builtin.terminal.active = true
 lvim.builtin.terminal.direction = "horizontal"
+lvim.builtin.terminal.execs[#lvim.builtin.terminal.execs+1] = {"gdb", "<leader>tg", "GNU Debugger"}
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.active = true
@@ -144,8 +147,6 @@ lvim.builtin.treesitter.ensure_installed = {
 lvim.builtin.treesitter.highlight.enabled = true
 lvim.builtin.treesitter.rainbow.enable = true
 lvim.builtin.treesitter.matchup.enable = true
-
--- generic LSP settings
 
 ---@usage disable automatic installation of servers
 lvim.lsp.automatic_servers_installation = true
