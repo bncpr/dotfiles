@@ -135,7 +135,8 @@ lvim.builtin.comment.mappings.extra = true
 
 lvim.builtin.terminal.active = true
 lvim.builtin.terminal.direction = "horizontal"
-lvim.builtin.terminal.execs[#lvim.builtin.terminal.execs + 1] = { "gdb", "<leader>tg", "GNU Debugger" }
+lvim.builtin.terminal.persist_size = true
+lvim.builtin.terminal.execs[#lvim.builtin.terminal.execs + 1] = { "htop", "<leader>th", "htop", "float" }
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.active = true
@@ -514,9 +515,10 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("TermOpen", {
   pattern = "term://*",
   callback = function()
-    if not vim.api.nvim_buf_get_name(0):match("lazygit") then
+    local name = vim.api.nvim_buf_get_name(0)
+    if not name:match "lazygit" then
       local opts = { noremap = true }
-      vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)
+      -- vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)
       vim.api.nvim_buf_set_keymap(0, 't', '<C-h>', [[<C-\><C-n><C-W>h]], opts)
       vim.api.nvim_buf_set_keymap(0, 't', '<C-j>', [[<C-\><C-n><C-W>j]], opts)
       vim.api.nvim_buf_set_keymap(0, 't', '<C-k>', [[<C-\><C-n><C-W>k]], opts)
