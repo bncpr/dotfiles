@@ -77,17 +77,6 @@ lvim.builtin.which_key.mappings["bc"] = { "<cmd>BufferKill<cr>", "Close" }
 
 lvim.builtin.which_key.mappings["gf"] = { "<cmd>Gitsign setqflist<cr>", "Gitsign Hunks" }
 
-lvim.builtin.which_key.mappings["t"] = {
-  name = "+Trouble",
-  t = { "<cmd>Trouble<cr>", "Open" },
-  r = { "<cmd>Trouble lsp_references<cr>", "References" },
-  f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
-  d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnostics" },
-  q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
-  l = { "<cmd>Trouble loclist<cr>", "LocationList" },
-  w = { "<cmd>Trouble workspace_diagnostics<cr>", "Wordspace Diagnostics" },
-}
-
 lvim.builtin.which_key.mappings["S"] = {
   name = "+Session",
   c = { "<cmd>lua require('persistence').load()<cr>", "Restore last session for current dir" },
@@ -137,6 +126,28 @@ lvim.builtin.terminal.active = true
 lvim.builtin.terminal.direction = "horizontal"
 lvim.builtin.terminal.persist_size = true
 lvim.builtin.terminal.execs[#lvim.builtin.terminal.execs + 1] = { "htop", "<leader>th", "htop", "float" }
+
+lvim.builtin.which_key.mappings["t"] = {
+  name = "+Terminal",
+  b = { "<cmd>TermExec cmd='pyborrow.py' direction=horizontal size=35 go_back=0<cr>", "PyBorrow" },
+  c = { "<cmd>ToggleTermSendCurrentLine<cr>", "Send Current Line" },
+  a = { "<cmd>ToggleTermToggleAll<cr>", "Toggle All" },
+}
+lvim.builtin.which_key.vmappings["t"] = {
+  name = "+Terminal",
+  v = { ":ToggleTermSendVisualSelection<cr>", "Send visually selected text" },
+}
+
+vim.api.nvim_create_autocmd("TermOpen", {
+  pattern = "term://*",
+  callback = function()
+    local name = vim.api.nvim_buf_get_name(0)
+    if not name:match "lazygit" and not name:match "htop" then
+      local opts = { noremap = true }
+      vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)
+    end
+  end
+})
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.active = true
@@ -510,19 +521,4 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.cmd("command! Darker :!darker %")
     vim.cmd("command! Black :!black % --preview")
   end,
-})
-
-vim.api.nvim_create_autocmd("TermOpen", {
-  pattern = "term://*",
-  callback = function()
-    local name = vim.api.nvim_buf_get_name(0)
-    if not name:match "lazygit" then
-      local opts = { noremap = true }
-      -- vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)
-      vim.api.nvim_buf_set_keymap(0, 't', '<C-h>', [[<C-\><C-n><C-W>h]], opts)
-      vim.api.nvim_buf_set_keymap(0, 't', '<C-j>', [[<C-\><C-n><C-W>j]], opts)
-      vim.api.nvim_buf_set_keymap(0, 't', '<C-k>', [[<C-\><C-n><C-W>k]], opts)
-      vim.api.nvim_buf_set_keymap(0, 't', '<C-l>', [[<C-\><C-n><C-W>l]], opts)
-    end
-  end
 })
