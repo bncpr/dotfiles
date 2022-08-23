@@ -472,20 +472,6 @@ lvim.plugins = {
     end
   },
   {
-    "metakirby5/codi.vim",
-    cmd = { "Codi", "CodiNew" },
-    config = function()
-      vim.cmd([[
-       let g:codi#interpreters = {
-             \ 'python': {
-                 \ 'bin': 'python3',
-                 \ 'prompt': '^\(>>>\|\.\.\.\) ',
-                 \ },
-             \ }
-      ]])
-    end
-  },
-  {
     "ThePrimeagen/refactoring.nvim",
     event = "BufRead"
   },
