@@ -1,13 +1,3 @@
---[[
-lvim is the global options object
-
-Linters should be
-filled in as strings with either
-a global executable or a path to
-an executable
-]]
--- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
-
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = false
@@ -25,7 +15,6 @@ vim.g.maplocalleader = ","
 -- vim.keymap.del("n", "<C-Up>")
 -- override a default keymapping
 -- lvim.keys.normal_mode["<C-q>"] = ":q<cr>" -- or vim.keymap.set("n", "<C-q>", ":q<cr>" )
--- lvim.keys.normal_mode["<leader>;"] = "mmA;<esc>`m"
 lvim.keys.normal_mode["]g"] = "<cmd>Gitsign next_hunk<cr>"
 lvim.keys.normal_mode["[g"] = "<cmd>Gitsign prev_hunk<cr>"
 lvim.keys.normal_mode["gR"] = ":Trouble lsp_references<cr>"
@@ -125,7 +114,6 @@ lvim.builtin.telescope.on_config_done = function(telescope)
   pcall(telescope.load_extension, "harpoon")
 end
 
--- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "startify"
@@ -166,7 +154,6 @@ lvim.builtin.treesitter.ensure_installed = {
   "bash",
   "c",
   "cpp",
-  "json",
   "lua",
   "python",
 }
@@ -193,11 +180,10 @@ local clangd_flags = {
   "--completion-style=detailed",
   "--enable-config", -- clangd 11+ supports reading from .clangd configuration file
   "--clang-tidy",
-  -- "--fallback-style=Google",
   "--query-driver=/home/linuxbrew/.linuxbrew/Cellar/gcc/11.3.0_2",
+  "--clang-tidy-checks=-*,llvm-*,clang-analyzer-*,modernize-*,-modernize-use-trailing-return-type",
+  -- "--fallback-style=Google",
   -- "--compile-commands-dir=build",
-  -- "--clang-tidy-checks=-*,llvm-*,clang-analyzer-*,modernize-*,-modernize-use-trailing-return-type",
-  -- "--header-insertion=never",
 }
 
 local clangd_bin = "clangd"
@@ -243,9 +229,6 @@ local pyls_opts = {
         black = {
           enabled = true
         }
-        -- pylint = {
-        --   enabled = true
-        -- }
       }
     }
   }
@@ -288,11 +271,6 @@ formatters.setup {
 -- set additional linters
 local linters = require "lvim.lsp.null-ls.linters"
 linters.setup {
-  -- {
-  --   command = "flake8",
-  --   filetypes = { "python" },
-  --   extra_args = { "--ignore", "E203,E503" }
-  -- },
   { command = "protolint" },
   {
     -- each linter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
