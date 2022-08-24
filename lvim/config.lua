@@ -28,6 +28,7 @@ vim.g.maplocalleader = ","
 -- lvim.keys.normal_mode["<leader>;"] = "mmA;<esc>`m"
 lvim.keys.normal_mode["]g"] = "<cmd>Gitsign next_hunk<cr>"
 lvim.keys.normal_mode["[g"] = "<cmd>Gitsign prev_hunk<cr>"
+lvim.keys.normal_mode["gR"] = ":Trouble lsp_references<cr>"
 lvim.keys.visual_mode["//"] = [[y/\V<C-R>=escape(@",'/\')<CR><CR>]]
 
 -- disable middle-mouse
@@ -63,7 +64,6 @@ lvim.builtin.telescope.defaults.mappings = {
 lvim.builtin.which_key.mappings[";"] = nil
 lvim.builtin.which_key.mappings["c"] = nil
 lvim.builtin.which_key.mappings["d"] = { "yyp", "Double Line" }
-lvim.builtin.which_key.mappings["x"] = { ":x<cr>", "Save an Quite" }
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 lvim.builtin.which_key.mappings["Q"] = { ":qa!<cr>", "Quit All" }
 lvim.builtin.which_key.mappings["E"] = { "<cmd>NvimTreeFocus<cr>", "NvimTreeFocus" }
@@ -98,6 +98,17 @@ lvim.builtin.which_key.mappings["r"] = {
   p = { ":lua require('refactoring').debug.printf({below = true})<CR>", "printf" },
   v = { ":lua require('refactoring').debug.print_var({normal = true})<CR>", "print variable" },
   c = { ":lua require('refactoring').debug.cleanup({})<CR>", "cleanup" },
+}
+
+lvim.builtin.which_key.mappings["x"] = {
+  name = "+Trouble",
+  x = { "<cmd>TroubleToggle<cr>", "Trouble" },
+  w = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "Workspace" },
+  d = { "<cmd>TroubleToggle document_diagnostics<cr>", "Document" },
+  q = { "<cmd>TroubleToggle quickfix<cr>", "Quickfix" },
+  l = { "<cmd>TroubleToggle loclist<cr>", "Location" },
+  n = { "<cmd>lua require('trouble').next({skip_groups = true, jump = true})<cr>", "Next" },
+  p = { "<cmd>lua require('trouble').previous({skip_groups = true, jump = true})<cr>", "Previous" },
 }
 
 lvim.builtin.which_key.vmappings["s"] = { ":!sort<cr>", "Sort" }
