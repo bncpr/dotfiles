@@ -68,8 +68,8 @@ lvim.builtin.which_key.mappings["gf"] = { "<cmd>Gitsign setqflist<cr>", "Gitsign
 
 lvim.builtin.which_key.mappings["S"] = {
   name = "+Session",
+  S = { "<cmd>lua require('persistence').load({ last = true })<cr>", "Restore last session" },
   c = { "<cmd>lua require('persistence').load()<cr>", "Restore last session for current dir" },
-  l = { "<cmd>lua require('persistence').load({ last = true })<cr>", "Restore last session" },
   Q = { "<cmd>lua require('persistence').stop()<cr>", "Quit without saving session" },
 }
 
