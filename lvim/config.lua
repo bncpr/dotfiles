@@ -51,7 +51,7 @@ lvim.builtin.telescope.defaults.mappings = {
 
 -- Use which-key to add extra bindings with the leader-key prefix
 lvim.builtin.which_key.mappings[";"] = nil
-lvim.builtin.which_key.mappings["c"] = nil
+lvim.builtin.which_key.mappings["c"] = { ":Telescope cder<cr>", "cd"}
 lvim.builtin.which_key.mappings["d"] = { "yyp", "Double Line" }
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 lvim.builtin.which_key.mappings["Q"] = { ":qa!<cr>", "Quit All" }
@@ -112,6 +112,7 @@ lvim.builtin.which_key.vmappings["r"] = {
 lvim.builtin.telescope.on_config_done = function(telescope)
   pcall(telescope.load_extension, "refactoring")
   pcall(telescope.load_extension, "harpoon")
+  pcall(telescope.load_extension, "cder")
 end
 
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
@@ -417,7 +418,7 @@ lvim.plugins = {
     setup = function()
       vim.g.indentLine_enabled = 1
       vim.g.indent_blankline_char = "▏"
-      vim.g.indent_blankline_filetype_exclude = { "help", "terminal", "dashboard" }
+      vim.g.indent_blankline_filetype_exclude = { "help", "terminal", "dashboard", "alpha", "startify" }
       vim.g.indent_blankline_buftype_exclude = { "terminal" }
       vim.g.indent_blankline_show_trailing_blankline_indent = false
       vim.g.indent_blankline_show_first_indent_level = false
@@ -465,8 +466,13 @@ lvim.plugins = {
     event = "BufRead"
   },
   {
-    "ThePrimeagen/harpoon"
-  }
+    "ThePrimeagen/harpoon",
+    event = "BufEnter"
+  },
+  {
+    "zane-/cder.nvim",
+    event = "BufEnter"
+  },
 }
 
 -- Autocommands (https://eovim.io/doc/user/autocmd.html)
