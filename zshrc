@@ -113,8 +113,7 @@ if [[ $USER = "dn" ]]; then
   source ~/cheetah/env/linux/defenv.zsh
   export PS1="%F{magenta}$PROD ${ps1}"
   if [[ -z $TMUX ]]; then
-    tmux has-session -t dvm
-    if [[ $? != 0 ]]; then
+    if ! tmux has-session -t dvm; then
       tmux new-session -s dvm -n editor -d
       tmux send-keys -t dvm "lvim" C-m
       tmux new-window -n console -t dvm
