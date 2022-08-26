@@ -253,10 +253,11 @@ require("lvim.lsp.manager").setup("pylsp", pyls_opts)
 --   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 -- end
 
--- -- set a formatter, this will override the language server formatting capabilities (if it exists)
+-- set a formatter, this will override the language server formatting capabilities (if it exists)
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
-  { command = "clang-format", filetypes = { "proto" }, extra_args = { "--style=Google" } }
+  { command = "clang-format", filetypes = { "proto" }, extra_args = { "--style=Google" } },
+  { command = "beautysh", extra_args = { "-i", "2" } },
   -- { command = "black", filetypes = { "python" } },
   --   {
   --     -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
