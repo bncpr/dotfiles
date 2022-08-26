@@ -51,7 +51,7 @@ lvim.builtin.telescope.defaults.mappings = {
 
 -- Use which-key to add extra bindings with the leader-key prefix
 lvim.builtin.which_key.mappings[";"] = nil
-lvim.builtin.which_key.mappings["c"] = { ":Telescope cder<cr>", "cd"}
+lvim.builtin.which_key.mappings["c"] = { ":Telescope cder<cr>", "cd" }
 lvim.builtin.which_key.mappings["d"] = { "yyp", "Double Line" }
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 lvim.builtin.which_key.mappings["Q"] = { ":qa!<cr>", "Quit All" }
@@ -494,6 +494,11 @@ vim.api.nvim_create_autocmd("FileType", {
     -- let treesitter use bash highlight for zsh files as well
     require("nvim-treesitter.highlight").attach(0, "bash")
   end,
+})
+
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = "*.conf",
+  command = "setlocal filetype=tmux"
 })
 
 vim.api.nvim_create_autocmd("FileType", {
