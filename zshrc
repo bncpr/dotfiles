@@ -103,13 +103,23 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+source ~/.profile
+source ~/.aliases
+
 if [[ $USER = "dn" ]]; then
   export ps1=$PS1
   cd /home/dn/cheetah/env/linux/
   source defenv wbox
   source ~/cheetah/env/linux/defenv.zsh
   export PS1="%F{magenta}$PROD ${ps1}"
+  if [[ -z $TMUX ]]; then
+    tmux has-session -t dvm
+    if [[ $? != 0 ]]; then
+      tmux new-session -s dvm -n editor -d
+      tmux send-keys -t dvm "lvim" C-m
+      tmux new-window -n console -t dvm
+      tmux select-window -t dvm:1
+    fi
+    tmux attach -t dvm
+  fi
 fi
-
-source ~/.profile
-source ~/.aliases
