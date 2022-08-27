@@ -474,6 +474,18 @@ lvim.plugins = {
     "zane-/cder.nvim",
     event = "BufEnter"
   },
+  {
+    "christoomey/vim-tmux-navigator",
+    config = function()
+      local opts = { noremap = true }
+      vim.g.tmux_navigator_no_mappings = 1
+      vim.api.nvim_set_keymap("n", "<c-l>", "<cmd>TmuxNavigateLeft<cr>", opts)
+      vim.api.nvim_set_keymap("n", "<c-h>", "<cmd>TmuxNavigateRight<cr>", opts)
+      vim.api.nvim_set_keymap("n", "<c-j>", "<cmd>TmuxNavigateDown<cr>", opts)
+      vim.api.nvim_set_keymap("n", "<c-k>", "<cmd>TmuxNavigateUp<cr>", opts)
+      vim.api.nvim_set_keymap("n", "<c-/>", "<cmd>TmuxNavigatePrevious<cr>", opts)
+    end
+  }
 }
 
 -- Autocommands (https://eovim.io/doc/user/autocmd.html)
