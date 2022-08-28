@@ -1,23 +1,18 @@
-export MYVIMRC="$HOME/.vim/vimrc"
-
 alias dvm="ssh dn@bcooper-dev"
 alias tdvm="ssh -t dn@bcooper-dev '/home/linuxbrew/.linuxbrew/bin/tmux -CC new -A -s main'"
-alias rcc="fd -I compile_commands.json -X rm -rf"
 
 # Send files (modified files in git) from this host to a server
 server-sync () {
-        git ls-files --modified | xargs -I{} scp -P $2 {} dn@"$1":/home/dn/cheetah/{}
+  git ls-files --modified | xargs -I{} scp -P $2 {} dn@"$1":/home/dn/cheetah/{}
 }
-
-alias super-clean='clear_containers; sudo git clean -xdf; git reset --hard; git fetch -p; delete_gone_branches; git gc --prune=now; git remote prune origin; docker system prune -a; '
-
-alias fps='PS1="${PROD} ${ps1}"'
 
 alias rm="rm -i"
 alias kila=killall
 
 alias udf="git -C ~/dotfiles pull"
 alias gcam="git commit -am"
+alias gcm="git commit -m"
 alias gcv="git commit -v"
+alias lg="lazygit"
 
 alias cgdb="cgdb -ex 'set style enabled off'"
