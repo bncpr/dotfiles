@@ -121,4 +121,8 @@ if [[ $USER = "dn" ]]; then
     fi
     tmux attach -t dvm
   fi
+
+  alias rcc="fd -I compile_commands.json -X rm -rf"
+  alias super-clean='clear_containers; sudo git clean -xdf; git reset --hard; git fetch -p; delete_gone_branches; git gc --prune=now; git remote prune origin; docker system prune -a; '
+  alias fps='PS1="${PROD} ${ps1}"'
 fi

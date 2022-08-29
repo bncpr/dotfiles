@@ -496,7 +496,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
 })
 
 vim.api.nvim_create_autocmd("BufEnter", {
-  pattern = ".aliases",
+  pattern = ".\\=aliases",
   -- enable wrap mode for json files only
   command = "setlocal filetype=zsh",
 })
