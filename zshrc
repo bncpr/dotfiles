@@ -125,4 +125,9 @@ if [[ $USER = "dn" ]]; then
   alias rcc="fd -I compile_commands.json -X rm -rf"
   alias super-clean='clear_containers; sudo git clean -xdf; git reset --hard; git fetch -p; delete_gone_branches; git gc --prune=now; git remote prune origin; docker system prune -a; '
   alias fps='PS1="${PROD} ${ps1}"'
+  set-pyborrow ()
+  {
+    echo $1 > ~/borrowed_wbox
+  }
+  alias wbc="wbox_connect"
 fi
