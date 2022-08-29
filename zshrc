@@ -9,7 +9,6 @@ export ZSH="$HOME/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="eastwood"
-[[ $USER = "dn" ]] && ZSH_THEME="robbyrussell"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -107,27 +106,5 @@ source ~/.profile
 source ~/.aliases
 
 if [[ $USER = "dn" ]]; then
-  export ps1=$PS1
-  cd /home/dn/cheetah/env/linux/
-  source defenv wbox
-  source ~/cheetah/env/linux/defenv.zsh
-  export PS1="%F{magenta}$PROD ${ps1}"
-  if [[ -z $TMUX ]]; then
-    if ! tmux has-session -t dvm; then
-      tmux new-session -s dvm -n editor -d
-      tmux send-keys -t dvm "lvim" C-m
-      tmux new-window -n console -t dvm
-      tmux select-window -t dvm:1
-    fi
-    tmux attach -t dvm
-  fi
-
-  alias rcc="fd -I compile_commands.json -X rm -rf"
-  alias super-clean='clear_containers; sudo git clean -xdf; git reset --hard; git fetch -p; delete_gone_branches; git gc --prune=now; git remote prune origin; docker system prune -a; '
-  alias fps='PS1="${PROD} ${ps1}"'
-  set-pyborrow ()
-  {
-    echo $1 > ~/borrowed_wbox
-  }
-  alias wbc="wbox_connect"
+  source ~/dotfiles/dvmrc.sh
 fi
