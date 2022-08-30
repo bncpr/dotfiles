@@ -24,7 +24,7 @@ super-clean()
 
 set-pyborrow ()
 {
-  echo $1 > ~/borrowed_wbox
+  echo "$1" > ~/borrowed_wbox
 }
 
 if [[ -z $TMUX ]]; then
