@@ -6,6 +6,7 @@ server-sync () {
   git ls-files --modified | xargs -I{} scp -P $2 {} dn@"$1":/home/dn/cheetah/{}
 }
 
+alias cl=clear
 alias rm="rm -i"
 alias kila=killall
 
@@ -16,3 +17,5 @@ alias gcv="git commit -v"
 alias lg="lazygit"
 
 alias cgdb="cgdb -ex 'set style enabled off'"
+
+alias tpm-clean="~/.tmux/plugins/tpm/bin/clean_plugins"
