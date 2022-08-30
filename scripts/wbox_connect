@@ -10,11 +10,11 @@ if [[ -n $wbox ]]; then
   session_name="wbox-$wbox"
   if ! tmux has-session -t "$session_name"; then
     tmux new-session -s "$session_name" -n console -d "ssh $wbox -p 2222"
-    tmux send-keys -t "$session_name":console "clear" C-m
+    # tmux send-keys -t "$session_name":console "clear" C-m
     tmux split-window -h -t "$session_name" "ssh $wbox -p 2222"
-    tmux send-keys -t "$session_name":console "clear" C-m
+    # tmux send-keys -t "$session_name":console "clear" C-m
     tmux split-window -v -t "$session_name" "ssh $wbox -p 2222"
-    tmux send-keys -t "$session_name":console "clear" C-m 
+    # tmux send-keys -t "$session_name":console "clear" C-m 
     tmux select-pane -t "$session_name":1.1
   fi
   tmux switch -t "$session_name"
