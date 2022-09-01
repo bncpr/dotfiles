@@ -33,6 +33,7 @@ if [[ -z $TMUX ]]; then
     tmux send-keys -t dvm "lvim" C-m
     tmux new-window -n console -t dvm
     tmux select-window -t dvm:1
+    tmux bind-key b send-keys -t console "dbuild make -i wb_builder wbox" C-m
   fi
   tmux attach -t dvm
 fi

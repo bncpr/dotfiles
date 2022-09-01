@@ -1,0 +1,9 @@
+#!/bin/bash
+
+[[ -z $TMUX ]] && exit 1
+
+wbox=$(cat ~/borrowed_wbox)
+
+[[ -z $wbox ]] && exit 1
+
+tmux new-window -n wbox "ssh $wbox -p 2222"
