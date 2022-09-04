@@ -27,8 +27,17 @@ set-pyborrow ()
   echo "$1" > ~/borrowed_wbox
 }
 
+wbox-sync ()
+{
+  git ls-files --modified | xargs -I{} scp -P 2222 {} dn@"$(cat ~/borrowed_wbox)":/home/dn/cheetah/{}
+}
+
 source ~/.profile
 source ~/.aliases
+
+tmux bind-key C-w switch-client -Twbox
+tmux bind-key -Twbox b send-keys -t wbox "dbuild make -i wb_builder wbox" C-m
+tmux bind-key b send-keys -t console "dbuild make -i wb_builder wbox" C-m
 
 if [[ -z $TMUX ]]; then
   if ! tmux has-session -t dvm; then
@@ -36,7 +45,6 @@ if [[ -z $TMUX ]]; then
     tmux send-keys -t dvm "lvim" C-m
     tmux new-window -n console -t dvm
     tmux select-window -t dvm:1
-    tmux bind-key b send-keys -t console "dbuild make -i wb_builder wbox" C-m
   fi
   tmux attach -t dvm
 fi
