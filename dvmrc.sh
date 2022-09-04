@@ -27,6 +27,9 @@ set-pyborrow ()
   echo "$1" > ~/borrowed_wbox
 }
 
+source ~/.profile
+source ~/.aliases
+
 if [[ -z $TMUX ]]; then
   if ! tmux has-session -t dvm; then
     tmux new-session -s dvm -n editor -d

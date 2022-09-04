@@ -102,9 +102,9 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-source ~/.profile
-source ~/.aliases
-
 if [[ $USER = "dn" ]]; then
   source ~/dotfiles/dvmrc.sh
 fi
+
+source ~/.profile
+source ~/.aliases
