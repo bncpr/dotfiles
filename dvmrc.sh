@@ -1,3 +1,6 @@
+# shellcheck shell=bash
+# shellcheck disable=SC2034,SC2164,SC1090,SC1091
+# shellcheck source-path=/home/dn/
 ZSH_THEME="robbyrussell"
 
 export ps1=$PS1
@@ -37,6 +40,9 @@ source ~/.aliases
 
 tmux bind-key C-w switch-client -Twbox
 tmux bind-key -Twbox b send-keys -t wbox "dbuild make -i wb_builder wbox" C-m
+tmux bind-key -Twbox c run wbox_pane_connect
+tmux bind-key -Twbox l run wbox_split_logs
+
 tmux bind-key b send-keys -t console "dbuild make -i wb_builder wbox" C-m
 
 if [[ -z $TMUX ]]; then

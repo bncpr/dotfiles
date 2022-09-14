@@ -1,0 +1,10 @@
+#!/bin/zsh
+
+[[ -z $TMUX ]] && exit 1
+
+wbox=$(cat ~/borrowed_wbox)
+
+[[ -z $wbox ]] && exit 1
+
+tmux split-window -h -t wbox "ssh $wbox -p 2222"
+tmux send-keys -t wbox.2 "logs" C-m "tail -f wb_agent" C-m
