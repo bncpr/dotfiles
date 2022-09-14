@@ -39,6 +39,7 @@ source ~/.profile
 source ~/.aliases
 
 tmux bind-key C-w switch-client -Twbox
+tmux bind-key -Twbox w select-window -t wbox
 tmux bind-key -Twbox b send-keys -t wbox "dbuild make -i wb_builder wbox" C-m
 tmux bind-key -Twbox c run wbox_pane_connect
 tmux bind-key -Twbox l run wbox_split_logs
