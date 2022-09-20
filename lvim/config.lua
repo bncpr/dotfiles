@@ -215,7 +215,7 @@ local pyls_opts = {
           }
         },
         pycodestyle = {
-          ignore = { "E501", "W503" }
+          ignore = { "E501", "W503", "E266" }
         },
         pydocstyle = {
           enabled = false,
@@ -519,5 +519,7 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     vim.cmd("command! Darker :!darker %")
     vim.cmd("command! Black :!black % --preview")
+    vim.cmd("command! Isort :!isort % --profile black")
+    vim.cmd("command! Autoflake :!autoflake % --in-place --remove-unused-variables")
   end,
 })
