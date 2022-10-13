@@ -1,0 +1,7 @@
+#!/bin/zsh
+
+[[ -z $TMUX ]] && exit 1
+
+tmux split-window -h -t console
+tmux send-keys -t console.2 "docker-enter mgmt_datapath1_1" C-m \
+  "traces; clear; tail -f $1" C-m
