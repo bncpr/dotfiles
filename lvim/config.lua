@@ -17,6 +17,8 @@ vim.g.maplocalleader = ","
 -- lvim.keys.normal_mode["<C-q>"] = ":q<cr>" -- or vim.keymap.set("n", "<C-q>", ":q<cr>" )
 lvim.keys.normal_mode["]g"] = "<cmd>Gitsign next_hunk<cr>"
 lvim.keys.normal_mode["[g"] = "<cmd>Gitsign prev_hunk<cr>"
+lvim.keys.normal_mode["]b"] = "<cmd>BufferLineCycleNext<cr>"
+lvim.keys.normal_mode["[b"] = "<cmd>BufferLineCyclePrev<cr>"
 lvim.keys.normal_mode["gR"] = ":Trouble lsp_references<cr>"
 lvim.keys.visual_mode["//"] = [[y/\V<C-R>=escape(@",'/\')<CR><CR>]]
 
@@ -165,7 +167,7 @@ lvim.builtin.treesitter.rainbow.enable = true
 lvim.builtin.treesitter.matchup.enable = true
 
 ---@usage disable automatic installation of servers
-lvim.lsp.automatic_servers_installation = true
+lvim.lsp.automatic_installation = true
 lvim.lsp.null_ls.setup = { debug = true, log = { level = "trace" } }
 
 -- ---configure a server manually. !!Requires `:LvimCacheReset` to take effect!!
@@ -198,6 +200,7 @@ end
 local clangd_opts = {
   cmd = { clangd_bin, unpack(clangd_flags) },
   on_attach = custom_clangd_on_attach,
+  filetypes = { "c", "cpp" },
 }
 require("lvim.lsp.manager").setup("clangd", clangd_opts)
 
@@ -215,7 +218,7 @@ local pyls_opts = {
           }
         },
         pycodestyle = {
-          ignore = { "E501", "W503", "E266" }
+          ignore = { "E501", "W503" }
         },
         pydocstyle = {
           enabled = false,
@@ -257,6 +260,7 @@ require("lvim.lsp.manager").setup("pylsp", pyls_opts)
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
   { command = "clang-format", filetypes = { "proto" }, extra_args = { "--style=Google" } },
+  { command = "clang-format", filetypes = { "yang" } },
   { command = "beautysh", extra_args = { "-i", "2" } },
   -- { command = "black", filetypes = { "python" } },
   --   {
@@ -485,6 +489,9 @@ lvim.plugins = {
       vim.api.nvim_set_keymap("n", "<c-k>", "<cmd>TmuxNavigateUp<cr>", opts)
       vim.api.nvim_set_keymap("n", "<c-/>", "<cmd>TmuxNavigatePrevious<cr>", opts)
     end
+  },
+  {
+    "nathanalderson/yang.vim"
   }
 }
 
