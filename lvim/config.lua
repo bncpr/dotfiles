@@ -1,7 +1,7 @@
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = false
-lvim.colorscheme = "onedarker"
+lvim.colorscheme = "tokyonight"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -120,9 +120,9 @@ end
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "startify"
-lvim.builtin.notify.active = true
+lvim.builtin.notify.active = false
 lvim.builtin.nvimtree.setup.view.width = 40
-lvim.builtin.comment.mappings.extra = true
+-- lvim.builtin.comment.mappings.extra = true
 
 lvim.builtin.terminal.active = true
 lvim.builtin.terminal.direction = "horizontal"
@@ -433,11 +433,11 @@ lvim.plugins = {
     "wellle/targets.vim",
     event = "BufRead"
   },
-  -- {
-  --   "heavenshell/vim-pydocstring",
-  --   run = "make install",
-  --   ft = "python"
-  -- }
+  {
+    "heavenshell/vim-pydocstring",
+    run = "make install",
+    ft = "python"
+  },
   {
     "andymass/vim-matchup",
     event = "CursorMoved",
