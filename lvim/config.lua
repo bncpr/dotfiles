@@ -262,7 +262,7 @@ local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
   { command = "clang-format", filetypes = { "proto" }, extra_args = { "--style=Google" } },
   { command = "clang-format", filetypes = { "yang" } },
-  { command = "beautysh", extra_args = { "-i", "2" } },
+  -- { command = "beautysh", extra_args = { "-i", "2" } },
   -- { command = "black", filetypes = { "python" } },
   --   {
   --     -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
@@ -316,6 +316,21 @@ lvim.plugins = {
     keys = { "s", "S" },
     config = function()
       require('leap').set_default_keymaps()
+    end
+  },
+  {
+    "ggandor/flit.nvim",
+    after = "leap.nvim",
+    config = function()
+      require('flit').setup {
+        keys = { f = 'f', F = 'F', t = 't', T = 'T' },
+        -- A string like "nv", "nvo", "o", etc.
+        labeled_modes = "nvo",
+        multiline = true,
+        -- Like `leap`s similar argument (call-specific overrides).
+        -- E.g.: opts = { equivalence_classes = {} }
+        opts = {}
+      }
     end
   },
   {
@@ -537,14 +552,23 @@ lvim.plugins = {
       vim.api.nvim_command "colorscheme catppuccin"
     end
   },
+  -- {
+  --   'j-hui/fidget.nvim',
+  --   config = function()
+  --     require("fidget").setup({
+  --       window = {
+  --         blend = 0,
+  --       }
+  --     })
+  --   end
+  -- },
   {
-    'j-hui/fidget.nvim',
+    "vigoux/notifier.nvim",
+    event = "BufRead",
     config = function()
-      require("fidget").setup({
-        window = {
-          blend = 0,
-        }
-      })
+      require 'notifier'.setup {
+        -- You configuration here
+      }
     end
   }
 }
