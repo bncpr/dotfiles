@@ -17,8 +17,10 @@ vim.g.maplocalleader = ","
 -- lvim.keys.normal_mode["<C-q>"] = ":q<cr>" -- or vim.keymap.set("n", "<C-q>", ":q<cr>" )
 lvim.keys.normal_mode["]g"] = "<cmd>Gitsign next_hunk<cr>"
 lvim.keys.normal_mode["[g"] = "<cmd>Gitsign prev_hunk<cr>"
-lvim.keys.normal_mode["]b"] = "<cmd>BufferLineCycleNext<cr>"
-lvim.keys.normal_mode["[b"] = "<cmd>BufferLineCyclePrev<cr>"
+lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
+lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
+-- lvim.keys.normal_mode["]b"] = "<cmd>BufferLineCycleNext<cr>"
+-- lvim.keys.normal_mode["[b"] = "<cmd>BufferLineCyclePrev<cr>"
 lvim.keys.normal_mode["gR"] = ":Trouble lsp_references<cr>"
 lvim.keys.visual_mode["//"] = [[y/\V<C-R>=escape(@",'/\')<CR><CR>]]
 
@@ -119,10 +121,10 @@ end
 
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = true
-lvim.builtin.alpha.mode = "startify"
-lvim.builtin.notify.active = false
+-- lvim.builtin.alpha.mode = "startify"
 lvim.builtin.nvimtree.setup.view.width = 40
 lvim.builtin.lualine.options.theme = "catppuccin"
+-- lvim.builtin.lualine.options.globalstatus = true
 -- lvim.builtin.comment.mappings.extra = true
 
 lvim.builtin.terminal.active = true
@@ -160,6 +162,7 @@ lvim.builtin.treesitter.ensure_installed = {
   "cpp",
   "lua",
   "python",
+  "yaml",
 }
 
 -- lvim.builtin.treesitter.ignore_install = { "haskell" }
@@ -169,7 +172,7 @@ lvim.builtin.treesitter.matchup.enable = true
 
 ---@usage disable automatic installation of servers
 lvim.lsp.automatic_installation = true
-lvim.lsp.null_ls.setup = { debug = true, log = { level = "trace" } }
+-- lvim.lsp.null_ls.setup = { debug = true, log = { level = "trace" } }
 
 -- ---configure a server manually. !!Requires `:LvimCacheReset` to take effect!!
 -- ---see the full default list `:lua print(vim.inspect(lvim.lsp.automatic_configuration.skipped_servers))`
@@ -289,7 +292,7 @@ linters.setup {
   {
     command = "codespell",
     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
-    -- filetypes = { "javascript", "python" },
+    filetypes = { "javascript", "python" },
   },
 }
 
@@ -306,7 +309,7 @@ lvim.plugins = {
     end
   },
   { "tpope/vim-repeat" },
-  { "folke/tokyonight.nvim" },
+  -- { "folke/tokyonight.nvim" },
   {
     "folke/trouble.nvim",
   },
@@ -431,18 +434,6 @@ lvim.plugins = {
           },
         },
       }
-    end
-  },
-  {
-    "lukas-reineke/indent-blankline.nvim",
-    event = "BufRead",
-    setup = function()
-      vim.g.indentLine_enabled = 1
-      vim.g.indent_blankline_char = "▏"
-      vim.g.indent_blankline_filetype_exclude = { "help", "terminal", "dashboard", "alpha", "startify" }
-      vim.g.indent_blankline_buftype_exclude = { "terminal" }
-      vim.g.indent_blankline_show_trailing_blankline_indent = false
-      vim.g.indent_blankline_show_first_indent_level = false
     end
   },
   {
