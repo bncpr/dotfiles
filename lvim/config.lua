@@ -52,18 +52,19 @@ lvim.builtin.telescope.defaults.mappings = {
     ["<C-k>"] = actions.move_selection_previous,
   },
 }
+-- lvim.builtin.telescope.defaults.path_display = { "truncate" }
+-- lvim.builtin.telescope.defaults.path_display.shorten = 3
 
 -- Use which-key to add extra bindings with the leader-key prefix
 lvim.builtin.which_key.mappings[";"] = nil
 lvim.builtin.which_key.mappings["c"] = { ":Telescope cder<cr>", "cd" }
-lvim.builtin.which_key.mappings["d"] = { "yyp", "Double Line" }
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 lvim.builtin.which_key.mappings["Q"] = { ":qa!<cr>", "Quit All" }
 lvim.builtin.which_key.mappings["E"] = { "<cmd>NvimTreeFocus<cr>", "NvimTreeFocus" }
 
 lvim.builtin.which_key.mappings["s,"] = { "<cmd>Telescope resume<cr>", "Resume" }
-lvim.builtin.which_key.mappings.s.p = { "<cmd>Telescope pickers<cr>", "Pickers" }
-lvim.builtin.which_key.mappings.s.b = { "<cmd>Telescope buffers<cr>", "Buffers" }
+lvim.builtin.which_key.mappings["sp"] = { "<cmd>Telescope pickers<cr>", "Pickers" }
+lvim.builtin.which_key.mappings["sw"] = { "<cmd>Telescope grep_string<cr>", "Search word under cursor" }
 
 lvim.builtin.which_key.mappings["bp"] = { "<cmd>BufferLineTogglePin<cr>", "Pin" }
 lvim.builtin.which_key.mappings["bc"] = { "<cmd>BufferKill<cr>", "Close" }
