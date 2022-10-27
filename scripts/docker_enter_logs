@@ -1,0 +1,19 @@
+#!/bin/zsh
+
+tmux split-window -h
+tmux send-keys \
+  "while true;
+  do docker-enter $1 2> /dev/null;
+  echo waiting for $1;
+  sleep 3;
+  done" C-m
+tmux send-keys "traces; clear; tail -f wb_fe_agent" C-m
+
+tmux split-window
+tmux send-keys \
+  "while true;
+  do docker-enter $1 2> /dev/null;
+  echo waiting for $1;
+  sleep 3;
+  done" C-m
+tmux send-keys "traces; clear; tail -f wb_agent" C-m

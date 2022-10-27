@@ -59,7 +59,7 @@ tmux bind-key -Twbox C-s run wbox_sync
 
 tmux bind-key C-c switch-client -Tconsole
 tmux bind-key -Tconsole C-b send-keys -t console.1 "dbuild make -i wb_builder wbox" C-m
-tmux bind-key -Tconsole C-r send-keys -t console.1 "request system process restart ncp 0 datapath wb_fe_agent" C-m "yes" C-m
+tmux bind-key -Tconsole C-r send-keys "request system process restart ncp 0 datapath wb_fe_agent" C-m "yes" C-m
 # tmux bind-key -Tconsole C-l split-window -h -t console.1 \; send-keys -t console.2 "docker-enter mgmt_datapath1_1" C-m "traces; clear; tail -f wb_fe_agent" C-m
 # tmux bind-key -Tconsole C-s split-pane -t console.2 \; send-keys -t console.3 "docker-enter mgmt_datapath1_1" C-m "clear; supervisorctl fg wb_fe_agent" C-m
 
