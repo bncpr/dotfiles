@@ -124,7 +124,7 @@ end
 lvim.builtin.alpha.active = true
 -- lvim.builtin.alpha.mode = "startify"
 lvim.builtin.nvimtree.setup.view.width = 40
-lvim.builtin.lualine.options.theme = "catppuccin"
+-- lvim.builtin.lualine.options.theme = "catppuccin"
 -- lvim.builtin.lualine.options.globalstatus = true
 -- lvim.builtin.comment.mappings.extra = true
 
@@ -264,7 +264,8 @@ require("lvim.lsp.manager").setup("pylsp", pyls_opts)
 -- set a formatter, this will override the language server formatting capabilities (if it exists)
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
-  { command = "clang-format", filetypes = { "proto" }, extra_args = { "--style=Google" } },
+  -- { command = "clang-format", filetypes = { "proto" }, extra_args = { "--style=Google" } },
+  { command = "protolint" },
   { command = "clang-format", filetypes = { "yang" } },
   -- { command = "beautysh", extra_args = { "-i", "2" } },
   -- { command = "black", filetypes = { "python" } },
@@ -416,27 +417,27 @@ lvim.plugins = {
   {
     "p00f/nvim-ts-rainbow",
   },
-  {
-    "romgrk/nvim-treesitter-context",
-    config = function()
-      require("treesitter-context").setup {
-        enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-        throttle = true, -- Throttles plugin updates (may improve performance)
-        max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
-        patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
-          -- For all filetypes
-          -- Note that setting an entry here replaces all other patterns for this entry.
-          -- By setting the 'default' entry below, you can control which nodes you want to
-          -- appear in the context window.
-          default = {
-            'class',
-            'function',
-            'method',
-          },
-        },
-      }
-    end
-  },
+  -- {
+  --   "romgrk/nvim-treesitter-context",
+  --   config = function()
+  --     require("treesitter-context").setup {
+  --       enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+  --       throttle = true, -- Throttles plugin updates (may improve performance)
+  --       max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
+  --       patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
+  --         -- For all filetypes
+  --         -- Note that setting an entry here replaces all other patterns for this entry.
+  --         -- By setting the 'default' entry below, you can control which nodes you want to
+  --         -- appear in the context window.
+  --         default = {
+  --           'class',
+  --           'function',
+  --           'method',
+  --         },
+  --       },
+  --     }
+  --   end
+  -- },
   {
     "wellle/targets.vim",
     event = "BufRead"
@@ -597,6 +598,7 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.cmd("command! Darker :!darker %")
     vim.cmd("command! Black :!black % --preview")
     vim.cmd("command! Isort :!isort % --profile black")
-    vim.cmd("command! Autoflake :!autoflake % --in-place --remove-unused-variables")
+    vim.cmd("command! Autoflake :!autoflake % --in-place --remove-unused-variables --remove-rhs-for-unused-variables --remove-duplicate-keys")
+    vim.cmd("command! AutoflakePlus :!autoflake % --in-place --remove-all-unused-imports")
   end,
 })
