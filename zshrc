@@ -70,7 +70,7 @@ ZSH_THEME="eastwood"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git python colored-man-pages zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(aliases git zsh-vi-mode zoxide dnote ripgrep fd python pip colored-man-pages zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -102,9 +102,18 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# The plugin will auto execute this zvm_after_init function
+function zvm_after_init() {
+  # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+  bindkey '^ ' autosuggest-accept
+  bindkey "^F" vi-forward-word
+}
+
 if [[ $USER = "dn" ]]; then
   source ~/dotfiles/dvmrc.sh
 fi
 
 source ~/.profile
 source ~/.aliases
+
+eval "$(starship init zsh)"
