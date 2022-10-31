@@ -164,6 +164,7 @@ lvim.builtin.treesitter.ensure_installed = {
   "lua",
   "python",
   "yaml",
+  "yang",
 }
 
 -- lvim.builtin.treesitter.ignore_install = { "haskell" }
@@ -267,7 +268,7 @@ formatters.setup {
   -- { command = "clang-format", filetypes = { "proto" }, extra_args = { "--style=Google" } },
   { command = "protolint" },
   { command = "clang-format", filetypes = { "yang" } },
-  -- { command = "beautysh", extra_args = { "-i", "2" } },
+  { command = "beautysh", extra_args = { "-i", "2" } },
   -- { command = "black", filetypes = { "python" } },
   --   {
   --     -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
@@ -405,15 +406,6 @@ lvim.plugins = {
     requires = "hrsh7th/nvim-cmp",
     event = "InsertEnter",
   },
-  -- {
-  --   "ojroques/vim-oscyank",
-  --   event = "BufRead",
-  --   config = function()
-  --     vim.cmd([[
-  --       autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankReg "' | endif
-  --     ]])
-  --   end
-  -- },
   {
     "p00f/nvim-ts-rainbow",
   },
