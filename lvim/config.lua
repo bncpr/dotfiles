@@ -340,6 +340,13 @@ lvim.plugins = {
     end
   },
   {
+    "ggandor/leap-spooky.nvim",
+    after = "leap.nvim",
+    config = function()
+      require("leap-spooky").setup()
+    end
+  },
+  {
     "karb94/neoscroll.nvim",
     event = "WinScrolled",
     config = function()
@@ -460,7 +467,7 @@ lvim.plugins = {
         copy = { ['+'] = copy, ['*'] = copy },
         paste = { ['+'] = paste, ['*'] = paste },
       }
-    end
+    end,
   },
   {
     "ThePrimeagen/refactoring.nvim",
@@ -553,6 +560,22 @@ lvim.plugins = {
     config = function()
       require 'notifier'.setup {
         -- You configuration here
+      }
+    end
+  },
+  {
+    "RRethy/nvim-treesitter-textsubjects",
+    config = function()
+      require('nvim-treesitter.configs').setup {
+        textsubjects = {
+          enable = true,
+          prev_selection = ',', -- (Optional) keymap to select the previous selection
+          keymaps = {
+            ['.'] = 'textsubjects-smart',
+            [';'] = 'textsubjects-container-outer',
+            ['i;'] = 'textsubjects-container-inner',
+          },
+        },
       }
     end
   }
