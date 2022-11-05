@@ -269,6 +269,7 @@ formatters.setup({
 	{ command = "protolint" },
 	{ command = "clang-format", filetypes = { "yang" } },
 	{ command = "beautysh", extra_args = { "-i", "2" } },
+	{ command = "stylua" },
 	-- { command = "black", filetypes = { "python" } },
 	--   {
 	--     -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
@@ -295,7 +296,7 @@ linters.setup({
 	{
 		command = "codespell",
 		---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
-		filetypes = { "javascript", "python" },
+		-- filetypes = { "javascript", "python" },
 	},
 })
 
@@ -458,6 +459,9 @@ lvim.plugins = {
 	{
 		"ojroques/nvim-osc52",
 		config = function()
+			require("osc52").setup({
+				silent = true,
+			})
 			-- OSC52
 			local function copy(lines, _)
 				require("osc52").copy(table.concat(lines, "\n"))
