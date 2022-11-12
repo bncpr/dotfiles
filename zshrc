@@ -1,5 +1,6 @@
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$HOME/.local/bin:$HOME/Library/Python/3.8/bin:$PATH
+export PATH=/home/linuxbrew/.linuxbrew/opt/python@3.10/libexec/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -70,7 +71,7 @@ ZSH_THEME="eastwood"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(aliases git vi-mode zoxide dnote ripgrep fd python pip colored-man-pages zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(aliases git vi-mode dnote ripgrep fd python pip colored-man-pages zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -114,3 +115,4 @@ source ~/.profile
 source ~/.aliases
 
 eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"
