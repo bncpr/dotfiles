@@ -57,7 +57,6 @@ lvim.builtin.telescope.defaults.mappings = {
 
 -- Use which-key to add extra bindings with the leader-key prefix
 lvim.builtin.which_key.mappings[";"] = nil
-lvim.builtin.which_key.mappings["c"] = { ":Telescope cder<cr>", "cd" }
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 lvim.builtin.which_key.mappings["Q"] = { ":qa!<cr>", "Quit All" }
 lvim.builtin.which_key.mappings["E"] = { "<cmd>NvimTreeFocus<cr>", "NvimTreeFocus" }
@@ -65,6 +64,7 @@ lvim.builtin.which_key.mappings["E"] = { "<cmd>NvimTreeFocus<cr>", "NvimTreeFocu
 lvim.builtin.which_key.mappings["s,"] = { "<cmd>Telescope resume<cr>", "Resume" }
 lvim.builtin.which_key.mappings["sp"] = { "<cmd>Telescope pickers<cr>", "Pickers" }
 lvim.builtin.which_key.mappings["sw"] = { "<cmd>Telescope grep_string<cr>", "Search word under cursor" }
+lvim.builtin.which_key.mappings.s.b = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Fuzzy find in buffer" }
 
 lvim.builtin.which_key.mappings["bp"] = { "<cmd>BufferLineTogglePin<cr>", "Pin" }
 lvim.builtin.which_key.mappings["bc"] = { "<cmd>BufferKill<cr>", "Close" }
@@ -76,22 +76,6 @@ lvim.builtin.which_key.mappings["S"] = {
 	S = { "<cmd>lua require('persistence').load({ last = true })<cr>", "Restore last session" },
 	c = { "<cmd>lua require('persistence').load()<cr>", "Restore last session for current dir" },
 	Q = { "<cmd>lua require('persistence').stop()<cr>", "Quit without saving session" },
-}
-
-lvim.builtin.which_key.mappings["H"] = {
-	name = "+Harpoon",
-	H = { ":lua require('harpoon.ui').toggle_quick_menu()<cr>", "Open" },
-	f = { ":Telescope harpoon marks<cr>", "Telescope marks" },
-	m = { ":lua require('harpoon.mark').add_file()<cr>", "Add File" },
-	n = { ":lua require('harpoon.ui').nav_next()<cr>", "Next File" },
-	p = { ":lua require('harpoon.ui').nav_prev()<cr>", "Previous File" },
-}
-
-lvim.builtin.which_key.mappings["r"] = {
-	name = "+Refactoring",
-	p = { ":lua require('refactoring').debug.printf({below = true})<CR>", "printf" },
-	v = { ":lua require('refactoring').debug.print_var({normal = true})<CR>", "print variable" },
-	c = { ":lua require('refactoring').debug.cleanup({})<CR>", "cleanup" },
 }
 
 lvim.builtin.which_key.mappings["x"] = {
@@ -107,18 +91,10 @@ lvim.builtin.which_key.mappings["x"] = {
 
 lvim.builtin.which_key.vmappings["s"] = { ":!sort<cr>", "Sort" }
 lvim.builtin.which_key.vmappings["f"] = { "<cmd>lua vim.lsp.buf.range_formatting()<cr>", "Range Format" }
-lvim.builtin.which_key.vmappings["r"] = {
-	name = "+Refactoring",
-	r = { "<Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>", "Refactor" },
-	p = { ":lua require('refactoring').debug.print_var({})<CR>", "printf" },
-}
 
 -- Telescope extensions register
-lvim.builtin.telescope.on_config_done = function(telescope)
-	pcall(telescope.load_extension, "refactoring")
-	pcall(telescope.load_extension, "harpoon")
-	pcall(telescope.load_extension, "cder")
-end
+-- lvim.builtin.telescope.on_config_done = function(telescope)
+-- end
 
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = true
@@ -470,18 +446,6 @@ lvim.plugins = {
 
 			vim.api.nvim_create_autocmd("TextYankPost", { callback = copy })
 		end,
-	},
-	{
-		"ThePrimeagen/refactoring.nvim",
-		event = "BufRead",
-	},
-	{
-		"ThePrimeagen/harpoon",
-		event = "BufEnter",
-	},
-	{
-		"zane-/cder.nvim",
-		event = "BufEnter",
 	},
 	{
 		"christoomey/vim-tmux-navigator",
