@@ -9,6 +9,9 @@ server-sync () {
 alias cl=clear
 alias rm="rm -i"
 alias kila=killall
+cdi () {
+  cd $(fd -t d . | fzf)
+}
 
 alias udf="git -C ~/dotfiles pull"
 alias gcam="git commit -am"
