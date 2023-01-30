@@ -10,7 +10,7 @@ lvim.leader = "space"
 vim.g.maplocalleader = ","
 
 -- add your own keymapping
--- lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 -- unmap a default keymapping
 -- vim.keymap.del("n", "<C-Up>")
 -- override a default keymapping
@@ -58,7 +58,6 @@ lvim.builtin.telescope.defaults.mappings = {
 -- Use which-key to add extra bindings with the leader-key prefix
 lvim.builtin.which_key.mappings[";"] = nil
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
-lvim.builtin.which_key.mappings["Q"] = { ":qa!<cr>", "Quit All" }
 lvim.builtin.which_key.mappings["E"] = { "<cmd>NvimTreeFocus<cr>", "NvimTreeFocus" }
 
 lvim.builtin.which_key.mappings["s,"] = { "<cmd>Telescope resume<cr>", "Resume" }
@@ -104,7 +103,7 @@ lvim.builtin.nvimtree.setup.view.width = 40
 -- lvim.builtin.lualine.options.globalstatus = true
 -- lvim.builtin.comment.mappings.extra = true
 
-lvim.builtin.terminal.active = true
+lvim.builtin.terminal.active = false
 lvim.builtin.terminal.direction = "horizontal"
 lvim.builtin.terminal.persist_size = true
 lvim.builtin.terminal.execs[#lvim.builtin.terminal.execs + 1] = { "htop", "<leader>th", "htop", "float" }
@@ -150,7 +149,7 @@ lvim.builtin.treesitter.matchup.enable = true
 
 ---@usage disable automatic installation of servers
 lvim.lsp.automatic_installation = true
--- lvim.lsp.null_ls.setup = { debug = true, log = { level = "trace" } }
+lvim.lsp.null_ls.setup = { debug = true, log = { level = "trace" } }
 
 -- ---configure a server manually. !!Requires `:LvimCacheReset` to take effect!!
 -- ---see the full default list `:lua print(vim.inspect(lvim.lsp.automatic_configuration.skipped_servers))`
@@ -246,6 +245,7 @@ formatters.setup({
   { command = "clang-format", filetypes = { "yang" } },
   { command = "beautysh", extra_args = { "-i", "2" } },
   { command = "stylua" },
+  { command = "yamlfmt" },
   -- { command = "black", filetypes = { "python" } },
   --   {
   --     -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
