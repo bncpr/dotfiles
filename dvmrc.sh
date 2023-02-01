@@ -14,6 +14,7 @@ alias fps='PS1="${PROD} ${ps1}"'
 alias wbc="wbox_connect"
 alias dbb="dbuild make -i wb_builder wbox"
 alias gct="git clean -xdf ~/cheetah/src/tests/.ipython"
+alias pb="pyborrow.py"
 
 super-clean()
 {
@@ -21,7 +22,6 @@ super-clean()
   sudo git clean -xdf
   git reset --hard
   git fetch -p
-  delete_gone_branches
   git gc --prune=now
   git remote prune origin
   docker system prune -a
