@@ -276,8 +276,6 @@ linters.setup({
   },
 })
 
-require("luasnip.loaders.from_lua").load({ paths = "~/snippets" })
-
 -- Additional Plugins
 lvim.plugins = {
   { "tpope/vim-unimpaired" },
@@ -390,12 +388,12 @@ lvim.plugins = {
       })
     end,
   },
-  {
-    "tzachar/cmp-tabnine",
-    run = "./install.sh",
-    requires = "hrsh7th/nvim-cmp",
-    event = "InsertEnter",
-  },
+  -- {
+  --   "tzachar/cmp-tabnine",
+  --   run = "./install.sh",
+  --   requires = "hrsh7th/nvim-cmp",
+  --   event = "InsertEnter",
+  -- },
   {
     "p00f/nvim-ts-rainbow",
   },
