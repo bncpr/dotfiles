@@ -59,6 +59,27 @@ lvim.builtin.telescope.defaults.mappings = {
 lvim.builtin.which_key.mappings[";"] = nil
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 lvim.builtin.which_key.mappings["E"] = { "<cmd>NvimTreeFocus<cr>", "NvimTreeFocus" }
+lvim.builtin.which_key.mappings["w"] = {
+	name = "+Window",
+	w = {
+		function()
+			local picked_window_id = require("window-picker").pick_window() or vim.api.nvim_get_current_win()
+			vim.api.nvim_set_current_win(picked_window_id)
+		end,
+		"Pick Window",
+	},
+	x = {
+		function()
+			local window = require("window-picker").pick_window() or vim.api.nvim_get_current_win()
+			local target_buffer = vim.fn.winbufnr(window)
+			-- Set the target window to contain current buffer
+			vim.api.nvim_win_set_buf(window, 0)
+			-- Set current window to contain target buffer
+			vim.api.nvim_win_set_buf(0, target_buffer)
+		end,
+		"Swap Windows",
+	},
+}
 
 lvim.builtin.which_key.mappings["s,"] = { "<cmd>Telescope resume<cr>", "Resume" }
 lvim.builtin.which_key.mappings["sp"] = { "<cmd>Telescope pickers<cr>", "Pickers" }
@@ -69,12 +90,16 @@ lvim.builtin.which_key.mappings["bp"] = { "<cmd>BufferLineTogglePin<cr>", "Pin" 
 lvim.builtin.which_key.mappings["bc"] = { "<cmd>BufferKill<cr>", "Close" }
 
 lvim.builtin.which_key.mappings["gf"] = { "<cmd>Gitsign setqflist<cr>", "Gitsign Hunks" }
+lvim.builtin.which_key.mappings["gd"] = {
+	name = "+Diffview",
+	o = { "<cmd>DiffviewOpen<cr>", "DiffviewOpen" },
+	f = { "<cmd>DiffviewFileHistory<cr>", "DiffviewFileHistory" },
+	c = { "<cmd>DiffviewClose<cr>", "DiffviewClose" },
+}
 
 lvim.builtin.which_key.mappings["S"] = {
-	name = "+Session",
-	S = { "<cmd>lua require('persistence').load({ last = true })<cr>", "Restore last session" },
-	c = { "<cmd>lua require('persistence').load()<cr>", "Restore last session for current dir" },
-	Q = { "<cmd>lua require('persistence').stop()<cr>", "Quit without saving session" },
+	"<cmd>lua require('persistence').load({ last = true })<cr>",
+	"Restore last session",
 }
 
 lvim.builtin.which_key.mappings["x"] = {
@@ -190,13 +215,7 @@ local pyls_opts = {
 		pylsp = {
 			plugins = {
 				jedi = {
-					extra_paths = {
-						-- "/home/dn/cheetah/src/py_packages/dn_common/",
-						-- "/home/dn/cheetah/src/py_packages/upgrade_mode",
-						-- "/home/dn/cheetah/src/py_packages/transaction_api",
-						-- "/home/dn/cheetah/src/py_packages/fe_agent",
-						-- "/home/dn/cheetah/src/py_packages/dn_jag_api",
-					},
+					extra_paths = {},
 				},
 				pycodestyle = {
 					ignore = { "E501", "W503" },
@@ -558,6 +577,30 @@ lvim.plugins = {
 				},
 			})
 		end,
+	},
+	{
+		"s1n7ax/nvim-window-picker",
+		config = function()
+			require("window-picker").setup({
+				autoselect_one = true,
+				include_current = false,
+				filter_rules = {
+					-- filter using buffer options
+					bo = {
+						-- if the file type is one of following, the window will be ignored
+						filetype = { "neo-tree", "neo-tree-popup", "notify", "quickfix" },
+
+						-- if the buffer type is one of following, the window will be ignored
+						buftype = { "terminal" },
+					},
+				},
+				other_win_hl_color = "#e35e4f",
+			})
+		end,
+	},
+	{
+		"sindrets/diffview.nvim",
+		event = "BufRead",
 	},
 }
 
