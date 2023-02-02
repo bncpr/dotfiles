@@ -15,13 +15,11 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 -- vim.keymap.del("n", "<C-Up>")
 -- override a default keymapping
 -- lvim.keys.normal_mode["<C-q>"] = ":q<cr>" -- or vim.keymap.set("n", "<C-q>", ":q<cr>" )
+-- vim.keymap.del("n", "<C-q>")
 lvim.keys.normal_mode["]g"] = "<cmd>Gitsign next_hunk<cr>"
 lvim.keys.normal_mode["[g"] = "<cmd>Gitsign prev_hunk<cr>"
 lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
 lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
--- lvim.keys.normal_mode["]b"] = "<cmd>BufferLineCycleNext<cr>"
--- lvim.keys.normal_mode["[b"] = "<cmd>BufferLineCyclePrev<cr>"
-lvim.keys.normal_mode["gR"] = ":Trouble lsp_references<cr>"
 lvim.keys.visual_mode["//"] = [[y/\V<C-R>=escape(@",'/\')<CR><CR>]]
 
 -- disable middle-mouse
@@ -57,6 +55,7 @@ lvim.builtin.telescope.defaults.mappings = {
 
 -- Use which-key to add extra bindings with the leader-key prefix
 lvim.builtin.which_key.mappings[";"] = nil
+lvim.builtin.which_key.mappings["q"] = nil
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 lvim.builtin.which_key.mappings["E"] = { "<cmd>NvimTreeFocus<cr>", "NvimTreeFocus" }
 lvim.builtin.which_key.mappings["w"] = {
@@ -102,13 +101,14 @@ lvim.builtin.which_key.mappings["S"] = {
 	"Restore last session",
 }
 
-lvim.builtin.which_key.mappings["x"] = {
+lvim.builtin.which_key.mappings["t"] = {
 	name = "+Trouble",
-	x = { "<cmd>TroubleToggle<cr>", "Trouble" },
+	t = { "<cmd>TroubleToggle<cr>", "Trouble" },
 	w = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "Workspace" },
 	d = { "<cmd>TroubleToggle document_diagnostics<cr>", "Document" },
 	q = { "<cmd>TroubleToggle quickfix<cr>", "Quickfix" },
 	l = { "<cmd>TroubleToggle loclist<cr>", "Location" },
+	r = { "<cmd>TroubleToggle lsp_references<cr>", "references" },
 	n = { "<cmd>lua require('trouble').next({skip_groups = true, jump = true})<cr>", "Next" },
 	p = { "<cmd>lua require('trouble').previous({skip_groups = true, jump = true})<cr>", "Previous" },
 }
@@ -128,32 +128,32 @@ lvim.builtin.nvimtree.setup.view.width = 40
 -- lvim.builtin.lualine.options.globalstatus = true
 -- lvim.builtin.comment.mappings.extra = true
 
-lvim.builtin.terminal.active = false
-lvim.builtin.terminal.direction = "horizontal"
-lvim.builtin.terminal.persist_size = true
-lvim.builtin.terminal.execs[#lvim.builtin.terminal.execs + 1] = { "htop", "<leader>th", "htop", "float" }
+-- lvim.builtin.terminal.active = false
+-- lvim.builtin.terminal.direction = "horizontal"
+-- lvim.builtin.terminal.persist_size = true
+-- lvim.builtin.terminal.execs[#lvim.builtin.terminal.execs + 1] = { "htop", "<leader>th", "htop", "float" }
 
-lvim.builtin.which_key.mappings["t"] = {
-	name = "+Terminal",
-	b = { "<cmd>TermExec cmd='pyborrow.py' direction=horizontal size=35 go_back=0<cr>", "PyBorrow" },
-	c = { "<cmd>ToggleTermSendCurrentLine<cr>", "Send Current Line" },
-	a = { "<cmd>ToggleTermToggleAll<cr>", "Toggle All" },
-}
-lvim.builtin.which_key.vmappings["t"] = {
-	name = "+Terminal",
-	v = { ":ToggleTermSendVisualSelection<cr>", "Send visually selected text" },
-}
+-- lvim.builtin.which_key.mappings["t"] = {
+-- 	name = "+Terminal",
+-- 	b = { "<cmd>TermExec cmd='pyborrow.py' direction=horizontal size=35 go_back=0<cr>", "PyBorrow" },
+-- 	c = { "<cmd>ToggleTermSendCurrentLine<cr>", "Send Current Line" },
+-- 	a = { "<cmd>ToggleTermToggleAll<cr>", "Toggle All" },
+-- }
+-- lvim.builtin.which_key.vmappings["t"] = {
+-- 	name = "+Terminal",
+-- 	v = { ":ToggleTermSendVisualSelection<cr>", "Send visually selected text" },
+-- }
 
-vim.api.nvim_create_autocmd("TermOpen", {
-	pattern = "term://*",
-	callback = function()
-		local name = vim.api.nvim_buf_get_name(0)
-		if not name:match("lazygit") and not name:match("htop") then
-			local opts = { noremap = true }
-			vim.api.nvim_buf_set_keymap(0, "t", "<esc>", [[<C-\><C-n>]], opts)
-		end
-	end,
-})
+-- vim.api.nvim_create_autocmd("TermOpen", {
+-- 	pattern = "term://*",
+-- 	callback = function()
+-- 		local name = vim.api.nvim_buf_get_name(0)
+-- 		if not name:match("lazygit") and not name:match("htop") then
+-- 			local opts = { noremap = true }
+-- 			vim.api.nvim_buf_set_keymap(0, "t", "<esc>", [[<C-\><C-n>]], opts)
+-- 		end
+-- 	end,
+-- })
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.active = true
@@ -601,6 +601,76 @@ lvim.plugins = {
 	{
 		"sindrets/diffview.nvim",
 		event = "BufRead",
+	},
+	{
+		"kevinhwang91/nvim-bqf",
+		ft = "qf",
+		config = function()
+			require("bqf").setup({
+				auto_enable = true,
+				auto_resize_height = true, -- highly recommended enable
+				preview = {
+					win_height = 12,
+					win_vheight = 12,
+					delay_syntax = 80,
+					border_chars = { "┃", "┃", "━", "━", "┏", "┓", "┗", "┛", "█" },
+					show_title = false,
+					should_preview_cb = function(bufnr, qwinid)
+						local ret = true
+						local bufname = vim.api.nvim_buf_get_name(bufnr)
+						local fsize = vim.fn.getfsize(bufname)
+						if fsize > 100 * 1024 then
+							-- skip file size greater than 100k
+							ret = false
+						elseif bufname:match("^fugitive://") then
+							-- skip fugitive buffer
+							ret = false
+						end
+						return ret
+					end,
+				},
+				-- make `drop` and `tab drop` to become preferred
+				func_map = {
+					drop = "o",
+					openc = "O",
+					split = "<C-s>",
+					tabdrop = "<C-t>",
+					-- set to empty string to disable
+					tabc = "",
+					ptogglemode = "z,",
+				},
+				filter = {
+					fzf = {
+						action_for = { ["ctrl-s"] = "split", ["ctrl-t"] = "tab drop" },
+						extra_opts = { "--bind", "ctrl-o:toggle-all", "--prompt", "> " },
+					},
+				},
+			})
+		end,
+	},
+	{
+		"junegunn/fzf",
+		run = function()
+			vim.fn["fzf#install"]()
+		end,
+	},
+	{
+		"mhinz/vim-grepper",
+		config = function()
+			vim.g.grepper = { tools = { "rg", "grep" }, searchreg = 1 }
+			vim.cmd(([[
+          aug Grepper
+              au!
+              au User Grepper ++nested %s
+          aug END
+      ]]):format([[call setqflist([], 'r', {'context': {'bqf': {'pattern_hl': '\%#' . getreg('/')}}})]]))
+
+			-- try `gsiw` under word
+			vim.cmd([[
+          nmap gp  <plug>(GrepperOperator)
+          xmap gp  <plug>(GrepperOperator)
+      ]])
+		end,
 	},
 }
 
