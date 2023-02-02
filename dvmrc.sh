@@ -14,6 +14,7 @@ alias fps='PS1="${PROD} ${ps1}"'
 alias wbc="wbox_connect"
 alias dbb="dbuild make -i wb_builder wbox"
 alias gct="git clean -xdf ~/cheetah/src/tests/.ipython"
+alias wbc="ssh \$(cat ~/borrowed_wbox) -p 2222"
 
 super-clean()
 {
@@ -55,7 +56,7 @@ tmux bind-key -Twbox C-w select-window -t wbox
 tmux bind-key -Twbox C-b send-keys -t wbox "dbuild make -i wb_builder wbox" C-m
 tmux bind-key -Twbox C-c run wbox_pane_connect
 tmux bind-key -Twbox C-l run wbox_split_logs
-tmux bind-key -Twbox C-s run wbox_sync
+tmux bind-key -Twbox C-s run "$(wbox_sync)"
 
 tmux bind-key C-c switch-client -Tconsole
 tmux bind-key -Tconsole C-b send-keys -t console.1 "dbuild make -i wb_builder wbox" C-m
