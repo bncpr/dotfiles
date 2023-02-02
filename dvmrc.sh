@@ -22,7 +22,6 @@ super-clean()
   sudo git clean -xdf
   git reset --hard
   git fetch -p
-  delete_gone_branches
   git gc --prune=now
   git remote prune origin
   docker system prune -a
