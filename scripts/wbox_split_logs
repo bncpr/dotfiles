@@ -7,4 +7,6 @@ wbox=$(cat ~/borrowed_wbox)
 [[ -z $wbox ]] && exit 1
 
 tmux split-window -h -t wbox "ssh $wbox -p 2222"
-tmux send-keys -t wbox.2 "logs" C-m "tail -f wb_agent" C-m
+tmux send-keys -t wbox.2 "logs" C-m "cd tr" Tab Enter "tail -F wb_agent" C-m
+tmux split-window -v -t wbox.2 "ssh $wbox -p 2222"
+tmux send-keys -t wbox.3 "docker-enter s" Tab Enter
