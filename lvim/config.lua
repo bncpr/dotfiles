@@ -62,6 +62,12 @@ lvim.builtin.telescope.defaults.mappings = {
 -- Use which-key to add extra bindings with the leader-key prefix
 lvim.builtin.which_key.mappings[";"] = nil
 lvim.builtin.which_key.mappings["q"] = nil
+lvim.builtin.which_key.mappings["q"] = {
+	name = "QuickFix",
+	j = { ":cnext", "Next" },
+	k = { ":cprev", "Previous" },
+}
+
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 lvim.builtin.which_key.mappings["E"] = { "<cmd>NvimTreeFocus<cr>", "NvimTreeFocus" }
 lvim.builtin.which_key.mappings["w"] = {
@@ -91,6 +97,7 @@ lvim.builtin.which_key.mappings["s,"] = { "<cmd>Telescope resume<cr>", "Resume" 
 lvim.builtin.which_key.mappings["sp"] = { "<cmd>Telescope pickers<cr>", "Pickers" }
 lvim.builtin.which_key.mappings["sw"] = { "<cmd>Telescope grep_string<cr>", "Search word under cursor" }
 lvim.builtin.which_key.mappings.s.b = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Fuzzy find in buffer" }
+lvim.builtin.which_key.mappings["sg"] = { "<cmd>Telescope grep_string<cr>", "Search word under cursor" }
 
 lvim.builtin.which_key.mappings["bp"] = { "<cmd>BufferLineTogglePin<cr>", "Pin" }
 lvim.builtin.which_key.mappings["bc"] = { "<cmd>BufferKill<cr>", "Close" }
@@ -180,6 +187,8 @@ lvim.builtin.treesitter.ensure_installed = {
 lvim.builtin.treesitter.highlight.enabled = true
 lvim.builtin.treesitter.rainbow.enable = true
 lvim.builtin.treesitter.matchup.enable = true
+
+lvim.builtin.gitsigns.opts.trouble = false
 
 ---@usage disable automatic installation of servers
 lvim.lsp.automatic_installation = true
