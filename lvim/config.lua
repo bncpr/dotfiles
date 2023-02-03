@@ -1,7 +1,7 @@
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = false
-lvim.colorscheme = "catppuccin"
+-- lvim.colorscheme = "catppuccin"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -38,14 +38,20 @@ lvim.builtin.telescope.defaults.mappings = {
 		["<C-k>"] = actions.move_selection_previous,
 		["<C-n>"] = actions.cycle_history_next,
 		["<C-p>"] = actions.cycle_history_prev,
-		["<C-e>"] = function(prompt_bufnr, _mode)
-			require("trouble.providers.telescope").open_with_trouble(prompt_bufnr, _mode)
-		end,
+		["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
+		["<C-e>"] = {
+			function(prompt_bufnr, _mode)
+				require("trouble.providers.telescope").open_with_trouble(prompt_bufnr, _mode)
+			end,
+			"Trouble",
+		},
 		-- ["<esc>"] = actions.close,
 		["<c-u>"] = false,
+		["<M-q>"] = false,
 	},
 	-- for normal mode
 	n = {
+		["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
 		["<C-j>"] = actions.move_selection_next,
 		["<C-k>"] = actions.move_selection_previous,
 	},
@@ -78,6 +84,7 @@ lvim.builtin.which_key.mappings["w"] = {
 		end,
 		"Swap Windows",
 	},
+	q = { ":q<CR>", "Quite" },
 }
 
 lvim.builtin.which_key.mappings["s,"] = { "<cmd>Telescope resume<cr>", "Resume" }
@@ -89,6 +96,7 @@ lvim.builtin.which_key.mappings["bp"] = { "<cmd>BufferLineTogglePin<cr>", "Pin" 
 lvim.builtin.which_key.mappings["bc"] = { "<cmd>BufferKill<cr>", "Close" }
 
 lvim.builtin.which_key.mappings["gf"] = { "<cmd>Gitsign setqflist<cr>", "Gitsign Hunks" }
+lvim.builtin.which_key.mappings.g.d = nil
 lvim.builtin.which_key.mappings["gd"] = {
 	name = "+Diffview",
 	o = { "<cmd>DiffviewOpen<cr>", "DiffviewOpen" },
@@ -113,8 +121,9 @@ lvim.builtin.which_key.mappings["t"] = {
 	p = { "<cmd>lua require('trouble').previous({skip_groups = true, jump = true})<cr>", "Previous" },
 }
 
-lvim.builtin.which_key.vmappings["s"] = { ":!sort<cr>", "Sort" }
+lvim.builtin.which_key.vmappings["S"] = { ":!sort<cr>", "Sort" }
 lvim.builtin.which_key.vmappings["f"] = { "<cmd>lua vim.lsp.buf.range_formatting()<cr>", "Range Format" }
+lvim.builtin.which_key.vmappings["s"] = { "<Plug>VSurround", "Surround" }
 
 -- Telescope extensions register
 -- lvim.builtin.telescope.on_config_done = function(telescope)
@@ -304,6 +313,7 @@ lvim.plugins = {
 		-- make sure to change the value of `timeoutlen` if it's not triggering correctly, see https://github.com/tpope/vim-surround/issues/117
 		setup = function()
 			vim.o.timeoutlen = 500
+			vim.cmd("xmap gS <Plug>VSurround")
 		end,
 	},
 	{ "tpope/vim-repeat" },
@@ -448,54 +458,54 @@ lvim.plugins = {
 	{
 		"nathanalderson/yang.vim",
 	},
-	{
-		"catppuccin/nvim",
-		as = "catppuccin",
-		config = function()
-			vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
-			require("catppuccin").setup({
-				integrations = {
-					cmp = true,
-					dashboard = true,
-					gitsigns = true,
-					harpoon = true,
-					leap = true,
-					lsp_trouble = true,
-					fidget = true,
-					notify = true,
-					nvimtree = true,
-					symbols_outline = true,
-					telescope = true,
-					treesitter = true,
-					treesitter_context = true,
-					ts_rainbow = true,
-					which_key = true,
+	-- {
+	-- 	"catppuccin/nvim",
+	-- 	as = "catppuccin",
+	-- 	config = function()
+	-- 		vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
+	-- 		require("catppuccin").setup({
+	-- 			integrations = {
+	-- 				cmp = true,
+	-- 				dashboard = true,
+	-- 				gitsigns = true,
+	-- 				harpoon = true,
+	-- 				leap = true,
+	-- 				lsp_trouble = true,
+	-- 				fidget = true,
+	-- 				notify = true,
+	-- 				nvimtree = true,
+	-- 				symbols_outline = true,
+	-- 				telescope = true,
+	-- 				treesitter = true,
+	-- 				treesitter_context = true,
+	-- 				ts_rainbow = true,
+	-- 				which_key = true,
 
-					-- Special integrations, see https://github.com/catppuccin/nvim#special-integrations
-					indent_blankline = {
-						enabled = true,
-						colored_indent_levels = false,
-					},
-					native_lsp = {
-						enabled = true,
-						virtual_text = {
-							errors = { "italic" },
-							hints = { "italic" },
-							warnings = { "italic" },
-							information = { "italic" },
-						},
-						underlines = {
-							errors = { "underline" },
-							hints = { "underline" },
-							warnings = { "underline" },
-							information = { "underline" },
-						},
-					},
-				},
-			})
-			vim.api.nvim_command("colorscheme catppuccin")
-		end,
-	},
+	-- 				-- Special integrations, see https://github.com/catppuccin/nvim#special-integrations
+	-- 				indent_blankline = {
+	-- 					enabled = true,
+	-- 					colored_indent_levels = false,
+	-- 				},
+	-- 				native_lsp = {
+	-- 					enabled = true,
+	-- 					virtual_text = {
+	-- 						errors = { "italic" },
+	-- 						hints = { "italic" },
+	-- 						warnings = { "italic" },
+	-- 						information = { "italic" },
+	-- 					},
+	-- 					underlines = {
+	-- 						errors = { "underline" },
+	-- 						hints = { "underline" },
+	-- 						warnings = { "underline" },
+	-- 						information = { "underline" },
+	-- 					},
+	-- 				},
+	-- 			},
+	-- 		})
+	-- 		-- vim.api.nvim_command("colorscheme catppuccin")
+	-- 	end,
+	-- },
 	-- {
 	--   'j-hui/fidget.nvim',
 	--   config = function()
