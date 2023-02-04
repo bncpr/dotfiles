@@ -39,12 +39,12 @@ lvim.builtin.telescope.defaults.mappings = {
 		["<C-n>"] = actions.cycle_history_next,
 		["<C-p>"] = actions.cycle_history_prev,
 		["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
-		["<C-e>"] = {
-			function(prompt_bufnr, _mode)
-				require("trouble.providers.telescope").open_with_trouble(prompt_bufnr, _mode)
-			end,
-			"Trouble",
-		},
+		-- ["<C-e>"] = {
+		-- 	function(prompt_bufnr, _mode)
+		-- 		require("trouble.providers.telescope").open_with_trouble(prompt_bufnr, _mode)
+		-- 	end,
+		-- 	"Trouble",
+		-- },
 		-- ["<esc>"] = actions.close,
 		["<c-u>"] = false,
 		["<M-q>"] = false,
@@ -116,17 +116,17 @@ lvim.builtin.which_key.mappings["S"] = {
 	"Restore last session",
 }
 
-lvim.builtin.which_key.mappings["t"] = {
-	name = "+Trouble",
-	t = { "<cmd>TroubleToggle<cr>", "Trouble" },
-	w = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "Workspace" },
-	d = { "<cmd>TroubleToggle document_diagnostics<cr>", "Document" },
-	q = { "<cmd>TroubleToggle quickfix<cr>", "Quickfix" },
-	l = { "<cmd>TroubleToggle loclist<cr>", "Location" },
-	r = { "<cmd>TroubleToggle lsp_references<cr>", "references" },
-	n = { "<cmd>lua require('trouble').next({skip_groups = true, jump = true})<cr>", "Next" },
-	p = { "<cmd>lua require('trouble').previous({skip_groups = true, jump = true})<cr>", "Previous" },
-}
+-- lvim.builtin.which_key.mappings["t"] = {
+-- 	name = "+Trouble",
+-- 	t = { "<cmd>TroubleToggle<cr>", "Trouble" },
+-- 	w = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "Workspace" },
+-- 	d = { "<cmd>TroubleToggle document_diagnostics<cr>", "Document" },
+-- 	q = { "<cmd>TroubleToggle quickfix<cr>", "Quickfix" },
+-- 	l = { "<cmd>TroubleToggle loclist<cr>", "Location" },
+-- 	r = { "<cmd>TroubleToggle lsp_references<cr>", "references" },
+-- 	n = { "<cmd>lua require('trouble').next({skip_groups = true, jump = true})<cr>", "Next" },
+-- 	p = { "<cmd>lua require('trouble').previous({skip_groups = true, jump = true})<cr>", "Previous" },
+-- }
 
 lvim.builtin.which_key.vmappings["S"] = { ":!sort<cr>", "Sort" }
 lvim.builtin.which_key.vmappings["f"] = { "<cmd>lua vim.lsp.buf.range_formatting()<cr>", "Range Format" }
@@ -188,7 +188,7 @@ lvim.builtin.treesitter.highlight.enabled = true
 lvim.builtin.treesitter.rainbow.enable = true
 lvim.builtin.treesitter.matchup.enable = true
 
-lvim.builtin.gitsigns.opts.trouble = false
+-- lvim.builtin.gitsigns.opts.trouble = false
 
 ---@usage disable automatic installation of servers
 lvim.lsp.automatic_installation = true
@@ -327,9 +327,9 @@ lvim.plugins = {
 	},
 	{ "tpope/vim-repeat" },
 	-- { "folke/tokyonight.nvim" },
-	{
-		"folke/trouble.nvim",
-	},
+	-- {
+	-- 	"folke/trouble.nvim",
+	-- },
 	{
 		"ggandor/leap.nvim",
 		event = "BufRead",
