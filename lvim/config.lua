@@ -64,8 +64,8 @@ lvim.builtin.which_key.mappings[";"] = nil
 lvim.builtin.which_key.mappings["q"] = nil
 lvim.builtin.which_key.mappings["q"] = {
 	name = "QuickFix",
-	j = { ":cnext", "Next" },
-	k = { ":cprev", "Previous" },
+	j = { ":cnext<cr>", "Next" },
+	k = { ":cprev<cr>", "Previous" },
 }
 
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
