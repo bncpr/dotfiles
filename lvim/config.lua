@@ -116,6 +116,13 @@ lvim.builtin.which_key.mappings["S"] = {
 	"Restore last session",
 }
 
+lvim.builtin.which_key.mappings["m"] = {
+	name = "+Marks",
+	a = { "<cmd>MarksQFListAll<CR>", "All" },
+	f = { "<cmd>MarksQFListBuf<CR>", "Buffer" },
+	g = { "<cmd>MarksQFListGlobal<CR>", "Global" },
+}
+
 -- lvim.builtin.which_key.mappings["t"] = {
 -- 	name = "+Trouble",
 -- 	t = { "<cmd>TroubleToggle<cr>", "Trouble" },
@@ -134,6 +141,7 @@ lvim.builtin.which_key.vmappings["s"] = { "<Plug>VSurround", "Surround" }
 
 -- Telescope extensions register
 -- lvim.builtin.telescope.on_config_done = function(telescope)
+-- 	pcall(telescope.load_extension, "vim_bookmarks")
 -- end
 
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
@@ -689,6 +697,24 @@ lvim.plugins = {
           nmap gp  <plug>(GrepperOperator)
           xmap gp  <plug>(GrepperOperator)
       ]])
+		end,
+	},
+	{
+		"chentoast/marks.nvim",
+		event = "BufRead",
+		config = function()
+			require("marks").setup({
+				bookmark_0 = {
+					sign = "⚑",
+					virt_text = "hello world",
+					-- explicitly prompt for a virtual line annotation when setting a bookmark from this group.
+					-- defaults to false.
+					annotate = false,
+				},
+				mappings = {
+					preview = false,
+				},
+			})
 		end,
 	},
 }
