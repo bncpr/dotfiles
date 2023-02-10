@@ -16,6 +16,7 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 -- override a default keymapping
 -- lvim.keys.normal_mode["<C-q>"] = ":q<cr>" -- or vim.keymap.set("n", "<C-q>", ":q<cr>" )
 -- vim.keymap.del("n", "<C-q>")
+lvim.keys.normal_mode["U"] = "<nop>"
 lvim.keys.normal_mode["]g"] = "<cmd>Gitsign next_hunk<cr>"
 lvim.keys.normal_mode["[g"] = "<cmd>Gitsign prev_hunk<cr>"
 lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
@@ -111,7 +112,7 @@ lvim.builtin.which_key.mappings["gd"] = {
 	c = { "<cmd>DiffviewClose<cr>", "DiffviewClose" },
 }
 
-lvim.builtin.which_key.mappings["S"] = {
+lvim.builtin.which_key.mappings.S = {
 	"<cmd>lua require('persistence').load({ last = true })<cr>",
 	"Restore last session",
 }
