@@ -1,4 +1,4 @@
-alias dvm="ssh dn@bcooper-dev"
+alias dvm="ssh dn@bcooper-dev -A"
 alias tdvm="ssh -t dn@bcooper-dev '/home/linuxbrew/.linuxbrew/bin/tmux -CC new -A -s main'"
 
 # Send files (modified files in git) from this host to a server

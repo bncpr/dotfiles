@@ -15,6 +15,8 @@ alias wbc="wbox_connect"
 alias dbb="dbuild make -i wb_builder wbox"
 alias gct="git clean -xdf ~/cheetah/src/tests/.ipython"
 alias wbc="ssh \$(cat ~/borrowed_wbox) -p 2222"
+alias wbc="ssh \$(cat ~/borrowed_wbox) -p 2222 -A"
+alias pb="pyborrow.py"
 
 super-clean()
 {
