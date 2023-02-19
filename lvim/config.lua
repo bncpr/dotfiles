@@ -96,7 +96,6 @@ lvim.builtin.which_key.mappings["w"] = {
 
 lvim.builtin.which_key.mappings["s,"] = { "<cmd>Telescope resume<cr>", "Resume" }
 lvim.builtin.which_key.mappings["sp"] = { "<cmd>Telescope pickers<cr>", "Pickers" }
-lvim.builtin.which_key.mappings["sw"] = { "<cmd>Telescope grep_string<cr>", "Search word under cursor" }
 lvim.builtin.which_key.mappings.s.b = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Fuzzy find in buffer" }
 lvim.builtin.which_key.mappings["sg"] = { "<cmd>Telescope grep_string<cr>", "Search word under cursor" }
 
