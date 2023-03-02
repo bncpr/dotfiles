@@ -732,6 +732,11 @@ vim.api.nvim_create_autocmd("BufEnter", {
 	command = "setlocal filetype=zsh",
 })
 
+vim.api.nvim_create_autocmd("BufEnter", {
+	pattern = "combos.def",
+	command = "setlocal filetype=c",
+})
+
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "zsh",
 	callback = function()
