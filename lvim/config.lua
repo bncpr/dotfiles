@@ -1,5 +1,5 @@
 -- general
-lvim.log.level = "warn"
+lvim.log.level = "trace"
 lvim.format_on_save = false
 lvim.colorscheme = "tokyonight-night"
 -- to disable icons and use a minimalist setup, uncomment the following
@@ -240,31 +240,24 @@ local pyls_opts = {
 	settings = {
 		pylsp = {
 			plugins = {
-				jedi = {
-					extra_paths = {},
+				ruff = {
+					enabled = true,
 				},
 				pycodestyle = {
-					ignore = { "E501", "W503" },
-				},
-				pydocstyle = {
-					enabled = false,
-					addIgnore = { "D102" },
-				},
-				yapf = {
 					enabled = false,
 				},
-				mypy = {
-					enable = false,
+				pyflakes = {
+					enabled = false,
 				},
-				black = {
-					enabled = true,
+				mccabe = {
+					enabled = false,
 				},
 			},
 		},
 	},
 }
 
-require("lvim.lsp.manager").setup("pylsp", pyls_opts)
+-- require("lvim.lsp.manager").setup("pylsp", pyls_opts)
 
 -- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. !!Requires `:LvimCacheReset` to take effect!!
 -- ---`:LvimInfo` lists which server(s) are skiipped for the current filetype
@@ -318,6 +311,11 @@ linters.setup({
 		command = "codespell",
 		---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
 		-- filetypes = { "javascript", "python" },
+	},
+	{
+		command = "ruff",
+		filetypes = { "python" },
+		args = { "-n", "-e", "--stdin-filename", "$FILENAME", "-" },
 	},
 })
 
