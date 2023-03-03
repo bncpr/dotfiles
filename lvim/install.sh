@@ -7,4 +7,4 @@ ln -srf ftplugin/c.lua ~/.config/lvim/ftplugin/c.lua
 ln -srf ftplugin/c.lua ~/.config/lvim/ftplugin/cpp.lua
 
 mkdir -pv ~/.config/lvim/luasnippets
-ln -srf snippets ~/.config/lvim/luasnippets
+ln -srf snippets/* ~/.config/lvim/luasnippets/

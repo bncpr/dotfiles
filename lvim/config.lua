@@ -1,21 +1,32 @@
+--[[
+ THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
+ `lvim` is the global options object
+]]
+
+-- vim options
+vim.opt.shiftwidth = 2
+vim.opt.tabstop = 2
+-- vim.opt.relativenumber = true
+
 -- general
-lvim.log.level = "trace"
-lvim.format_on_save = false
-lvim.colorscheme = "tokyonight-night"
+lvim.log.level = "info"
+lvim.format_on_save = {
+	enabled = true,
+	pattern = "*.lua",
+	timeout = 1000,
+}
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
--- keymappings [view all the defaults by pressing <leader>Lk]
+-- keymappings <https://www.lunarvim.org/docs/configuration/keybindings>
 lvim.leader = "space"
 vim.g.maplocalleader = ","
-
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
--- unmap a default keymapping
--- vim.keymap.del("n", "<C-Up>")
--- override a default keymapping
--- lvim.keys.normal_mode["<C-q>"] = ":q<cr>" -- or vim.keymap.set("n", "<C-q>", ":q<cr>" )
--- vim.keymap.del("n", "<C-q>")
+
+-- -- Use which-key to add extra bindings with the leader-key prefix
+lvim.builtin.which_key.mappings["W"] = { "<cmd>noautocmd w<cr>", "Save without formatting" }
+-- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 lvim.keys.normal_mode["U"] = "<nop>"
 lvim.keys.normal_mode["]g"] = "<cmd>Gitsign next_hunk<cr>"
 lvim.keys.normal_mode["[g"] = "<cmd>Gitsign prev_hunk<cr>"
@@ -29,34 +40,87 @@ vim.cmd("noremap <2-MiddleMouse> <Nop>")
 vim.cmd("noremap <3-MiddleMouse> <Nop>")
 vim.cmd("noremap <4-MiddleMouse> <Nop>")
 
--- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
--- we use protected-mode (pcall) just in case the plugin wasn't loaded yet.
-local _, actions = pcall(require, "telescope.actions")
-lvim.builtin.telescope.defaults.mappings = {
-	-- for input mode
-	i = {
-		["<C-j>"] = actions.move_selection_next,
-		["<C-k>"] = actions.move_selection_previous,
-		["<C-n>"] = actions.cycle_history_next,
-		["<C-p>"] = actions.cycle_history_prev,
-		["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
-		-- ["<C-e>"] = {
-		-- 	function(prompt_bufnr, _mode)
-		-- 		require("trouble.providers.telescope").open_with_trouble(prompt_bufnr, _mode)
-		-- 	end,
-		-- 	"Trouble",
-		-- },
-		-- ["<esc>"] = actions.close,
-		["<c-u>"] = false,
-		["<M-q>"] = false,
-	},
-	-- for normal mode
-	n = {
-		["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
-		["<C-j>"] = actions.move_selection_next,
-		["<C-k>"] = actions.move_selection_previous,
-	},
-}
+-- -- Change theme settings
+-- lvim.colorscheme = "lunar"
+lvim.colorscheme = "tokyonight-night"
+
+lvim.builtin.alpha.active = true
+lvim.builtin.alpha.mode = "dashboard"
+lvim.builtin.terminal.active = true
+lvim.builtin.nvimtree.setup.view.side = "left"
+-- lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
+
+-- Automatically install missing parsers when entering buffer
+lvim.builtin.treesitter.auto_install = true
+
+-- lvim.builtin.treesitter.ignore_install = { "haskell" }
+
+-- -- always installed on startup, useful for parsers without a strict filetype
+-- lvim.builtin.treesitter.ensure_installed = { "comment", "markdown_inline", "regex" }
+
+-- -- generic LSP settings <https://www.lunarvim.org/docs/languages#lsp-support>
+
+-- --- disable automatic installation of servers
+-- lvim.lsp.installer.setup.automatic_installation = false
+lvim.lsp.automatic_servers_installation = false
+
+-- ---configure a server manually. IMPORTANT: Requires `:LvimCacheReset` to take effect
+-- ---see the full default list `:lua =lvim.lsp.automatic_configuration.skipped_servers`
+-- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
+-- local opts = {} -- check the lspconfig documentation for a list of all possible options
+-- require("lvim.lsp.manager").setup("pyright", opts)
+
+-- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. IMPORTANT: Requires `:LvimCacheReset` to take effect
+-- ---`:LvimInfo` lists which server(s) are skipped for the current filetype
+-- lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(server)
+--   return server ~= "emmet_ls"
+-- end, lvim.lsp.automatic_configuration.skipped_servers)
+
+-- -- you can set a custom on_attach function that will be used for all the language servers
+-- -- See <https://github.com/neovim/nvim-lspconfig#keybindings-and-completion>
+-- lvim.lsp.on_attach_callback = function(client, bufnr)
+--   local function buf_set_option(...)
+--     vim.api.nvim_buf_set_option(bufnr, ...)
+--   end
+--   --Enable completion triggered by <c-x><c-o>
+--   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
+-- end
+
+-- -- linters and formatters <https://www.lunarvim.org/docs/languages#lintingformatting>
+-- local formatters = require "lvim.lsp.null-ls.formatters"
+-- formatters.setup {
+--   { command = "stylua" },
+--   {
+--     command = "prettier",
+--     extra_args = { "--print-width", "100" },
+--     filetypes = { "typescript", "typescriptreact" },
+--   },
+-- }
+-- local linters = require "lvim.lsp.null-ls.linters"
+-- linters.setup {
+--   { command = "flake8", filetypes = { "python" } },
+--   {
+--     command = "shellcheck",
+--     args = { "--severity", "warning" },
+--   },
+-- }
+
+-- -- Additional Plugins <https://www.lunarvim.org/docs/plugins#user-plugins>
+-- lvim.plugins = {
+--     {
+--       "folke/trouble.nvim",
+--       cmd = "TroubleToggle",
+--     },
+-- }
+
+-- -- Autocommands (`:help autocmd`) <https://neovim.io/doc/user/autocmd.html>
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = "zsh",
+--   callback = function()
+--     -- let treesitter use bash highlight for zsh files as well
+--     require("nvim-treesitter.highlight").attach(0, "bash")
+--   end,
+-- })
 -- lvim.builtin.telescope.defaults.path_display = { "truncate" }
 -- lvim.builtin.telescope.defaults.path_display.shorten = 3
 
@@ -236,35 +300,44 @@ local clangd_opts = {
 }
 require("lvim.lsp.manager").setup("clangd", clangd_opts)
 
-local pyls_opts = {
-	settings = {
-		pylsp = {
-			plugins = {
-				ruff = {
-					enabled = true,
-				},
-				pycodestyle = {
-					enabled = false,
-				},
-				pyflakes = {
-					enabled = false,
-				},
-				mccabe = {
-					enabled = false,
-				},
-			},
-		},
-	},
-}
+-- local pyls_opts = {
+-- 	settings = {
+-- 		pylsp = {
+-- 			plugins = {
+-- 				ruff = {
+-- 					enabled = true,
+-- 				},
+-- 				pycodestyle = {
+-- 					enabled = false,
+-- 				},
+-- 				pyflakes = {
+-- 					enabled = false,
+-- 				},
+-- 				mccabe = {
+-- 					enabled = false,
+-- 				},
+-- 			},
+-- 		},
+-- 	},
+-- }
 
--- require("lvim.lsp.manager").setup("pylsp", pyls_opts)
+-- local ruff_lsp_opts = {
+-- 	cmd = { "ruff-lsp" },
+-- 	filetypes = { "python" },
+-- 	root_dir = require("lspconfig").util.find_git_ancestor,
+-- 	init_options = {
+-- 		settings = {
+-- 			args = {},
+-- 		},
+-- 	},
+-- }
+-- require("lvim.lsp.manager").setup("ruff_lsp", ruff_lsp_opts)
 
 -- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. !!Requires `:LvimCacheReset` to take effect!!
 -- ---`:LvimInfo` lists which server(s) are skiipped for the current filetype
--- vim.tbl_map(function(server)
---   return server ~= "emmet_ls"
--- end, lvim.lsp.automatic_configuration.skipped_servers)
-
+lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(server)
+	return server ~= "ruff_lsp"
+end, lvim.lsp.automatic_configuration.skipped_servers)
 -- -- you can set a custom on_attach function that will be used for all the language servers
 -- -- See <https://github.com/neovim/nvim-lspconfig#keybindings-and-completion>
 -- lvim.lsp.on_attach_callback = function(client, bufnr)
@@ -284,6 +357,7 @@ formatters.setup({
 	{ command = "beautysh", extra_args = { "-i", "2" } },
 	{ command = "stylua" },
 	{ command = "yamlfmt" },
+	{ command = "ruff" },
 	-- { command = "black", filetypes = { "python" } },
 	--   {
 	--     -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
@@ -312,11 +386,10 @@ linters.setup({
 		---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
 		-- filetypes = { "javascript", "python" },
 	},
-	{
-		command = "ruff",
-		filetypes = { "python" },
-		args = { "-n", "-e", "--stdin-filename", "$FILENAME", "-" },
-	},
+	-- {
+	-- command = "ruff",
+	-- args = { "-n", "-e", "--stdin-filename", "$FILENAME", "-" },
+	-- },
 })
 
 -- Additional Plugins
@@ -326,7 +399,7 @@ lvim.plugins = {
 		"tpope/vim-surround",
 		keys = { "c", "d", "y", "v" },
 		-- make sure to change the value of `timeoutlen` if it's not triggering correctly, see https://github.com/tpope/vim-surround/issues/117
-		setup = function()
+		init = function()
 			vim.o.timeoutlen = 500
 			vim.cmd("xmap gS <Plug>VSurround")
 		end,
@@ -424,7 +497,7 @@ lvim.plugins = {
 	{
 		"folke/persistence.nvim",
 		event = "BufReadPre", -- this will only start session saving when an actual file was opened
-		module = "persistence",
+		lazy = true,
 		config = function()
 			require("persistence").setup({
 				dir = vim.fn.expand(vim.fn.stdpath("config") .. "/session/"),
@@ -640,7 +713,7 @@ lvim.plugins = {
 					delay_syntax = 80,
 					border_chars = { "┃", "┃", "━", "━", "┏", "┓", "┗", "┛", "█" },
 					show_title = false,
-					should_preview_cb = function(bufnr, qwinid)
+					should_preview_cb = function(bufnr, _)
 						local ret = true
 						local bufname = vim.api.nvim_buf_get_name(bufnr)
 						local fsize = vim.fn.getfsize(bufname)
@@ -675,7 +748,7 @@ lvim.plugins = {
 	},
 	{
 		"junegunn/fzf",
-		run = function()
+		build = function()
 			vim.fn["fzf#install"]()
 		end,
 	},
