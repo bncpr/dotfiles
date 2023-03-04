@@ -26,7 +26,7 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 
 -- -- Use which-key to add extra bindings with the leader-key prefix
 lvim.builtin.which_key.mappings["W"] = { "<cmd>noautocmd w<cr>", "Save without formatting" }
--- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
+lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 lvim.keys.normal_mode["U"] = "<nop>"
 lvim.keys.normal_mode["]g"] = "<cmd>Gitsign next_hunk<cr>"
 lvim.keys.normal_mode["[g"] = "<cmd>Gitsign prev_hunk<cr>"
@@ -123,6 +123,44 @@ lvim.lsp.automatic_servers_installation = false
 -- })
 -- lvim.builtin.telescope.defaults.path_display = { "truncate" }
 -- lvim.builtin.telescope.defaults.path_display.shorten = 3
+local _, actions = pcall(require, "telescope.actions")
+lvim.builtin.telescope.defaults.mappings = {
+	i = {
+		["<C-j>"] = actions.move_selection_next,
+		["<C-k>"] = actions.move_selection_previous,
+		["<C-c>"] = actions.close,
+		["<C-n>"] = actions.cycle_history_next,
+		["<C-p>"] = actions.cycle_history_prev,
+		["<C-q>"] = function(...)
+			actions.smart_send_to_qflist(...)
+			actions.open_qflist(...)
+		end,
+		["<CR>"] = actions.select_default,
+		["<C-w>"] = function(prompt_bufnr)
+			-- Use nvim-window-picker to choose the window by dynamically attaching a function
+			local action_set = require("telescope.actions.set")
+			local action_state = require("telescope.actions.state")
+
+			local picker = action_state.get_current_picker(prompt_bufnr)
+			picker.get_selection_window = function(_picker, _)
+				local picked_window_id = require("window-picker").pick_window() or vim.api.nvim_get_current_win()
+				-- Unbind after using so next instance of the picker acts normally
+				_picker.get_selection_window = nil
+				return picked_window_id
+			end
+
+			return action_set.edit(prompt_bufnr, "edit")
+		end,
+	},
+	n = {
+		["<C-n>"] = actions.move_selection_next,
+		["<C-p>"] = actions.move_selection_previous,
+		["<C-q>"] = function(...)
+			actions.smart_send_to_qflist(...)
+			actions.open_qflist(...)
+		end,
+	},
+}
 
 -- Use which-key to add extra bindings with the leader-key prefix
 lvim.builtin.which_key.mappings[";"] = nil
@@ -158,10 +196,15 @@ lvim.builtin.which_key.mappings["w"] = {
 	q = { ":q<CR>", "Quite" },
 }
 
-lvim.builtin.which_key.mappings["s,"] = { "<cmd>Telescope resume<cr>", "Resume" }
 lvim.builtin.which_key.mappings["sp"] = { "<cmd>Telescope pickers<cr>", "Pickers" }
 lvim.builtin.which_key.mappings.s.b = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Fuzzy find in buffer" }
-lvim.builtin.which_key.mappings["sg"] = { "<cmd>Telescope grep_string<cr>", "Search word under cursor" }
+lvim.builtin.which_key.mappings["sw"] = { "<cmd>Telescope grep_string<cr>", "Search word under cursor" }
+lvim.builtin.which_key.mappings["c"] = {
+	name = "+Cheetah",
+	f = { "<cmd>Telescope find_files cwd=~/cheetah hidden=true<cr>", "Find Cheetah" },
+	a = { "<cmd>Telescope find_files cwd=~/cheetah hidden=true no_ignore=true<cr>", "Find Cheetah All" },
+	t = { "<cmd>Telescope live_grep cwd=~/cheetah<cr>", "Grep Cheetah" },
+}
 
 lvim.builtin.which_key.mappings["bp"] = { "<cmd>BufferLineTogglePin<cr>", "Pin" }
 lvim.builtin.which_key.mappings["bc"] = { "<cmd>BufferKill<cr>", "Close" }
@@ -544,67 +587,6 @@ lvim.plugins = {
 		end,
 	},
 	{
-		"nathanalderson/yang.vim",
-	},
-	-- {
-	-- 	"catppuccin/nvim",
-	-- 	as = "catppuccin",
-	-- 	config = function()
-	-- 		vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
-	-- 		require("catppuccin").setup({
-	-- 			integrations = {
-	-- 				cmp = true,
-	-- 				dashboard = true,
-	-- 				gitsigns = true,
-	-- 				harpoon = true,
-	-- 				leap = true,
-	-- 				lsp_trouble = true,
-	-- 				fidget = true,
-	-- 				notify = true,
-	-- 				nvimtree = true,
-	-- 				symbols_outline = true,
-	-- 				telescope = true,
-	-- 				treesitter = true,
-	-- 				treesitter_context = true,
-	-- 				ts_rainbow = true,
-	-- 				which_key = true,
-
-	-- 				-- Special integrations, see https://github.com/catppuccin/nvim#special-integrations
-	-- 				indent_blankline = {
-	-- 					enabled = true,
-	-- 					colored_indent_levels = false,
-	-- 				},
-	-- 				native_lsp = {
-	-- 					enabled = true,
-	-- 					virtual_text = {
-	-- 						errors = { "italic" },
-	-- 						hints = { "italic" },
-	-- 						warnings = { "italic" },
-	-- 						information = { "italic" },
-	-- 					},
-	-- 					underlines = {
-	-- 						errors = { "underline" },
-	-- 						hints = { "underline" },
-	-- 						warnings = { "underline" },
-	-- 						information = { "underline" },
-	-- 					},
-	-- 				},
-	-- 			},
-	-- 		})
-	-- 		-- vim.api.nvim_command("colorscheme catppuccin")
-	-- 	end,
-	-- },
-	-- {
-	--   'j-hui/fidget.nvim',
-	--   config = function()
-	--     require("fidget").setup({
-	--       window = {
-	--         blend = 0,
-	--       }
-	--     })
-	--   end
-	-- },
-	{
 		"vigoux/notifier.nvim",
 		event = "BufRead",
 		config = function()
@@ -698,6 +680,7 @@ lvim.plugins = {
 	},
 	{
 		"sindrets/diffview.nvim",
+		lazy = true,
 		event = "BufRead",
 	},
 	{
