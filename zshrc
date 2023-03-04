@@ -1,6 +1,4 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:$HOME/.local/bin:$HOME/Library/Python/3.8/bin:$PATH
-export PATH=/home/linuxbrew/.linuxbrew/opt/python@3.10/libexec/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -114,5 +112,7 @@ fi
 source ~/.profile
 source ~/.aliases
 
+# Set PATH, MANPATH, etc., for Homebrew.
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
