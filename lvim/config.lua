@@ -122,7 +122,9 @@ lvim.lsp.automatic_servers_installation = false
 --   end,
 -- })
 -- lvim.builtin.telescope.defaults.path_display = { "truncate" }
--- lvim.builtin.telescope.defaults.path_display.shorten = 3
+lvim.builtin.telescope.defaults.path_display = { truncate = 3 }
+lvim.builtin.telescope.pickers.buffers.initial_mode = "insert"
+lvim.builtin.telescope.theme = "center"
 local _, actions = pcall(require, "telescope.actions")
 lvim.builtin.telescope.defaults.mappings = {
 	i = {
@@ -131,6 +133,7 @@ lvim.builtin.telescope.defaults.mappings = {
 		["<C-c>"] = actions.close,
 		["<C-n>"] = actions.cycle_history_next,
 		["<C-p>"] = actions.cycle_history_prev,
+		["<C-u>"] = false,
 		["<C-q>"] = function(...)
 			actions.smart_send_to_qflist(...)
 			actions.open_qflist(...)
@@ -253,9 +256,7 @@ lvim.builtin.which_key.vmappings["s"] = { "<Plug>VSurround", "Surround" }
 
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = true
--- lvim.builtin.alpha.mode = "startify"
 lvim.builtin.nvimtree.setup.view.width = 40
--- lvim.builtin.lualine.options.theme = "catppuccin"
 -- lvim.builtin.lualine.options.globalstatus = true
 -- lvim.builtin.comment.mappings.extra = true
 
@@ -788,7 +789,9 @@ vim.api.nvim_create_autocmd("BufEnter", {
 
 vim.api.nvim_create_autocmd("BufEnter", {
 	pattern = "combos.def",
-	command = "setlocal filetype=c",
+	callback = function()
+		require("nvim-treesitter.highlight").attach(0, "c")
+	end,
 })
 
 vim.api.nvim_create_autocmd("FileType", {
@@ -814,5 +817,20 @@ vim.api.nvim_create_autocmd("FileType", {
 			"command! Autoflake :!autoflake % --in-place --remove-unused-variables --remove-rhs-for-unused-variables --remove-duplicate-keys"
 		)
 		vim.cmd("command! AutoflakePlus :!autoflake % --in-place --remove-all-unused-imports")
+	end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "c", "cpp" },
+	callback = function()
+		vim.cmd("setlocal ts=4")
+		vim.cmd("setlocal sts=4")
+		vim.cmd("setlocal sw=4")
+		vim.cmd("setlocal noexpandtab")
+		vim.cmd("noremap <buffer> <localleader>; mmA;<esc>`m")
+		vim.cmd("imap <buffer> <localleader>j <esc>o{<enter>")
+		vim.cmd("map <buffer> <localleader>d $xo{<enter>")
+		vim.cmd([[let @t="dwea_t"]])
+		vim.cmd([[command! RemoveRC :%s/int rc = \(.*\);\n\s*if (rc)/if (\1)/e]])
 	end,
 })
