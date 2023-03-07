@@ -165,6 +165,9 @@ lvim.builtin.telescope.defaults.mappings = {
 	},
 }
 
+-- lvim.builtin.bufferline.options.numbers = "ordinal"
+lvim.builtin.bufferline.options.indicator.style = "underline"
+
 -- Use which-key to add extra bindings with the leader-key prefix
 lvim.builtin.which_key.mappings[";"] = nil
 lvim.builtin.which_key.mappings["q"] = nil
@@ -204,7 +207,7 @@ lvim.builtin.which_key.mappings.s.b = { "<cmd>Telescope current_buffer_fuzzy_fin
 lvim.builtin.which_key.mappings["sw"] = { "<cmd>Telescope grep_string<cr>", "Search word under cursor" }
 lvim.builtin.which_key.mappings["c"] = {
 	name = "+Cheetah",
-	f = { "<cmd>Telescope find_files cwd=~/cheetah hidden=true<cr>", "Find Cheetah" },
+	f = { "<cmd>Telescope find_files cwd=~/cheetah hidden=true theme=ivy<cr>", "Find Cheetah" },
 	a = { "<cmd>Telescope find_files cwd=~/cheetah hidden=true no_ignore=true<cr>", "Find Cheetah All" },
 	t = { "<cmd>Telescope live_grep cwd=~/cheetah<cr>", "Grep Cheetah" },
 }
@@ -761,13 +764,13 @@ lvim.plugins = {
 			require("marks").setup({
 				bookmark_0 = {
 					sign = "⚑",
-					virt_text = "hello world",
+					virt_text = "TODO",
 					-- explicitly prompt for a virtual line annotation when setting a bookmark from this group.
 					-- defaults to false.
 					annotate = false,
 				},
 				mappings = {
-					preview = false,
+					-- preview = false,
 				},
 			})
 		end,
