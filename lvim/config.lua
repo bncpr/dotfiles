@@ -202,9 +202,10 @@ lvim.builtin.which_key.mappings["w"] = {
 	q = { ":q<CR>", "Quite" },
 }
 
-lvim.builtin.which_key.mappings["sp"] = { "<cmd>Telescope pickers<cr>", "Pickers" }
+lvim.builtin.which_key.mappings.s.p = { "<cmd>Telescope pickers<cr>", "Pickers" }
 lvim.builtin.which_key.mappings.s.b = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Fuzzy find in buffer" }
-lvim.builtin.which_key.mappings["sw"] = { "<cmd>Telescope grep_string<cr>", "Search word under cursor" }
+lvim.builtin.which_key.mappings.s.w = { "<cmd>Telescope grep_string<cr>", "Search word under cursor" }
+lvim.builtin.which_key.mappings.s.s = { "<cmd>Telescope luasnip<cr>", "Search snippets" }
 lvim.builtin.which_key.mappings["c"] = {
 	name = "+Cheetah",
 	f = { "<cmd>Telescope find_files cwd=~/cheetah hidden=true theme=ivy<cr>", "Find Cheetah" },
@@ -253,9 +254,9 @@ lvim.builtin.which_key.vmappings["f"] = { "<cmd>lua vim.lsp.buf.range_formatting
 lvim.builtin.which_key.vmappings["s"] = { "<Plug>VSurround", "Surround" }
 
 -- Telescope extensions register
--- lvim.builtin.telescope.on_config_done = function(telescope)
--- 	pcall(telescope.load_extension, "vim_bookmarks")
--- end
+lvim.builtin.telescope.on_config_done = function(telescope)
+	pcall(telescope.load_extension, "luasnip")
+end
 
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = true
@@ -306,6 +307,7 @@ lvim.builtin.treesitter.ensure_installed = {
 lvim.builtin.treesitter.highlight.enabled = true
 lvim.builtin.treesitter.rainbow.enable = true
 lvim.builtin.treesitter.matchup.enable = true
+lvim.builtin.treesitter.playground.enable = true
 
 -- lvim.builtin.gitsigns.opts.trouble = false
 
@@ -775,6 +777,11 @@ lvim.plugins = {
 			})
 		end,
 	},
+	{
+		"benfowler/telescope-luasnip.nvim",
+		lazy = true,
+	},
+	{ "nvim-treesitter/playground" },
 }
 
 -- Autocommands (https://eovim.io/doc/user/autocmd.html)
@@ -837,3 +844,17 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.cmd([[command! RemoveRC :%s/int rc = \(.*\);\n\s*if (rc)/if (\1)/e]])
 	end,
 })
+
+local function log_debug_function()
+	vim.api.nvim_command(":normal 0yib<cr>")
+	local params = vim.fn.getreg('"')
+	local pattern = "%s*([%w_*%s]+)([%w_]+)%s*,?"
+	print(params)
+	for type, name in string.gmatch(params, pattern) do
+		print(type)
+		print(name)
+		-- print("const: " .. const .. "type: " .. type .. " name: " .. name)
+	end
+end
+
+vim.api.nvim_create_user_command("LogDebugFunction", log_debug_function, {})
