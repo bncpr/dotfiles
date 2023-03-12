@@ -12,7 +12,7 @@ vim.opt.tabstop = 2
 lvim.log.level = "info"
 lvim.format_on_save = {
 	enabled = true,
-	pattern = "*.lua",
+	pattern = { "*.lua", "*.c", "*.cpp", "*.h", "*.hpp" },
 	timeout = 1000,
 }
 -- to disable icons and use a minimalist setup, uncomment the following
@@ -308,6 +308,7 @@ lvim.builtin.treesitter.highlight.enabled = true
 lvim.builtin.treesitter.rainbow.enable = true
 lvim.builtin.treesitter.matchup.enable = true
 lvim.builtin.treesitter.playground.enable = true
+lvim.builtin.treesitter.indent.disable = { "yaml", "python", "c", "cpp" }
 
 -- lvim.builtin.gitsigns.opts.trouble = false
 
@@ -328,7 +329,7 @@ local clangd_flags = {
 	"--completion-style=detailed",
 	"--enable-config", -- clangd 11+ supports reading from .clangd configuration file
 	"--clang-tidy",
-	"--query-driver=/home/linuxbrew/.linuxbrew/Cellar/gcc/11.3.0_2",
+	-- "--query-driver=/home/linuxbrew/.linuxbrew/Cellar/gcc/11.3.0_2",
 	"--clang-tidy-checks=-*,llvm-*,clang-analyzer-*,modernize-*,-modernize-use-trailing-return-type",
 	-- "--fallback-style=Google",
 	-- "--compile-commands-dir=build",
@@ -340,6 +341,15 @@ local custom_clangd_on_attach = function(client, bufnr)
 	require("lvim.lsp").common_on_attach(client, bufnr)
 	local opts = { noremap = true, silent = true }
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lh", "<Cmd>ClangdSwitchSourceHeader<CR>", opts)
+	vim.cmd([[
+    setlocal ts=4 sts=4 sw=4 noexpandtab
+    noremap <buffer> <localleader>; mmA;<esc>`m
+    imap <buffer> <localleader>j <esc>o{<enter>
+    map <buffer> <localleader>d $xo{<enter>
+    let @t="dwea_t"
+    noremap <buffer> <localleader>d] V][d
+    command! RemoveRC :%s/int rc = \(.*\);\n\s*if (rc)/if (\1)/e
+  ]])
 end
 
 local clangd_opts = {
@@ -405,7 +415,7 @@ formatters.setup({
 	{ command = "clang-format", filetypes = { "yang" } },
 	{ command = "beautysh", extra_args = { "-i", "2" } },
 	{ command = "stylua" },
-	{ command = "yamlfmt" },
+	-- { command = "yamlfmt" },
 	{ command = "ruff" },
 	-- { command = "black", filetypes = { "python" } },
 	--   {
@@ -827,21 +837,6 @@ vim.api.nvim_create_autocmd("FileType", {
 			"command! Autoflake :!autoflake % --in-place --remove-unused-variables --remove-rhs-for-unused-variables --remove-duplicate-keys"
 		)
 		vim.cmd("command! AutoflakePlus :!autoflake % --in-place --remove-all-unused-imports")
-	end,
-})
-
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "c", "cpp" },
-	callback = function()
-		vim.cmd("setlocal ts=4")
-		vim.cmd("setlocal sts=4")
-		vim.cmd("setlocal sw=4")
-		vim.cmd("setlocal noexpandtab")
-		vim.cmd("noremap <buffer> <localleader>; mmA;<esc>`m")
-		vim.cmd("imap <buffer> <localleader>j <esc>o{<enter>")
-		vim.cmd("map <buffer> <localleader>d $xo{<enter>")
-		vim.cmd([[let @t="dwea_t"]])
-		vim.cmd([[command! RemoveRC :%s/int rc = \(.*\);\n\s*if (rc)/if (\1)/e]])
 	end,
 })
 
