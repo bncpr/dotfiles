@@ -840,16 +840,49 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
-local function log_debug_function()
-	vim.api.nvim_command(":normal 0yib<cr>")
-	local params = vim.fn.getreg('"')
-	local pattern = "%s*([%w_*%s]+)([%w_]+)%s*,?"
-	print(params)
-	for type, name in string.gmatch(params, pattern) do
-		print(type)
-		print(name)
-		-- print("const: " .. const .. "type: " .. type .. " name: " .. name)
+local function parseParams(text)
+	local params = {}
+
+	-- Split the parameter text by comma.
+	local paramList = {}
+	for param in text:gmatch("[^,]+") do
+		table.insert(paramList, param)
 	end
+
+	-- Parse each parameter.
+	for _, param in ipairs(paramList) do
+		-- Extract the parameter name and type using patterns.
+		local name = param:match("%s*([%w_]+)$")
+		local type = param:match("^%s*(.+)" .. name .. "$")
+		type = string.gsub(type, "^%s*(.-)%s*$", "%1")
+
+		-- Add the parameter to the list.
+		table.insert(params, { name = name, type = type })
+	end
+
+	return params
+end
+
+local function log_debug_function()
+	vim.api.nvim_command(":normal 0yib])jo")
+	local params = vim.fn.getreg('"')
+	local parsed = parseParams(params)
+	local params_logs = {}
+	local names = {}
+	for _, value in ipairs(parsed) do
+		table.insert(names, value.name)
+		if value.type:find("*") then
+			table.insert(params_logs, value.name .. "=%p")
+		elseif value.type:find("uint") then
+			table.insert(params_logs, value.name .. "=%u")
+		elseif value.type:find("int") then
+			table.insert(params_logs, value.name .. "=%d")
+		end
+	end
+	local result = { "CHEETAH_LOG(LOG_DEBUG" }
+	table.insert(result, '"' .. table.concat(params_logs, ", ") .. '"')
+	table.insert(result, table.concat(names, ", ") .. ");")
+	vim.api.nvim_put({ table.concat(result, ", ") }, "", true, true)
 end
 
 vim.api.nvim_create_user_command("LogDebugFunction", log_debug_function, {})
