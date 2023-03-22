@@ -875,11 +875,13 @@ local function log_debug_function()
 			table.insert(params_logs, value.name .. "=%p")
 		elseif value.type:find("uint") then
 			table.insert(params_logs, value.name .. "=%u")
-		elseif value.type:find("int") then
+		elseif value.type:find("(int|bool)") then
+			table.insert(params_logs, value.name .. "=%d")
+		else
 			table.insert(params_logs, value.name .. "=%d")
 		end
 	end
-	local result = { "CHEETAH_LOG(LOG_DEBUG" }
+	local result = { "CHEETAH_LOG(DN_LOG_DEBUG" }
 	table.insert(result, '"' .. table.concat(params_logs, ", ") .. '"')
 	table.insert(result, table.concat(names, ", ") .. ");")
 	vim.api.nvim_put({ table.concat(result, ", ") }, "", true, true)
