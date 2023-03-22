@@ -9,7 +9,7 @@ vim.opt.tabstop = 2
 -- vim.opt.relativenumber = true
 
 -- general
-lvim.log.level = "info"
+lvim.log.level = "warn"
 lvim.format_on_save = {
 	enabled = true,
 	pattern = { "*.lua", "*.c", "*.cpp", "*.h", "*.hpp" },
