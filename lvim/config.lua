@@ -837,6 +837,10 @@ lvim.plugins = {
 			"rcarriga/nvim-notify",
 		},
 	},
+	{
+		"cbochs/grapple.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
+	},
 }
 
 -- Autocommands (https://eovim.io/doc/user/autocmd.html)
