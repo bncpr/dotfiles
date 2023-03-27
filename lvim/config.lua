@@ -237,6 +237,13 @@ lvim.builtin.which_key.mappings["m"] = {
 	g = { "<cmd>MarksQFListGlobal<CR>", "Global" },
 }
 
+lvim.builtin.which_key.mappings["t"] = {
+	name = "+Harpoon",
+	t = { "<cmd>lua require('harpoon.ui').toggle_quick_menu()<CR>", "Open" },
+	f = { "<cmd>Telescope harpoon marks<CR>", "Search" },
+	m = { "<cmd>lua require('harpoon.mark').add_file()<CR>", "Add" },
+}
+
 -- lvim.builtin.which_key.mappings["t"] = {
 -- 	name = "+Trouble",
 -- 	t = { "<cmd>TroubleToggle<cr>", "Trouble" },
@@ -256,6 +263,7 @@ lvim.builtin.which_key.vmappings["s"] = { "<Plug>VSurround", "Surround" }
 -- Telescope extensions register
 lvim.builtin.telescope.on_config_done = function(telescope)
 	pcall(telescope.load_extension, "luasnip")
+	pcall(telescope.load_extension, "harpoon")
 end
 
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
@@ -838,7 +846,14 @@ lvim.plugins = {
 		},
 	},
 	{
-		"cbochs/grapple.nvim",
+		"ThePrimeagen/harpoon",
+		config = function()
+			require("harpoon").setup({
+				menu = {
+					width = vim.api.nvim_win_get_width(0) - 50,
+				},
+			})
+		end,
 		dependencies = { "nvim-lua/plenary.nvim" },
 	},
 }
