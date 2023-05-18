@@ -258,7 +258,6 @@ lvim.builtin.which_key.mappings["t"] = {
 
 lvim.builtin.which_key.vmappings["S"] = { ":!sort<cr>", "Sort" }
 lvim.builtin.which_key.vmappings["f"] = { "<cmd>lua vim.lsp.buf.range_formatting()<cr>", "Range Format" }
-lvim.builtin.which_key.vmappings["s"] = { "<Plug>VSurround", "Surround" }
 
 -- Telescope extensions register
 lvim.builtin.telescope.on_config_done = function(telescope)
@@ -462,15 +461,6 @@ linters.setup({
 -- Additional Plugins
 lvim.plugins = {
 	{ "tpope/vim-unimpaired" },
-	{
-		"tpope/vim-surround",
-		keys = { "c", "d", "y", "v" },
-		-- make sure to change the value of `timeoutlen` if it's not triggering correctly, see https://github.com/tpope/vim-surround/issues/117
-		init = function()
-			vim.o.timeoutlen = 500
-			vim.cmd("xmap gS <Plug>VSurround")
-		end,
-	},
 	{ "tpope/vim-repeat" },
 	-- { "folke/tokyonight.nvim" },
 	-- {
@@ -846,15 +836,27 @@ lvim.plugins = {
 		},
 	},
 	{
-		"ThePrimeagen/harpoon",
+		"kylechui/nvim-surround",
+		event = "VeryLazy",
 		config = function()
-			require("harpoon").setup({
-				menu = {
-					width = vim.api.nvim_win_get_width(0) - 50,
-				},
+			require("nvim-surround").setup({
+				-- Configuration here, or leave empty to use defaults
 			})
 		end,
-		dependencies = { "nvim-lua/plenary.nvim" },
+	},
+	{
+		"chrisgrieser/nvim-spider",
+		config = function()
+			vim.keymap.set({ "n", "o", "x" }, "w", "<cmd>lua require('spider').motion('w')<CR>", { desc = "Spider-w" })
+			vim.keymap.set({ "n", "o", "x" }, "e", "<cmd>lua require('spider').motion('e')<CR>", { desc = "Spider-e" })
+			vim.keymap.set({ "n", "o", "x" }, "b", "<cmd>lua require('spider').motion('b')<CR>", { desc = "Spider-b" })
+			vim.keymap.set(
+				{ "n", "o", "x" },
+				"ge",
+				"<cmd>lua require('spider').motion('ge')<CR>",
+				{ desc = "Spider-ge" }
+			)
+		end,
 	},
 }
 
@@ -903,52 +905,3 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.cmd("command! AutoflakePlus :!autoflake % --in-place --remove-all-unused-imports")
 	end,
 })
-
-local function parseParams(text)
-	local params = {}
-
-	-- Split the parameter text by comma.
-	local paramList = {}
-	for param in text:gmatch("[^,]+") do
-		table.insert(paramList, param)
-	end
-
-	-- Parse each parameter.
-	for _, param in ipairs(paramList) do
-		-- Extract the parameter name and type using patterns.
-		local name = param:match("%s*([%w_]+)$")
-		local type = param:match("^%s*(.+)" .. name .. "$")
-		type = string.gsub(type, "^%s*(.-)%s*$", "%1")
-
-		-- Add the parameter to the list.
-		table.insert(params, { name = name, type = type })
-	end
-
-	return params
-end
-
-local function log_debug_function()
-	vim.api.nvim_command(":normal 0yib])jo")
-	local params = vim.fn.getreg('"')
-	local parsed = parseParams(params)
-	local params_logs = {}
-	local names = {}
-	for _, value in ipairs(parsed) do
-		table.insert(names, value.name)
-		if value.type:find("*") then
-			table.insert(params_logs, value.name .. "=%p")
-		elseif value.type:find("uint") then
-			table.insert(params_logs, value.name .. "=%u")
-		elseif value.type:find("(int|bool)") then
-			table.insert(params_logs, value.name .. "=%d")
-		else
-			table.insert(params_logs, value.name .. "=%d")
-		end
-	end
-	local result = { "CHEETAH_LOG(DN_LOG_DEBUG" }
-	table.insert(result, '"' .. table.concat(params_logs, ", ") .. '"')
-	table.insert(result, table.concat(names, ", ") .. ");")
-	vim.api.nvim_put({ table.concat(result, ", ") }, "", true, true)
-end
-
-vim.api.nvim_create_user_command("LogDebugFunction", log_debug_function, {})
