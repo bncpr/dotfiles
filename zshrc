@@ -113,6 +113,7 @@ source ~/.profile
 source ~/.aliases
 
 # Set PATH, MANPATH, etc., for Homebrew.
+export PATH="$PATH:$HOME/.cargo/bin/"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"

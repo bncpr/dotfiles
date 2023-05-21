@@ -122,6 +122,16 @@ lvim.lsp.automatic_servers_installation = false
 --   end,
 -- })
 -- lvim.builtin.telescope.defaults.path_display = { "truncate" }
+
+lvim.builtin.cmp.mapping["<C-g>"] = function(fallback)
+	local ls = require("luasnip")
+	if ls.jumpable(1) then
+		ls.jump(1)
+	else
+		fallback()
+	end
+end
+
 lvim.builtin.telescope.defaults.path_display = { truncate = 3 }
 lvim.builtin.telescope.pickers.buffers.initial_mode = "insert"
 lvim.builtin.telescope.theme = "center"
@@ -177,6 +187,7 @@ lvim.builtin.which_key.mappings["q"] = {
 	k = { ":cprev<cr>", "Previous" },
 }
 
+lvim.builtin.which_key.mappings["n"] = { "<cmd>NoiceDismiss<CR>", "NoiceDismiss" }
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 lvim.builtin.which_key.mappings["E"] = { "<cmd>NvimTreeFocus<cr>", "NvimTreeFocus" }
 lvim.builtin.which_key.mappings["w"] = {
@@ -237,13 +248,6 @@ lvim.builtin.which_key.mappings["m"] = {
 	g = { "<cmd>MarksQFListGlobal<CR>", "Global" },
 }
 
-lvim.builtin.which_key.mappings["t"] = {
-	name = "+Harpoon",
-	t = { "<cmd>lua require('harpoon.ui').toggle_quick_menu()<CR>", "Open" },
-	f = { "<cmd>Telescope harpoon marks<CR>", "Search" },
-	m = { "<cmd>lua require('harpoon.mark').add_file()<CR>", "Add" },
-}
-
 -- lvim.builtin.which_key.mappings["t"] = {
 -- 	name = "+Trouble",
 -- 	t = { "<cmd>TroubleToggle<cr>", "Trouble" },
@@ -262,7 +266,6 @@ lvim.builtin.which_key.vmappings["f"] = { "<cmd>lua vim.lsp.buf.range_formatting
 -- Telescope extensions register
 lvim.builtin.telescope.on_config_done = function(telescope)
 	pcall(telescope.load_extension, "luasnip")
-	pcall(telescope.load_extension, "harpoon")
 end
 
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
@@ -626,53 +629,6 @@ lvim.plugins = {
 		end,
 	},
 	{
-		"nvim-treesitter/nvim-treesitter-textobjects",
-		config = function()
-			require("nvim-treesitter.configs").setup({
-				textobjects = {
-					select = {
-						enable = true,
-						-- Automatically jump forward to textobj, similar to targets.vim
-						lookahead = true,
-						keymaps = {
-							-- You can use the capture groups defined in textobjects.scm
-							["af"] = "@function.outer",
-							["if"] = "@function.inner",
-							["ac"] = "@class.outer",
-							["aa"] = "@parameter.outer",
-							["ia"] = "@parameter.inner",
-							-- You can optionally set descriptions to the mappings (used in the desc parameter of
-							-- nvim_buf_set_keymap) which plugins like which-key display
-							["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
-						},
-						-- You can choose the select mode (default is charwise 'v')
-						--
-						-- Can also be a function which gets passed a table with the keys
-						-- * query_string: eg '@function.inner'
-						-- * method: eg 'v' or 'o'
-						-- and should return the mode ('v', 'V', or '<c-v>') or a table
-						-- mapping query_strings to modes.
-						selection_modes = {
-							["@parameter.outer"] = "v", -- charwise
-							["@function.outer"] = "V", -- linewise
-							-- ['@class.outer'] = '<c-v>', -- blockwise
-						},
-						-- If you set this to `true` (default is `false`) then any textobject is
-						-- extended to include preceding or succeeding whitespace. Succeeding
-						-- whitespace has priority in order to act similarly to eg the built-in
-						-- `ap`.
-						--
-						-- Can also be a function which gets passed a table with the keys
-						-- * query_string: eg '@function.inner'
-						-- * selection_mode: eg 'v'
-						-- and should return true of false
-						include_surrounding_whitespace = false,
-					},
-				},
-			})
-		end,
-	},
-	{
 		"s1n7ax/nvim-window-picker",
 		config = function()
 			require("window-picker").setup({
@@ -905,3 +861,5 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.cmd("command! AutoflakePlus :!autoflake % --in-place --remove-all-unused-imports")
 	end,
 })
+
+require("luasnip").setup({ enable_autosnippets = true })
