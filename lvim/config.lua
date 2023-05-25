@@ -123,7 +123,7 @@ lvim.lsp.automatic_servers_installation = false
 -- })
 -- lvim.builtin.telescope.defaults.path_display = { "truncate" }
 
-lvim.builtin.cmp.mapping["<C-g>"] = function(fallback)
+lvim.builtin.cmp.mapping["<C-h>"] = function(fallback)
 	local ls = require("luasnip")
 	if ls.jumpable(1) then
 		ls.jump(1)
@@ -341,7 +341,7 @@ local clangd_flags = {
 	"--clang-tidy",
 	-- "--query-driver=/home/linuxbrew/.linuxbrew/Cellar/gcc/11.3.0_2",
 	"--clang-tidy-checks=-*,llvm-*,clang-analyzer-*,modernize-*,-modernize-use-trailing-return-type",
-	-- "--fallback-style=Google",
+	"--fallback-style=LLVM",
 	-- "--compile-commands-dir=build",
 }
 
@@ -405,7 +405,7 @@ require("lvim.lsp.manager").setup("clangd", clangd_opts)
 -- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. !!Requires `:LvimCacheReset` to take effect!!
 -- ---`:LvimInfo` lists which server(s) are skiipped for the current filetype
 lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(server)
-	return server ~= "ruff_lsp"
+	return server ~= "ruff_lsp" or server ~= "pylyzer"
 end, lvim.lsp.automatic_configuration.skipped_servers)
 -- -- you can set a custom on_attach function that will be used for all the language servers
 -- -- See <https://github.com/neovim/nvim-lspconfig#keybindings-and-completion>
@@ -796,7 +796,9 @@ lvim.plugins = {
 		event = "VeryLazy",
 		config = function()
 			require("nvim-surround").setup({
-				-- Configuration here, or leave empty to use defaults
+				keymaps = {
+					visual = "gs",
+				},
 			})
 		end,
 	},

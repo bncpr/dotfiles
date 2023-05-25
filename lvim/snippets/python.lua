@@ -25,5 +25,6 @@ end
 return {
 	s(",p", fmt("{1}={2}, ", { i(1, "param"), i(2, "None") })),
 }, {
-	s({ trig = "self.", condition = is_inside_init }, fmt("self.{1} = {1}", i(1, "arg"), { repeat_duplicates = true })),
+	s({ trig = "s,", condition = is_inside_init }, fmt("self.{1} = {1}", i(1), { repeat_duplicates = true })),
+	s({ trig = "s.", condition = is_inside_init }, t("self.")),
 }
