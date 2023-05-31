@@ -69,13 +69,12 @@ ZSH_THEME="eastwood"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(aliases git vi-mode dnote ripgrep fd python pip colored-man-pages zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(aliases git dnote ripgrep fd python pip colored-man-pages zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
-bindkey "^F" vi-forward-word
-
-VI_MODE_SET_CURSOR=true
+# bindkey "^F" vi-forward-word
+bindkey -e
 
 # User configuration
 
@@ -114,6 +113,5 @@ source ~/.aliases
 
 # Set PATH, MANPATH, etc., for Homebrew.
 export PATH="$PATH:$HOME/.cargo/bin/"
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
