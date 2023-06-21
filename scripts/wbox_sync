@@ -1,9 +1,0 @@
-#!/bin/bash
-
-[[ -z $TMUX ]] && exit 1
-
-wbox=$(cat ~/borrowed_wbox)
-
-[[ -z $wbox ]] && exit 1
-
-git ls-files --modified | xargs -I{} scp -P 2222 {} dn@"$(cat ~/borrowed_wbox)":/home/dn/cheetah/{}

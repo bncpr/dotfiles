@@ -1,11 +1,3 @@
-alias dvm="ssh dn@bcooper-dev -A"
-alias tdvm="ssh -t dn@bcooper-dev '/home/linuxbrew/.linuxbrew/bin/tmux -CC new -A -s main'"
-
-# Send files (modified files in git) from this host to a server
-server-sync () {
-  git ls-files --modified | xargs -I{} scp -P $2 {} dn@"$1":/home/dn/cheetah/{}
-}
-
 alias cl=clear
 alias rm="rm -i"
 alias kila=killall
