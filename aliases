@@ -10,22 +10,24 @@ alias gcam="git commit -am"
 alias gcm="git commit -m"
 alias gcv="git commit -v"
 alias lg="lazygit"
+alias zlj="zellij"
+
+git_auto_commit() {
+  git add -A
+	current_datetime=$(date '+%Y-%m-%d %H:%M:%S')
+	git commit -m "$current_datetime"
+}
 
 git_auto_commit_push() {
-	# Pull the latest changes
 	git pull
-
   git add -A
-
-	# Get the current date and time
 	current_datetime=$(date '+%Y-%m-%d %H:%M:%S')
-
-	# Commit the changes with the current date and time as the commit message
 	git commit -m "$current_datetime"
-
-	# Push the changes to the remote repository
 	git push
 }
+
+alias gac="git_auto_commit"
+alias gacp="git_auto_commit_push"
 
 alias cgdb="cgdb -ex 'set style enabled off'"
 
