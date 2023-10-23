@@ -85,9 +85,9 @@ bindkey -e
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
+  export EDITOR='vi'
 else
-  export EDITOR='lvim'
+  export EDITOR='vi'
 fi
 
 [[ -a ~/.local/bin/lvim ]] && export VISUAL=lvim
@@ -114,3 +114,5 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 export PATH="$PATH:$HOME/.cargo/bin/"
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
+export ZELLIJ_AUTO_ATTACH=true
+eval "$(zellij setup --generate-auto-start zsh)"
