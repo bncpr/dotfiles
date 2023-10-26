@@ -24,7 +24,8 @@
 )
 
 (defalias
-  num  (layer-toggle numbers) ;; Bind num to a button that switches to a layer
+  num  (layer-toggle numbers)
+  nav  (layer-toggle navigation)
 )
 
 (defalias
@@ -38,16 +39,16 @@
   mk (tap-hold-next-release 250 k rctl)
   rs (tap-hold-next-release 250 s lalt)
   rl (tap-hold-next-release 250 l ralt)
-  pa (tap-hold-next-release 250 a lmeta)
-  p; (tap-hold-next-release 250 ; rmeta)
+  pa (tap-hold-next-release 250 a lmet)
+  p; (tap-hold-next-release 250 ; rmet)
 )
 
 (deflayer qwerty
   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
-  caps @pa  @rs  @md  @if  g    h    @ij  @mk  @rl  @p;  '    ret
+  esc  @pa  @rs  @md  @if  g    h    @ij  @mk  @rl  @p;  '    ret
   @sl  z    x    c    v    b    n    m    ,    .    /    @sr
-  lctl @num lalt           spc            ralt rmet @num @num
+  lctl @num @nav           spc            ralt rmet @num @num
 )
 
 (deflayer numbers
@@ -55,5 +56,13 @@
   _    _    _    _    _    XX   /    7    8    9    -    _    _    _
   _    _    _    _    _    XX   *    4    5    6    +    _    _
   _    _    \(   \)   .    XX   0    1    2    3    _    _
+  _    _    _              _              _    _    _    _
+)
+
+(deflayer navigation
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    XX   _    _    _    _    -    _    _    _
+  _    met  alt  ctl  sft  XX   lft  down up   rght _    _    _
+  _    _    _    _    _    XX   home pgup pgdn end  _    _
   _    _    _              _              _    _    _    _
 )
