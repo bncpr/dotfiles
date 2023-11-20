@@ -1,5 +1,7 @@
 alias cl=clear
 alias rm="rm -i"
+alias cp="cp -i"
+alias mv="mv -i"
 alias kila=killall
 cdi() {
 	cd $(fd -t d . | fzf)
