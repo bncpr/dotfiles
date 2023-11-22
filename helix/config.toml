@@ -11,3 +11,9 @@ select = "underline"
 
 [editor.file-picker]
 hidden = false
+
+[keys.normal]
+C-h = "jump_view_left"
+C-l = "jump_view_right"
+C-k = "jump_view_up"
+C-j = "jump_view_down"
