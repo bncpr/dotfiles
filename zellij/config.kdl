@@ -3,6 +3,7 @@ keybinds {
     normal {
         // uncomment this and adjust key if using copy_on_select=false
         // bind "Alt c" { Copy; }
+        bind "Alt w" { ToggleFloatingPanes; }
     }
     locked {
         bind "Ctrl g" { SwitchToMode "Normal"; }
@@ -10,6 +11,7 @@ keybinds {
         bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }
         bind "Alt j" "Alt Down" { MoveFocus "Down"; }
         bind "Alt k" "Alt Up" { MoveFocus "Up"; }
+        bind "Alt w" { ToggleFloatingPanes; }
     }
     resize {
         bind "Ctrl n" { SwitchToMode "Normal"; }
