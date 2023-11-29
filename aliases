@@ -3,8 +3,13 @@ alias rm="rm -i"
 alias cp="cp -i"
 alias mv="mv -i"
 alias kila=killall
+alias chtsh="clear; cht.sh --shell"
+
+mkdircd() {
+	mkdir "$1" && cd "$1" || return
+}
 cdi() {
-	cd $(fd -t d . | fzf)
+	cd "$(fd -t d . | fzf)" || return
 }
 
 alias udf="git -C ~/dotfiles pull"
@@ -15,14 +20,14 @@ alias lg="lazygit"
 alias zlj="zellij"
 
 git_auto_commit() {
-  git add -A
+	git add -A
 	current_datetime=$(date '+%Y-%m-%d %H:%M:%S')
 	git commit -m "$current_datetime"
 }
 
 git_auto_commit_push() {
 	git pull
-  git add -A
+	git add -A
 	current_datetime=$(date '+%Y-%m-%d %H:%M:%S')
 	git commit -m "$current_datetime"
 	git push
