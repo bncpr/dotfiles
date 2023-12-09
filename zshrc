@@ -112,4 +112,23 @@ fi
 # Set PATH, MANPATH, etc., for Homebrew.
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
-eval "$(zellij setup --generate-auto-start zsh)"
+
+# If not already in a zellij session
+if [[ -z "$ZELLIJ" ]]; then
+	ZJ_SESSIONS=$(zellij list-sessions)
+	NO_SESSIONS=$(echo "${ZJ_SESSIONS}" | wc -l)
+
+	if [[ "$ZELLIJ_AUTO_ATTACH" == "true" ]]; then
+		if [[ "$NO_SESSIONS" -ge 2 ]]; then
+			zellij attach "$(echo "${ZJ_SESSIONS}" | fzf)"
+		else
+			zellij attach -c
+		fi
+	else
+		zellij
+	fi
+	if [[ "$ZELLIJ_AUTO_EXIT" == "true" ]]; then
+		exit
+	fi
+fi
+
