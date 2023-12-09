@@ -1,0 +1,13 @@
+layout {
+    pane size=1 borderless=true {
+        plugin location="zellij:tab-bar"
+    }
+    pane {
+        command "hx"
+        args "keymaps/bncpr/keymap.c"
+        cwd "~/dev/qmk_firmware/keyboards/askew"
+    }
+    pane size=1 borderless=true {
+        plugin location="zellij:status-bar"
+    }
+}
