@@ -2,3 +2,12 @@
 name = "bash"
 formatter = { command = "shfmt" }
 auto-format = true
+
+[[language]]
+name = "go"
+formatter = { command = "goimports"}
+language-servers = ["gopls", "snippets-ls", "golangci-lint-lsp"]
+
+[language-server.snippets-ls]
+command = "snippets-ls"
+args = ["-config", "/home/bncpr/.config/helix/go-snippets.json"]
