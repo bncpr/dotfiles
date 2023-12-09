@@ -85,12 +85,10 @@ bindkey -e
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vi'
+	export EDITOR='vi'
 else
-  export EDITOR='vi'
+	export EDITOR='hx'
 fi
-
-[[ -a ~/.local/bin/lvim ]] && export VISUAL=lvim
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
