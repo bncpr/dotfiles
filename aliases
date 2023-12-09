@@ -9,7 +9,13 @@ mkdircd() {
 	mkdir "$1" && cd "$1" || return
 }
 cdi() {
-	cd "$(fd -t d . | fzf)" || return
+	local file
+	file=$(fd --type d --follow --exclude ".git" . |
+		fzf \
+			--reverse --border \
+			--preview 'tree -C {} | head -200')
+
+	[ -n "$file" ] && cd "$file"
 }
 
 alias udf="git -C ~/dotfiles pull"
