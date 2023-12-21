@@ -11,3 +11,20 @@ language-servers = ["gopls", "snippets-ls", "golangci-lint-lsp"]
 [language-server.snippets-ls]
 command = "snippets-ls"
 args = ["-config", "/home/bncpr/.config/helix/go-snippets.json"]
+
+[language-server.clangd]
+command = "clangd"
+# args = ["--log", "verbose"]
+
+[language-server.pylsp.config.pylsp.plugins]
+flake8 = {enabled = false}
+autopep8 = {enabled = false}
+mccabe = {enabled = false}
+pycodestyle = {enabled = false}
+pyflakes = {enabled = false}
+pylint = {enabled = false}
+yapf = {enabled = false}
+# ruff = { enabled = true, ignore = ["F401"], lineLength = 88 }
+ruff = { enabled = true, lineLength = 80 }
+rope_autoimport = { enabled = true }
+
