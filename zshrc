@@ -73,7 +73,7 @@ plugins=(aliases git ripgrep fd python pip colored-man-pages zsh-autosuggestions
 
 source $ZSH/oh-my-zsh.sh
 
-# bindkey "^F" vi-forward-word
+bindkey "^F" forward-word
 bindkey -e
 
 # User configuration
