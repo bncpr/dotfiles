@@ -110,6 +110,7 @@ if [[ -f ~/.profile ]]; then
 fi
 
 # Set PATH, MANPATH, etc., for Homebrew.
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 export PATH="$PATH:$HOME/.cargo/bin/"
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
