@@ -87,7 +87,7 @@ bindkey -e
 if [[ -n $SSH_CONNECTION ]]; then
 	export EDITOR='vi'
 else
-	export EDITOR='hx'
+	export EDITOR='nv'
 fi
 
 # Compilation flags
