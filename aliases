@@ -33,22 +33,10 @@ alias gcv="git commit -v"
 alias lg="lazygit"
 alias zlj="zellij"
 
-git_auto_commit() {
-	git add -A
-	current_datetime=$(date '+%Y-%m-%d %H:%M:%S')
-	git commit -m "$current_datetime"
-}
-
-git_auto_commit_push() {
-	git pull
-	git add -A
-	current_datetime=$(date '+%Y-%m-%d %H:%M:%S')
-	git commit -m "$current_datetime"
-	git push
-}
-
-alias gac="git_auto_commit"
-alias gacp="git_auto_commit_push"
+alias gac="git_auto_commit.sh --dir"
+alias gacp="git_auto_commit.sh --pull --dir"
+alias gacpP="git_auto_commit.sh --pull --push --dir"
+alias gacP="git_auto_commit.sh --push --dir"
 
 alias cgdb="cgdb -ex 'set style enabled off'"
 
